@@ -1,9 +1,16 @@
 "use client";
 
-import { Languages } from "lucide-react";
+import * as React from "react";
+
+import { CheckIcon, Languages } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useLocale } from "@/lib/i18n/store";
 import { cn } from "@/lib/utils";
 
@@ -15,39 +22,54 @@ export function LanguageToggle({ className }: LanguageToggleProps) {
   const { locale, setLocale } = useLocale();
 
   const isZh = locale === "zh";
-  const targetLocale = isZh ? "en" : "zh";
-  const tooltipText = isZh ? "Switch UI to English (reloads page)" : "Switch UI to 中文 (reloads page)";
+  const [applying, setApplying] = React.useState(false);
 
-  const handleToggle = () => {
-    setLocale(targetLocale);
+  const handleSelect = (target: "en" | "zh") => {
+    // Write directly to localStorage in the shape expected by zustand persist
+    const storageValue = JSON.stringify({ state: { locale: target }, version: 0 });
+    try {
+      window.localStorage.setItem("artex-locale", storageValue);
+    } catch (_e) {
+      // ignore storage errors (e.g., in non-browser env)
+    }
+    setLocale(target);
+    setApplying(true);
+    // Reload once
     window.location.reload();
   };
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            aria-label="Switch language"
-            className={cn("relative", className)}
-            onClick={handleToggle}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          aria-label="Switch language"
+          className={cn("relative", className)}
+          disabled={applying}
+        >
+          <Languages className="size-4" />
+          <span
+            className={cn(
+              "pointer-events-none absolute -right-0.5 -bottom-0.5 rounded px-0.5 font-semibold text-[9px] leading-none",
+              "border border-border bg-muted text-foreground shadow-xs",
+            )}
           >
-            <Languages className="size-4" />
-            <span
-              className={cn(
-                "pointer-events-none absolute -right-0.5 -bottom-0.5 rounded px-0.5 font-semibold text-[9px] leading-none",
-                "border border-border bg-muted text-foreground shadow-xs",
-              )}
-            >
-              {isZh ? "中" : "EN"}
-            </span>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="bottom">{tooltipText}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+            {isZh ? "中" : "EN"}
+          </span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onSelect={() => handleSelect("en")} inset>
+          English
+          {locale === "en" && <CheckIcon className="ml-auto size-4" />}
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => handleSelect("zh")} inset>
+          中文
+          {locale === "zh" && <CheckIcon className="ml-auto size-4" />}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
