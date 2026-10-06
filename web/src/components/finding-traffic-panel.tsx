@@ -106,10 +106,10 @@ export function FindingTrafficPanel({
                 Bind traffic
               </Button>
             ) : (
-              <Badge variant="outline">Inherit evidence · Read‑only</Badge>
+              <Badge variant="outline">Inherit evidence · Read-only</Badge>
             )}
           </div>
-          <CardDescription>Organize requests/responses by reproduction order; bound evidence remains after clearing raw traffic。</CardDescription>
+          <CardDescription>Organize requests/responses by reproduction order; bound evidence remains after clearing raw traffic.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           {error ? (
@@ -128,7 +128,7 @@ export function FindingTrafficPanel({
             <Empty>
               <EmptyHeader>
                 <EmptyTitle>No associated traffic</EmptyTitle>
-                <EmptyDescription>Can bind normal reference, vulnerability proof, and supplemental verification requests。</EmptyDescription>
+                <EmptyDescription>Can bind normal reference, vulnerability proof, and supplemental verification requests.</EmptyDescription>
               </EmptyHeader>
             </Empty>
           ) : (
@@ -237,7 +237,7 @@ export function FindingTrafficPanel({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Traffic Evidence</DialogTitle>
-            <DialogDescription>Explain How This Request/Response Supports the Vulnerability Conclusion。</DialogDescription>
+            <DialogDescription>Explain how this request/response supports the vulnerability conclusion.</DialogDescription>
           </DialogHeader>
           <FieldGroup>
             <Field>

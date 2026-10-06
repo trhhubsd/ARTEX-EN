@@ -85,7 +85,7 @@ export default function WorkspacePage() {
           setEntries(r.entries);
           setPath(r.path);
         })
-        .catch((e) => toast.error(`Failed to read directory：${(e as Error).message}`))
+        .catch((e) => toast.error(`Failed to read directory: ${(e as Error).message}`))
         .finally(() => setLoading(false));
     },
     [],
@@ -110,7 +110,7 @@ export default function WorkspacePage() {
     api
       .workspaceRead(e.path)
       .then((f) => setEdit({ file: f, content: f.content ?? "", dirty: false, saving: false }))
-      .catch((err) => toast.error(`Failed to open file：${(err as Error).message}`));
+      .catch((err) => toast.error(`Failed to open file: ${(err as Error).message}`));
   };
 
   const saveFile = () => {
@@ -124,20 +124,20 @@ export default function WorkspacePage() {
         load(path);
       })
       .catch((err) => {
-        toast.error(`Save Failed：${(err as Error).message}`);
+        toast.error(`Save failed: ${(err as Error).message}`);
         setEdit((cur) => (cur ? { ...cur, saving: false } : cur));
       });
   };
 
   const del = (e: WorkspaceEntry) => {
-    if (!window.confirm(`Confirm deletion ${e.dir ? "Directory" : "File"} “${e.name}”？${e.dir ? "（Including all subcontent）" : ""}`)) return;
+    if (!window.confirm(`Delete ${e.dir ? "folder" : "file"} “${e.name}”?${e.dir ? " (including all subcontent)" : ""}`)) return;
     api
       .workspaceDelete(e.path)
       .then(() => {
         toast.success("Deleted");
         load(path);
       })
-      .catch((err) => toast.error(`Delete failed：${(err as Error).message}`));
+      .catch((err) => toast.error(`Delete failed: ${(err as Error).message}`));
   };
 
   const doUpload = (files: FileList | null) => {
@@ -148,7 +148,7 @@ export default function WorkspacePage() {
         toast.success(`Uploaded ${r.uploaded} files`);
         load(path);
       })
-      .catch((err) => toast.error(`Upload failed：${(err as Error).message}`))
+      .catch((err) => toast.error(`Upload failed: ${(err as Error).message}`))
       .finally(() => {
         if (uploadRef.current) uploadRef.current.value = "";
       });
@@ -166,7 +166,7 @@ export default function WorkspacePage() {
         setMkdirName("");
         load(path);
       })
-      .catch((err) => toast.error(`Creation failed：${(err as Error).message}`));
+      .catch((err) => toast.error(`Creation failed: ${(err as Error).message}`));
   };
 
   return (
@@ -258,7 +258,7 @@ export default function WorkspacePage() {
                           size="icon"
                           className="size-7"
                           title="Download"
-                          onClick={() => api.workspaceDownload(e.path).catch((err) => toast.error(`Download failed：${(err as Error).message}`))}
+                          onClick={() => api.workspaceDownload(e.path).catch((err) => toast.error(`Download failed: ${(err as Error).message}`))}
                         >
                           <DownloadIcon className="size-3.5" />
                         </Button>
@@ -299,7 +299,7 @@ export default function WorkspacePage() {
               {edit.file.binary || edit.file.too_large ? (
                 <div className="flex flex-1 flex-col items-center justify-center gap-3 p-8 text-center">
                   <p className="text-muted-foreground text-sm">
-                    {edit.file.too_large ? "File too large, online preview/edit not supported。" : "Binary file, online preview/edit not supported。"}
+                    {edit.file.too_large ? "File too large, online preview/edit not supported." : "Binary file, online preview/edit not supported."}
                   </p>
                   <Button variant="outline" onClick={() => api.workspaceDownload(edit.file.path)}>
                     <DownloadIcon /> Download file

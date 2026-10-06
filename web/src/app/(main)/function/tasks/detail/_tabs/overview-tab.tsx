@@ -450,14 +450,14 @@ export function OverviewTab({ taskId }: { taskId: string }) {
           </div>
         </CardContent>
       </Card>
-      {/* Goal management: view/add/edit/delete exploration goals for this task. Adding or editing notifies the planner and revives the task.，
-          Deletion only notifies the planner (no revival). Goal = final deliverable/verifiable result, not attack steps or reconnaissance actions.。 */}
+      {/* Goal management: view/add/edit/delete exploration goals for this task. Adding or editing notifies the planner and revives the task.,
+          Deletion only notifies the planner (no revival). Goal = final deliverable/verifiable result, not attack steps or reconnaissance actions. */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <ListChecksIcon className="size-4 text-primary" /> Goal management
             <span className="text-muted-foreground text-xs font-normal">
-              （Total verifiable goals, {goals.length} items; adding/editing notifies planner and revives task）
+              (Total verifiable goals, {goals.length} items; adding/editing notifies planner and revives task)
             </span>
           </CardTitle>
         </CardHeader>
@@ -466,7 +466,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
           <div className="flex flex-wrap items-center gap-2">
             <Input
               className="h-7 min-w-56 flex-1 text-sm"
-              placeholder="Add new goal, e.g., “obtain unauthorized admin account access“』"
+              placeholder="Add new goal, e.g., “obtain unauthorized admin account access”"
               value={goalText}
               onChange={(e) => setGoalText(e.target.value)}
               onKeyDown={(e) => {
@@ -568,19 +568,19 @@ export function OverviewTab({ taskId }: { taskId: string }) {
               )}
             </div>
           ) : (
-            <p className="text-muted-foreground text-sm">No goals yet; after adding, planner will assign exploration intents and assess completion。</p>
+            <p className="text-muted-foreground text-sm">No goals yet; after adding, planner will assign exploration intents and assess completion.</p>
           )}
         </CardContent>
       </Card>
       {/* Constraint management: allow=allow / deny=deny. Constraints are injected into the planner/worker system in the next planning round.
-          Prompt to define exploration boundaries (injection scope can be toggled in System Settings per planner/worker). Changes do not interrupt immediately，
-          Read naturally in the next planning cycle。 */}
+          Prompt to define exploration boundaries (injection scope can be toggled in System Settings per planner/worker). Changes do not interrupt immediately,
+          Read naturally in the next planning cycle. */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <ShieldAlertIcon className="size-4 text-amber-500" /> Operation constraint
             <span className="text-muted-foreground text-xs font-normal">
-              （Define planner/worker exploration boundaries, total {constraints.length} items; changes take effect in next planning cycle）
+              (Define planner/worker exploration boundaries, total {constraints.length} items; changes take effect in next planning cycle)
             </span>
           </CardTitle>
         </CardHeader>
@@ -597,7 +597,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
             </NativeSelect>
             <Input
               className="h-7 min-w-56 flex-1 text-sm"
-              placeholder="An operation constraint, e.g., “only test current port, do not scan others“』"
+              placeholder="An operation constraint, e.g., “only test current port, do not scan others”"
               value={conText}
               onChange={(e) => setConText(e.target.value)}
               onKeyDown={(e) => {
@@ -695,7 +695,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
             </div>
           ) : (
             <p className="text-muted-foreground text-sm">
-              No operation constraints yet. Created tasks auto-extract from description/goals; you can also manually add, delete, or edit here to define allowed/denied actions」。
+              No operation constraints yet. Created tasks auto-extract from description/goals; you can also manually add, delete, or edit here to define allowed/denied actions.
             </p>
           )}
         </CardContent>
@@ -706,7 +706,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
               <TargetIcon className="size-4 text-emerald-500" /> Asset test coverage
-              <span className="text-muted-foreground text-xs font-normal">（Rough estimate, for reference only）</span>
+              <span className="text-muted-foreground text-xs font-normal">(Rough estimate, for reference only)</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
@@ -740,7 +740,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
           <CardTitle className="flex items-center gap-2 text-base">
             <CoinsIcon className="size-4 text-amber-500" /> LLM Token Usage
             <span className="text-muted-foreground text-xs font-normal">
-              （Statistics by model{tokenTotals.calls > 0 ? `，Total ${tokenTotals.calls} Calls` : ""}）
+              (Statistics by model{tokenTotals.calls > 0 ? `, Total ${tokenTotals.calls} Calls` : ""})
             </span>
           </CardTitle>
         </CardHeader>
@@ -801,7 +801,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
               </div>
             </>
           ) : (
-            <p className="text-muted-foreground text-sm">No LLM usage yet (task has no calls or records are still being written）。</p>
+            <p className="text-muted-foreground text-sm">No LLM usage yet (task has no calls or records are still being written).</p>
           )}
         </CardContent>
       </Card>
@@ -811,7 +811,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
           <CardTitle className="flex items-center gap-2 text-base">
             <ShieldCheckIcon className="size-4 text-emerald-500" /> Test scope
             <span className="text-muted-foreground text-xs font-normal">
-              （Coverage denominator + authorized boundary, total {scope.length} entries {scope.length} items）
+              (Coverage denominator + authorized boundary, total {scope.length} entries {scope.length} items)
             </span>
           </CardTitle>
         </CardHeader>
@@ -887,7 +887,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground text-sm">No test scope yet; add to use as denominator for asset coverage。</p>
+            <p className="text-muted-foreground text-sm">No test scope yet; add to use as denominator for asset coverage.</p>
           )}
         </CardContent>
       </Card>
@@ -1000,14 +1000,14 @@ export function OverviewTab({ taskId }: { taskId: string }) {
         </Card>
       </div>
 
-      {/* Blocked intents — Errored/blocked intents (e.g., LLM network issue) can be rerun with one click: reset open，
-          worker Will re‑claim and restart (preserving written‑back graph data); completed/paused tasks auto‑revive。 */}
+      {/* Blocked intents: errored/blocked intents (e.g., LLM network issue) can be rerun with one click: reset to open;
+          the worker will re-claim and restart (preserving written-back graph data); completed/paused tasks auto-revive. */}
       {blocked.length > 0 && (
         <Card className="border-red-500/30">
           <CardHeader className="flex-row items-center justify-between gap-2 space-y-0">
             <CardTitle className="flex items-center gap-2 text-sm">
               <AlertTriangleIcon className="size-4 text-red-500" /> Blocked/Error Intent
-              <span className="text-xs font-normal text-muted-foreground">（Total {blocked.length} entries, can be rerun）</span>
+              <span className="text-xs font-normal text-muted-foreground">(Total {blocked.length} entries, can be rerun)</span>
             </CardTitle>
             <Button size="sm" variant="outline" disabled={rerunning.has("__all__")} onClick={() => void rerunAll()}>
               <RefreshCwIcon className={`size-3.5 ${rerunning.has("__all__") ? "animate-spin" : ""}`} />
@@ -1033,7 +1033,7 @@ export function OverviewTab({ taskId }: { taskId: string }) {
             ))}
             {blocked.length > 20 && (
               <p className="text-xs text-muted-foreground">
-                Show only first 20 items; click “Rerun All” for the rest {blocked.length - 20} items。
+                Show only first 20 items; click “Rerun All” for the rest {blocked.length - 20} items.
               </p>
             )}
           </CardContent>
@@ -1170,7 +1170,7 @@ function TaskInterceptRulesCard({ taskId }: { taskId: string }) {
         <CardTitle className="flex items-center gap-2 text-base">
           <ShieldCheckIcon className="size-4 text-sky-500" /> Task-level asset block / allow
           <span className="text-muted-foreground text-xs font-normal">
-            （Task-only, not global; block first then allow, total {rules.length} items）
+            (Task-only, not global; block first then allow, total {rules.length} items)
           </span>
         </CardTitle>
       </CardHeader>
@@ -1313,7 +1313,7 @@ function TaskInterceptRulesCard({ taskId }: { taskId: string }) {
           </div>
         ) : (
           <p className="text-muted-foreground text-sm">
-            No task-level rules. “Block“ hits forbid testing; “Allow“ is whitelist – after configuration, this task only permits assets matching allow rules (if unset, whitelist disabled).）。
+            No task-level rules. “Block” hits forbid testing; “Allow” is whitelist: after configuration, this task only permits assets matching allow rules (if unset, whitelist disabled).).
           </p>
         )}
       </CardContent>

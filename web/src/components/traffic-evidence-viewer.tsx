@@ -153,7 +153,7 @@ export function CapturedTrafficViewer({ id, onClose }: { id: string | null; onCl
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>Preview Traffic</DialogTitle>
-          <DialogDescription>Traffic ID：{id}。Full content is saved at binding。</DialogDescription>
+          <DialogDescription>Traffic ID: {id}. Full content is saved at binding.</DialogDescription>
         </DialogHeader>
         {error ? (
           <Alert variant="destructive">

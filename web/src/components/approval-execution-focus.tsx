@@ -118,7 +118,7 @@ export function ApprovalExecutionFocus({
     >
       <span className={error ? "text-destructive" : "text-muted-foreground"}>
         {error
-          ? `Unable to locate：${error}`
+          ? `Unable to locate: ${error}`
           : history.ready
             ? `Approval expanded #${state.id} Corresponding tool call`
             : `Loading approval... #${state.id} Dialogue location…`}

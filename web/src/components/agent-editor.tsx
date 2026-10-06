@@ -115,9 +115,9 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
   async function doPreview() {
     try {
       const r = await api.previewAgentPrompt(agentKey, prompt);
-      setPreview(r.error ? "Render Error：" + r.error : r.rendered);
+      setPreview(r.error ? "Render Error: " + r.error : r.rendered);
     } catch (e) {
-      setPreview("Preview Failed：" + (e as Error).message);
+      setPreview("Preview failed: " + (e as Error).message);
     }
   }
   async function savePrompt() {
@@ -127,54 +127,54 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
       reload();
       onSaved?.();
     } catch (e) {
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     }
   }
   async function resetPrompt() {
     try {
       const r = await api.resetAgentPrompt(agentKey);
-      toast.success(`Restored to Built‑in Default（v${r.version}）`);
+      toast.success(`Restored to Built-in Default (v${r.version}) `);
       reload();
     } catch (e) {
-      toast.error("Restore failed：" + (e as Error).message);
+      toast.error("Restore failed: " + (e as Error).message);
     }
   }
   async function saveWrapup() {
     try {
       const turns = Math.max(0, Math.floor(Number(wrapupTurns) || 0));
       await api.saveAgentWrapup(agentKey, wrapup, turns);
-      toast.success(wrapup.trim() || turns > 0 ? "Finalization settings saved (effective next run)）" : "Cleared, will use built‑in default");
+      toast.success(wrapup.trim() || turns > 0 ? "Finalization settings saved (effective next run)" : "Cleared, will use built-in default");
       reload();
     } catch (e) {
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     }
   }
   async function resetWrapup() {
     try {
       await api.resetAgentWrapup(agentKey);
-      toast.success("Restored to Built‑in Default");
+      toast.success("Restored to Built-in Default");
       reload();
     } catch (e) {
-      toast.error("Restore failed：" + (e as Error).message);
+      toast.error("Restore failed: " + (e as Error).message);
     }
   }
   async function saveTaskTimeoutWrapup() {
     try {
       const turns = Math.max(0, Math.floor(Number(ttTurns) || 0));
       await api.saveAgentTaskTimeoutWrapup(agentKey, ttWrapup, turns);
-      toast.success("Task timeout finalization settings saved (effective next run)）");
+      toast.success("Task timeout finalization settings saved (effective next run)");
       reload();
     } catch (e) {
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     }
   }
   async function resetTaskTimeoutWrapup() {
     try {
       await api.resetAgentTaskTimeoutWrapup(agentKey);
-      toast.success("Restored to Built‑in Default");
+      toast.success("Restored to Built-in Default");
       reload();
     } catch (e) {
-      toast.error("Restore failed：" + (e as Error).message);
+      toast.error("Restore failed: " + (e as Error).message);
     }
   }
   async function saveConfig() {
@@ -190,10 +190,10 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
       if (showWebSearch) patch.web_search = webSearch;
       if (showInteractiveShell) patch.interactive_shell = interactiveShell;
       await api.saveAgentConfig(agentKey, patch);
-      toast.success("Runtime configuration saved (effective immediately)）");
+      toast.success("Runtime configuration saved (effective immediately)");
       reload();
     } catch (e) {
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     }
   }
   // applyVis optimistically updates, persists, and toasts success/failure. On
@@ -210,7 +210,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
     } catch (e) {
       setMcpVisible(prevMcp);
       setSkillVisible(prevSkill);
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     }
   }
   function toggleMcp(id: number) {
@@ -219,7 +219,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
     applyVis(
       on ? mcpVisible.filter((x) => x !== id) : [...mcpVisible, id],
       skillVisible,
-      `${on ? "Cancelled" : "Enabled"} MCP「${name}」Visible`,
+      `${on ? "Cancelled" : "Enabled"} MCP “${name}” visibility`,
     );
   }
   function toggleSkill(name: string) {
@@ -227,7 +227,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
     applyVis(
       mcpVisible,
       on ? skillVisible.filter((x) => x !== name) : [...skillVisible, name],
-      `${on ? "Cancelled" : "Enabled"} Skill「${name}」Visible`,
+      `${on ? "Cancelled" : "Enabled"} Skill “${name}” visibility`,
     );
   }
   async function toggleTool(t: Tool) {
@@ -242,17 +242,17 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
         agents: nextAgents,
         enabled: t.enabled,
       });
-      toast.success(`${on ? "Unbound" : "Bound"}Tool「${t.key}」`);
+      toast.success(`${on ? "Unbound" : "Bound"} tool “${t.key}”`);
       onSaved?.(); // refresh the list so the card's 工具 count stays in sync
     } catch (e) {
-      toast.error("Failed to save tool binding：" + (e as Error).message);
+      toast.error("Failed to save tool binding: " + (e as Error).message);
       reload();
       api.tools().then(setTools).catch(() => {});
     }
   }
 
   if (loaded && !detail) {
-    return <div className="text-muted-foreground p-6 text-center text-sm">Not found Agent：{agentKey}</div>;
+    return <div className="text-muted-foreground p-6 text-center text-sm">Not found Agent: {agentKey}</div>;
   }
   // config is meaningless for the conversational main agent and the fixed-budget
   // goals decomposer; every other agent (workers, custom assistants) honors it.
@@ -285,7 +285,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
             <div className="grid gap-3 rounded-md border p-3">
               {showLLM && (
                 <div className="grid gap-1.5">
-                  <Label htmlFor="llm-profile" className="text-xs">Default model (LLM config)）</Label>
+                  <Label htmlFor="llm-profile" className="text-xs">Default model (LLM config)</Label>
                   <div className="flex flex-wrap items-center gap-3">
                     <Select value={llmProfileId || "__follow__"} onValueChange={(v) => setLlmProfileId(v === "__follow__" ? "" : v)}>
                       <SelectTrigger id="llm-profile" className="h-8 w-72">
@@ -295,7 +295,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
                         <SelectItem value="__follow__">Follow task / Global activation config</SelectItem>
                         {llmProfiles.map((p) => (
                           <SelectItem key={p.id} value={String(p.id)}>
-                            {p.name}（{p.model}）{p.is_default ? " · Default" : ""}
+                            {p.name} ({p.model}){p.is_default ? " · Default" : ""}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -310,12 +310,12 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
                 {showConfig && (
                   <>
                     <div className="grid gap-1.5">
-                      <Label htmlFor="max-turns" className="text-xs">Maximum loop count (0 = unlimited)）</Label>
+                      <Label htmlFor="max-turns" className="text-xs">Maximum loop count (0 = unlimited)</Label>
                       <Input id="max-turns" type="number" min={0} className="h-8 w-32"
                         value={maxTurns} onChange={(e) => setMaxTurns(e.target.value)} />
                     </div>
                     <div className="grid gap-1.5">
-                      <Label htmlFor="run-seconds" className="text-xs">Runtime duration (seconds, 0 = unlimited)）</Label>
+                      <Label htmlFor="run-seconds" className="text-xs">Runtime duration (seconds, 0 = unlimited)</Label>
                       <Input id="run-seconds" type="number" min={0} className="h-8 w-32"
                         value={runSecs} onChange={(e) => setRunSecs(e.target.value)} />
                     </div>
@@ -362,7 +362,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
           )}
 
           <div className="grid gap-2">
-            <Label className="text-muted-foreground text-xs">Variable (click to insert placeholder, replaced at render by runtime data)）</Label>
+            <Label className="text-muted-foreground text-xs">Variable (click to insert placeholder, replaced at render by runtime data)</Label>
             <div className="flex flex-wrap gap-2">
               {variables.map((v) => (
                 <Tooltip key={v.name}>
@@ -375,11 +375,11 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs">
                     <p className="font-medium">{v.description}</p>
-                    <p className="text-muted-foreground mt-1">Example：{v.example}</p>
+                    <p className="text-muted-foreground mt-1">Example: {v.example}</p>
                   </TooltipContent>
                 </Tooltip>
               ))}
-              {variables.length === 0 && <span className="text-muted-foreground text-xs">（No variable）</span>}
+              {variables.length === 0 && <span className="text-muted-foreground text-xs">(No variable)</span>}
             </div>
           </div>
 
@@ -396,7 +396,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
               <DialogContent className="sm:max-w-2xl">
                 <DialogHeader>
                   <DialogTitle>Render Preview</DialogTitle>
-                  <DialogDescription>All {`{{.Var}}`} Replaced by backend with sample value。</DialogDescription>
+                  <DialogDescription>All {`{{.Var}}`} Replaced by backend with sample value.</DialogDescription>
                 </DialogHeader>
                 <div className="max-h-[60vh] overflow-auto rounded-md border bg-muted/30 p-3">
                   <Markdown text={preview} />
@@ -437,7 +437,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
                 </li>
               ))}
               {versions.length === 0 && (
-                <li className="text-muted-foreground text-xs">（No saved versions yet, using built-in default）</li>
+                <li className="text-muted-foreground text-xs">(No saved versions yet, using built-in default)</li>
               )}
             </ul>
           </div>
@@ -453,7 +453,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
                   )}
                 </DialogTitle>
                 <DialogDescription>
-                  {viewVer?.note || "（No notes）"}
+                  {viewVer?.note || "(No notes)"}
                   {viewVer?.ts && (
                     <span className="ml-2 text-muted-foreground/60">
                       {new Date(viewVer.ts).toLocaleString("zh-CN")}
@@ -462,7 +462,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
                 </DialogDescription>
               </DialogHeader>
               <pre className="bg-muted max-h-[55vh] overflow-auto whitespace-pre-wrap rounded-md p-3 font-mono text-xs">
-                {viewVer?.template_text || "（Empty）"}
+                {viewVer?.template_text || "(Empty)"}
               </pre>
               <div className="flex gap-2 justify-end">
                 {viewVer && viewVer.version !== versions[0]?.version && (
@@ -473,7 +473,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
                   </Button>
                 )}
                 <Button size="sm" onClick={() => {
-                  if (viewVer) { setPrompt(viewVer.template_text); setViewVer(null); toast.success(`Loaded v${viewVer.version} Go to the editor, then after confirming click “Save as New Version”」`); }
+                  if (viewVer) { setPrompt(viewVer.template_text); setViewVer(null); toast.success(`Loaded v${viewVer.version} into the editor; click “Save as New Version” after confirming`); }
                 }}>
                   Load into editor
                 </Button>
@@ -485,7 +485,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
           <Dialog open={!!diffVer} onOpenChange={(o) => { if (!o) setDiffVer(null); }}>
             <DialogContent className="sm:max-w-3xl">
               <DialogHeader>
-                <DialogTitle>Version comparison：v{diffVer?.version} → v{versions[0]?.version}（Current）</DialogTitle>
+                <DialogTitle>Version comparison: v{diffVer?.version} → v{versions[0]?.version} (Current)</DialogTitle>
                 <DialogDescription>
                   <span className="inline-flex items-center gap-3 text-xs">
                     <span className="rounded bg-red-500/15 px-1.5 py-0.5 text-red-600 dark:text-red-400">- Delete</span>
@@ -503,8 +503,8 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
       <TabsContent value="wrapup" className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
         <div className="grid gap-3">
           <p className="text-muted-foreground text-xs leading-relaxed">
-            When this Agent is terminated due to <b>timeout</b> or <b>step limit reached</b>, the system injects this “wrap-up prompt” to run a final wrap-up round：
-            First write back any recognized but unsaved content, then output a summary (to avoid unfinished output). Leave empty to use the built-in default。
+            When this Agent is terminated due to <b>timeout</b> or <b>step limit reached</b>, the system injects this “wrap-up prompt” to run a final wrap-up round:
+            First write back any recognized but unsaved content, then output a summary (to avoid unfinished output). Leave empty to use the built-in default.
           </p>
           <div className="flex items-center gap-2">
             <Label className="text-xs">Closing prompt text</Label>
@@ -523,7 +523,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
           />
           <div className="grid gap-1.5">
             <Label htmlFor="wrapup-turns" className="text-xs">
-              Wrap-up rounds (maximum rounds in the wrap-up phase; 0 = use built-in default {wrapupTurnsDefault} rounds) {wrapupTurnsDefault} Round）
+              Wrap-up rounds (maximum rounds in the wrap-up phase; 0 = use built-in default {wrapupTurnsDefault} rounds) {wrapupTurnsDefault} Round)
             </Label>
             <Input id="wrapup-turns" type="number" min={0} className="h-8 w-32"
               value={wrapupTurns} onChange={(e) => setWrapupTurns(e.target.value)} />
@@ -536,7 +536,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
             <>
               <Separator />
               <div className="grid gap-1.5">
-                <Label className="text-muted-foreground text-xs">Built-in default (read‑only, reference only)）</Label>
+                <Label className="text-muted-foreground text-xs">Built-in default (read-only, reference only)</Label>
                 <pre className="text-muted-foreground max-h-40 overflow-y-auto rounded-md border bg-muted/30 p-2 text-xs whitespace-pre-wrap">
                   {wrapupDefault}
                 </pre>
@@ -549,7 +549,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
               <Separator className="my-2" />
               <p className="text-muted-foreground text-xs leading-relaxed">
                 <b>Task timeout wrap-up</b> (separate from per-run wrap-up): injected when <b>the entire task</b> reaches its timeout limit and is about to end.
-                Opposite in meaning to per‑run (e.g., planner: per‑run says “keep planning”, timeout says “stop at the point and make a final decision”). Leave blank to use the built‑in default.
+                Opposite in meaning to per-run (e.g., planner: per-run says “keep planning”, timeout says “stop at the point and make a final decision”). Leave blank to use the built-in default.
               </p>
               <div className="flex items-center gap-2">
                 <Label className="text-xs">Task timeout termination prompt body</Label>
@@ -568,7 +568,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
               />
               <div className="grid gap-1.5">
                 <Label htmlFor="tt-turns" className="text-xs">
-                  Finishing rounds (0 = use built-in default {ttTurnsDefault} rounds) {ttTurnsDefault} Round）
+                  Finishing rounds (0 = use built-in default {ttTurnsDefault} rounds) {ttTurnsDefault} Round)
                 </Label>
                 <Input id="tt-turns" type="number" min={0} className="h-8 w-32"
                   value={ttTurns} onChange={(e) => setTtTurns(e.target.value)} />
@@ -579,7 +579,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
               </div>
               {ttWrapupDefault && (
                 <div className="grid gap-1.5">
-                  <Label className="text-muted-foreground text-xs">Built-in default (read‑only, reference only)）</Label>
+                  <Label className="text-muted-foreground text-xs">Built-in default (read-only, reference only)</Label>
                   <pre className="text-muted-foreground max-h-40 overflow-y-auto rounded-md border bg-muted/30 p-2 text-xs whitespace-pre-wrap">
                     {ttWrapupDefault}
                   </pre>
@@ -592,7 +592,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
 
       {/* MCP 可见性 */}
       <TabsContent value="mcp" className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
-        <p className="text-muted-foreground mb-3 text-xs">Select MCP servers visible to this Agent。</p>
+        <p className="text-muted-foreground mb-3 text-xs">Select MCP servers visible to this Agent.</p>
         <div className="grid gap-2">
           {mcp.map((m) => (
             <label key={m.id} className="flex items-center gap-2 rounded-md border p-2 text-sm">
@@ -601,13 +601,13 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
               <span className="text-muted-foreground ml-auto text-xs">{m.transport}</span>
             </label>
           ))}
-          {mcp.length === 0 && <span className="text-muted-foreground text-xs">（None MCP）</span>}
+          {mcp.length === 0 && <span className="text-muted-foreground text-xs">(None MCP)</span>}
         </div>
       </TabsContent>
 
       {/* Skill 可见性 */}
       <TabsContent value="skill" className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
-        <p className="text-muted-foreground mb-3 text-xs">Select items visible to this Agent Skill。</p>
+        <p className="text-muted-foreground mb-3 text-xs">Select items visible to this Agent Skill.</p>
         <div className="grid gap-2">
           {skills.map((s) => (
             <label key={s.name} className="flex items-center gap-2 rounded-md border p-2 text-sm">
@@ -616,13 +616,13 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
               {s.description && <span className="text-muted-foreground ml-auto truncate text-xs">{s.description}</span>}
             </label>
           ))}
-          {skills.length === 0 && <span className="text-muted-foreground text-xs">（None Skill）</span>}
+          {skills.length === 0 && <span className="text-muted-foreground text-xs">(None Skill)</span>}
         </div>
       </TabsContent>
 
       {/* Tools 绑定 */}
       <TabsContent value="tools" className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
-        <p className="text-muted-foreground mb-3 text-xs">Select built-in tools bound to this Agent。</p>
+        <p className="text-muted-foreground mb-3 text-xs">Select built-in tools bound to this Agent.</p>
         <div className="grid gap-2">
           {tools.map((t) => {
             const isTraffic = TRAFFIC_TOOL_KEYS.has(t.key);
@@ -659,7 +659,7 @@ export function AgentEditor({ agentKey, onSaved }: { agentKey: string; onSaved?:
               </label>
             );
           })}
-          {tools.length === 0 && <span className="text-muted-foreground text-xs">（No tools available）</span>}
+          {tools.length === 0 && <span className="text-muted-foreground text-xs">(No tools available)</span>}
         </div>
       </TabsContent>
 
@@ -751,7 +751,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
     try {
       await api.saveAgentConfig(agentKey, patch);
     } catch (e) {
-      toast.error("Failed to save policy：" + (e as Error).message);
+      toast.error("Failed to save policy: " + (e as Error).message);
     }
   }
   const [onInterval, setOnInterval] = React.useState(false);
@@ -863,7 +863,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
       resetForm();
       reload();
     } catch (e) {
-      toast.error((editingId != null ? "Save Failed：" : "Add failed：") + (e as Error).message);
+      toast.error((editingId != null ? "Save failed: " : "Add failed: ") + (e as Error).message);
     } finally {
       setSaving(false);
     }
@@ -888,7 +888,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
       });
       reload();
     } catch (e) {
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     }
   }
   async function del(id: number) {
@@ -897,7 +897,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
       if (editingId === id) resetForm();
       reload();
     } catch (e) {
-      toast.error("Delete failed：" + (e as Error).message);
+      toast.error("Delete failed: " + (e as Error).message);
     }
   }
 
@@ -909,19 +909,19 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
     if (t.on_task_timeout) parts.push("Task Timeout");
     if (t.on_tool_call) parts.push(`Tool Invocation(${t.tool_names.length})`);
     if (t.on_task_create) parts.push("Task Creation");
-    return parts.join(" · ") || "（Unconditional）";
+    return parts.join(" · ") || "(Unconditional)";
   }
 
   return (
     <div className="grid gap-4">
       <p className="text-muted-foreground text-xs">
-        Trigger runs this custom Agent automatically: each trigger <b>creates a new conversation run</b> (visible on the “Dialog“ page)）。
-        Multiple trigger conditions can be selected; the system will automatically append “Why this trigger + related task/finding/goal“ to your base message。
+        Trigger runs this custom Agent automatically: each trigger <b>creates a new conversation run</b> (visible on the “Dialog” page).
+        Multiple trigger conditions can be selected; the system will automatically append “Why this trigger + related task/finding/goal” to your base message.
       </p>
 
       {/* 触发后处理策略 */}
       <div className="grid gap-3 rounded-md border p-3">
-        <Label className="text-muted-foreground text-xs">Post-trigger handling strategy (queue/merge decisions)）</Label>
+        <Label className="text-muted-foreground text-xs">Post-trigger handling strategy (queue/merge decisions)</Label>
         <div className="flex flex-wrap items-center gap-4">
           <div className="grid gap-1">
             <Label className="text-xs">Run Mode</Label>
@@ -937,8 +937,8 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
                 <SelectValue />
               </SelectTrigger>
               <SelectContent position="popper">
-                <SelectItem value="serial">Serial (queued, one at a time)）</SelectItem>
-                <SelectItem value="parallel">Parallel (concurrent sessions)）</SelectItem>
+                <SelectItem value="serial">Serial (queued, one at a time)</SelectItem>
+                <SelectItem value="parallel">Parallel (concurrent sessions)</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -967,7 +967,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
 
           {runMode === "parallel" && (
             <div className="grid gap-1">
-              <Label htmlFor="tr-maxpar" className="text-xs">Maximum concurrency (0 = unlimited)）</Label>
+              <Label htmlFor="tr-maxpar" className="text-xs">Maximum concurrency (0 = unlimited)</Label>
               <Input
                 id="tr-maxpar"
                 type="number"
@@ -986,12 +986,12 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
         </div>
         <p className="text-muted-foreground text-xs">
           {runMode === "parallel"
-            ? "Parallel: each trigger opens a concurrent session immediately, no merging; excess triggers queue until a slot frees。"
+            ? "Parallel: each trigger opens a concurrent session immediately, no merging; excess triggers queue until a slot frees."
             : mergeMode === "by_task"
-              ? "Serial·Merge by task: same agent runs one at a time; queued events of the same task are merged into a single session。"
+              ? "Serial · Merge by task: same agent runs one at a time; queued events of the same task are merged into a single session."
               : mergeMode === "all"
-                ? "Serial·Merge all: same agent runs one at a time; when dequeuing, all pending triggers are merged into one session。"
-                : "Serial·No merge: same agent runs one at a time; each trigger gets its own session。"}
+                ? "Serial · Merge all: same agent runs one at a time; when dequeuing, all pending triggers are merged into one session."
+                : "Serial · No merge: same agent runs one at a time; each trigger gets its own session."}
         </p>
       </div>
 
@@ -999,8 +999,8 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
       <div className="grid gap-3 rounded-md border p-3">
         <Label className="text-muted-foreground text-xs">
           {editingId != null
-            ? `Edit Trigger #${editingId}（Click “Save Changes” after editing」）`
-            : "Add new trigger (each condition can have its own user message)）"}
+            ? `Edit Trigger #${editingId} (click “Save Changes” after editing)`
+            : "Add new trigger (each condition can have its own user message)"}
         </Label>
 
         {/* 定时 */}
@@ -1029,7 +1029,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
           </label>
           {onFinding && (
             <Textarea className="text-xs" rows={2} value={findingMsg}
-              placeholder="Message sent to agent when a finding is discovered (system includes task and finding details)）" onChange={(e) => setFindingMsg(e.target.value)} />
+              placeholder="Message sent to agent when a finding is discovered (system includes task and finding details)" onChange={(e) => setFindingMsg(e.target.value)} />
           )}
         </div>
 
@@ -1040,7 +1040,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
           </label>
           {onGoalMet && (
             <Textarea className="text-xs" rows={2} value={goalMsg}
-              placeholder="Message sent to agent when goal is achieved (system includes task and achieved target)）" onChange={(e) => setGoalMsg(e.target.value)} />
+              placeholder="Message sent to agent when goal is achieved (system includes task and achieved target)" onChange={(e) => setGoalMsg(e.target.value)} />
           )}
         </div>
 
@@ -1051,7 +1051,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
           </label>
           {onTaskTimeout && (
             <Textarea className="text-xs" rows={2} value={taskTimeoutMsg}
-              placeholder="Message sent to agent on task timeout (system includes task ID and target)）" onChange={(e) => setTaskTimeoutMsg(e.target.value)} />
+              placeholder="Message sent to agent on task timeout (system includes task ID and target)" onChange={(e) => setTaskTimeoutMsg(e.target.value)} />
           )}
         </div>
 
@@ -1063,10 +1063,10 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
           {onToolCall && (
             <div className="grid gap-1.5">
               <div className="text-muted-foreground text-xs">
-                Select tools to monitor (at least one); during task execution each time these tools <b>finish calling</b> they will trigger. {toolNames.length} selected {toolNames.length} items。
+                Select tools to monitor (at least one); during task execution each time these tools <b>finish calling</b> they will trigger. {toolNames.length} selected {toolNames.length} items.
               </div>
               <div className="max-h-40 overflow-y-auto rounded-md border p-2">
-                {tools.length === 0 && <span className="text-muted-foreground text-xs">（Tool list is empty）</span>}
+                {tools.length === 0 && <span className="text-muted-foreground text-xs">(Tool list is empty)</span>}
                 <div className="grid gap-1">
                   {tools.map((tool) => (
                     <label key={tool.key} className="flex items-start gap-2 text-xs">
@@ -1081,7 +1081,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
                 </div>
               </div>
               <Textarea className="text-xs" rows={2} value={toolCallMsg}
-                placeholder="Message sent to agent when tool is invoked (system includes task info, tool input and output)）" onChange={(e) => setToolCallMsg(e.target.value)} />
+                placeholder="Message sent to agent when tool is invoked (system includes task info, tool input and output)" onChange={(e) => setToolCallMsg(e.target.value)} />
             </div>
           )}
         </div>
@@ -1093,7 +1093,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
           </label>
           {onTaskCreate && (
             <Textarea className="text-xs" rows={2} value={taskCreateMsg}
-              placeholder="Message sent to agent when task is created (system includes task ID and target)）" onChange={(e) => setTaskCreateMsg(e.target.value)} />
+              placeholder="Message sent to agent when task is created (system includes task ID and target)" onChange={(e) => setTaskCreateMsg(e.target.value)} />
           )}
         </div>
 
@@ -1112,7 +1112,7 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
       {/* 已有触发器 */}
       <div className="grid gap-2">
         <Label className="text-muted-foreground text-xs">Existing Triggers</Label>
-        {triggers.length === 0 && <span className="text-muted-foreground text-xs">（None）</span>}
+        {triggers.length === 0 && <span className="text-muted-foreground text-xs">(None)</span>}
         {triggers.map((t) => (
           <div
             key={t.id}
@@ -1130,15 +1130,15 @@ function AgentTriggersTab({ agentKey, agent }: { agentKey: string; agent?: Agent
                 )}
               </div>
               <div className="text-muted-foreground grid gap-0.5 text-xs">
-                {t.interval_sec > 0 && t.interval_message && <div className="line-clamp-1">Scheduled：{t.interval_message}</div>}
+                {t.interval_sec > 0 && t.interval_message && <div className="line-clamp-1">Scheduled: {t.interval_message}</div>}
                 {t.on_finding && t.finding_message && <div className="line-clamp-1">finding：{t.finding_message}</div>}
-                {t.on_goal_met && t.goal_message && <div className="line-clamp-1">Target：{t.goal_message}</div>}
-                {t.on_task_timeout && t.task_timeout_message && <div className="line-clamp-1">Timeout：{t.task_timeout_message}</div>}
-                {t.on_task_create && t.task_create_message && <div className="line-clamp-1">Task Creation：{t.task_create_message}</div>}
+                {t.on_goal_met && t.goal_message && <div className="line-clamp-1">Target: {t.goal_message}</div>}
+                {t.on_task_timeout && t.task_timeout_message && <div className="line-clamp-1">Timeout: {t.task_timeout_message}</div>}
+                {t.on_task_create && t.task_create_message && <div className="line-clamp-1">Task Creation: {t.task_create_message}</div>}
                 {t.on_tool_call && (
                   <>
-                    <div className="line-clamp-1">Tool：{t.tool_names.join("、") || "（Not selected）"}</div>
-                    {t.tool_call_message && <div className="line-clamp-1">Message：{t.tool_call_message}</div>}
+                    <div className="line-clamp-1">Tool: {t.tool_names.join(", ") || "(Not selected)"}</div>
+                    {t.tool_call_message && <div className="line-clamp-1">Message: {t.tool_call_message}</div>}
                   </>
                 )}
               </div>

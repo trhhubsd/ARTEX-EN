@@ -75,7 +75,7 @@ function ApprovalOrigin({ row, detail = false }: { row: InterceptApprovalRow; de
     <a
       href={href}
       className="text-primary underline-offset-4 hover:underline"
-      aria-label={`Locate Approval #${row.id} Source of：${label}`}
+      aria-label={`Locate Approval #${row.id} Source of: ${label}`}
       aria-busy={locating}
       onClick={async (e) => {
         e.stopPropagation();
@@ -135,7 +135,7 @@ function CodeBlock({ label, text, truncated = false }: { label: string; text: st
       await navigator.clipboard.writeText(text);
       toast.success("Copied");
     } catch {
-      toast.error("Copy Failed, Please Manually Select Content to Copy");
+      toast.error("Copy failed; please manually select the content to copy");
     }
   }
   return (
@@ -151,7 +151,7 @@ function CodeBlock({ label, text, truncated = false }: { label: string; text: st
       <pre className="max-h-80 min-w-0 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-muted/60 p-3 font-mono text-xs leading-6 [overflow-wrap:anywhere]">
         {text || "Not Recorded"}
       </pre>
-      {truncated ? <p className="text-muted-foreground text-xs">Content Truncated, Above is Saved Segment。</p> : null}
+      {truncated ? <p className="text-muted-foreground text-xs">Content truncated; above is the saved segment.</p> : null}
     </section>
   );
 }
@@ -168,7 +168,7 @@ const actionLabels: Record<string, string> = { allow: "Allow", ask: "Escalate to
 const executionLabels: Record<InterceptAudit["execution_status"], string> = {
   not_started: "Not Executed Yet",
   not_executed: "Not Executed",
-  awaiting_result: "Allowed, Awaiting Execution Result",
+  awaiting_result: "Allowed, awaiting execution result",
   succeeded: "Execution Successful",
   failed: "Execution Failed",
   unknown: "Execution Result Unknown",
@@ -180,8 +180,8 @@ function ModelReviewContext({ input }: { input: InterceptReviewInput }) {
       <div className="flex flex-col gap-2">
         <h3 className="font-medium text-sm">Model Review Context</h3>
         <p className="text-muted-foreground text-xs">
-          Below is the snapshot of input actually sent to the review model. Background is for context only; judgment is based on review policy。
-          {input.version < 4 ? "This record uses legacy input, preserving content as originally sent。" : null}
+          Below is the snapshot of input actually sent to the review model. Background is for context only; judgment is based on review policy.
+          {input.version < 4 ? "This record uses legacy input, preserving content as originally sent." : null}
         </p>
       </div>
       <CodeBlock
@@ -192,57 +192,57 @@ function ModelReviewContext({ input }: { input: InterceptReviewInput }) {
         input.background ? (
           <div className="flex min-w-0 flex-col gap-2">
             <CodeBlock
-              label={input.background.source === "user_message" ? "Background · User Message" : "Background · Worker Intent Summary (Legacy)）"}
+              label={input.background.source === "user_message" ? "Background · User Message" : "Background · Worker Intent Summary (Legacy)"}
               text={input.background.text}
               truncated={input.background.truncated}
             />
             <p className="text-muted-foreground text-xs">
               {input.background.source === "user_message"
-                ? "Derived from Current User Message。"
-                : "This is the legacy Worker intent summary; newer Worker reviews no longer send this。"}
+                ? "Derived from Current User Message."
+                : "This is the legacy Worker intent summary; newer Worker reviews no longer send this."}
             </p>
           </div>
         ) : (
-          <p className="text-muted-foreground text-xs">No Background Message Attached to This Review。</p>
+          <p className="text-muted-foreground text-xs">No Background Message Attached to This Review.</p>
         )
       ) : (
         <>
           {input.turn_input ? (
-            <CodeBlock label="Current Round Input (Legacy)）" text={input.turn_input} truncated={input.background_truncated} />
+            <CodeBlock label="Current Round Input (Legacy)" text={input.turn_input} truncated={input.background_truncated} />
           ) : null}
           {input.task ? (
             <>
-              <CodeBlock label="Task Description (Legacy)）" text={input.task.description} truncated={input.task.truncated} />
-              <CodeBlock label="Task Goal (Legacy)）" text={input.task.goal} truncated={input.task.truncated} />
-              <CodeBlock label="Task Operation Constraints (Legacy)）" text={JSON.stringify(input.task.constraints, null, 2)} />
+              <CodeBlock label="Task Description (Legacy)" text={input.task.description} truncated={input.task.truncated} />
+              <CodeBlock label="Task Goal (Legacy)" text={input.task.goal} truncated={input.task.truncated} />
+              <CodeBlock label="Task Operation Constraints (Legacy)" text={JSON.stringify(input.task.constraints, null, 2)} />
             </>
           ) : null}
           {input.worker_intent ? (
-            <CodeBlock label="Worker Intent (Legacy)）" text={input.worker_intent} truncated={input.background_truncated} />
+            <CodeBlock label="Worker Intent (Legacy)" text={input.worker_intent} truncated={input.background_truncated} />
           ) : null}
         </>
       )}
       {input.working_directory ? <CodeBlock label="Working Directory" text={input.working_directory} /> : null}
       {input.version >= 3 ? (
-        <p className="text-muted-foreground text-xs">No Historical Calls or Execution Results Sent for This Review。</p>
+        <p className="text-muted-foreground text-xs">No Historical Calls or Execution Results Sent for This Review.</p>
       ) : (
         <div className="flex min-w-0 flex-col gap-3">
-          <h4 className="font-medium text-muted-foreground text-xs">Historical Calls Provided to Model (Legacy)）</h4>
+          <h4 className="font-medium text-muted-foreground text-xs">Historical Calls Provided to Model (Legacy)</h4>
           {input.history?.length ? (
             input.history.map((entry) => (
               <div key={entry.tool_use_id} className="flex min-w-0 flex-col gap-2 rounded-lg border p-3">
                 <p className="break-words font-medium text-xs">
-                  {entry.tool} · {entry.status === "succeeded" ? "Success" : "Failed (May Have Partial Side Effects)）"}
+                  {entry.tool} · {entry.status === "succeeded" ? "Success" : "Failed (May Have Partial Side Effects)"}
                 </p>
                 <CodeBlock label="Historical Call Parameters" text={entry.arguments_preview} truncated={entry.truncated} />
                 <CodeBlock label="Historical Execution Results" text={entry.result} truncated={entry.truncated} />
               </div>
             ))
           ) : (
-            <p className="text-muted-foreground text-xs">No Pairable Historical Tool Execution Records Provided This Time。</p>
+            <p className="text-muted-foreground text-xs">No Pairable Historical Tool Execution Records Provided This Time.</p>
           )}
           {input.history_truncated ? (
-            <p className="text-muted-foreground text-xs">History is a Limited Window; Some Content Truncated。</p>
+            <p className="text-muted-foreground text-xs">History is a Limited Window; Some Content Truncated.</p>
           ) : null}
         </div>
       )}
@@ -358,7 +358,7 @@ export function ApprovalDetail({
             </Collapsible>
           ) : null}
           <p className="text-muted-foreground text-xs">
-            Execution Result：<span className="text-foreground">{detail ? execution : "Loading...…"}</span>
+            Execution Result: <span className="text-foreground">{detail ? execution : "Loading…"}</span>
           </p>
         </div>
         <div className="flex min-w-0 flex-col gap-4 lg:border-l lg:pl-5">
@@ -373,7 +373,7 @@ export function ApprovalDetail({
             {current.reason?.replace(/^\[Model\]\s*/, "") || "Approval Reason Not Recorded"}
           </p>
           {audit?.decision_reason ? <p className="text-sm">{audit.decision_reason}</p> : null}
-          {audit?.effective_action ? <p className="text-sm">Final Action：{actionLabels[audit.effective_action]}</p> : null}
+          {audit?.effective_action ? <p className="text-sm">Final Action: {actionLabels[audit.effective_action]}</p> : null}
           <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 text-xs">
             <dt className="text-muted-foreground">Source</dt>
             <dd className="break-words">
@@ -403,7 +403,7 @@ export function ApprovalDetail({
         <Alert variant="destructive">
           <AlertDescription>
             <div className="flex flex-wrap items-center gap-2">
-              <span>Details Load Failed：{error}</span>
+              <span>Details Load failed: {error}</span>
               <Button variant="outline" size="sm" onClick={() => setRetry((v) => v + 1)}>
                 Retry details
               </Button>
@@ -414,7 +414,7 @@ export function ApprovalDetail({
       {!detail && !error ? <Skeleton className="h-8 w-60" /> : null}
       {detail && !audit ? (
         <Alert>
-          <AlertDescription>This record does not have a saved approval detail snapshot; context, initial model judgment, and execution output cannot be restored.。</AlertDescription>
+          <AlertDescription>This record does not have a saved approval detail snapshot; context, initial model judgment, and execution output cannot be restored.</AlertDescription>
         </Alert>
       ) : null}
       {audit ? (
@@ -433,8 +433,8 @@ export function ApprovalDetail({
                 <Alert>
                   <AlertDescription>
                     {audit.model_input_digest
-                      ? "This history only stores a fingerprint of the review input, not the original text, so the context sent to the model cannot be reconstructed. This does not mean there was no context; new model decisions will retain an input snapshot.。"
-                      : "This record lacks saved model review input; it may be from a rule-based decision, a pre-model-call error, or an older version.。"}
+                      ? "This history only stores a fingerprint of the review input, not the original text, so the context sent to the model cannot be reconstructed. This does not mean there was no context; new model decisions will retain an input snapshot."
+                      : "This record lacks saved model review input; it may be from a rule-based decision, a pre-model-call error, or an older version."}
                   </AlertDescription>
                 </Alert>
               )}
@@ -444,7 +444,7 @@ export function ApprovalDetail({
                     <Button variant="ghost" size="sm">
                       <ChevronDownIcon data-icon="inline-start" />
                       {audit.model_input && audit.model_input.version >= 3
-                        ? "View session audit snippet (not sent to model）"
+                        ? "View session audit snippet (not sent to model)"
                         : "View session audit snippet"}
                     </Button>
                   </CollapsibleTrigger>
@@ -452,7 +452,7 @@ export function ApprovalDetail({
                     <div className="flex min-w-0 flex-col gap-3">
                       {audit.user_message ? (
                         <CodeBlock
-                          label="Current session round input (audit snippet）"
+                          label="Current session round input (audit snippet)"
                           text={audit.user_message}
                           truncated={audit.user_truncated}
                         />
@@ -460,10 +460,10 @@ export function ApprovalDetail({
                       <section className="flex min-w-0 flex-col gap-3">
                         <h3 className="font-medium text-muted-foreground text-xs">Visible session context</h3>
                         <p className="text-muted-foreground text-xs">
-                          Saved at {fmtTime(audit.captured_at)} session record fragment. The actual content used by the model is based on “Model Review Input”.。
+                          Saved at {fmtTime(audit.captured_at)} session record fragment. The actual content used by the model is based on “Model Review Input”.
                         </p>
                         {audit.context_truncated ? (
-                          <p className="text-muted-foreground text-xs">Only recent context saved; some content truncated。</p>
+                          <p className="text-muted-foreground text-xs">Only recent context saved; some content truncated.</p>
                         ) : null}
                         {audit.context?.length ? (
                           audit.context.map((entry, index) => (
@@ -488,24 +488,24 @@ export function ApprovalDetail({
               />
               <CodeBlock
                 label="Execution Output"
-                text={audit.output ?? (audit.execution_status === "not_executed" ? "Tool Not Executed。" : "No Execution Output Yet")}
+                text={audit.output ?? (audit.execution_status === "not_executed" ? "Tool Not Executed." : "No Execution Output Yet")}
                 truncated={audit.output_truncated}
               />
               {audit.correlation !== "exact" ? (
                 <Alert>
                   <AlertDescription>
                     {audit.correlation === "ambiguous"
-                      ? "Concurrent calls with identical parameters exist; unable to uniquely link tool invocation. This record does not display inferred execution results.。"
-                      : "No uniquely linked tool invocation recorded ID。"}
+                      ? "Concurrent calls with identical parameters exist; unable to uniquely link tool invocation. This record does not display inferred execution results."
+                      : "No uniquely linked tool invocation recorded ID."}
                   </AlertDescription>
                 </Alert>
               ) : null}
               <dl className="grid gap-2 text-muted-foreground text-xs [overflow-wrap:anywhere]">
-                <div>Tool Invocation ID：{audit.tool_use_id || "Not Recorded"}</div>
-                <div>Parameter Summary SHA-256：{audit.input_digest}</div>
-                <div>Review Configuration Fingerprint SHA-256：{audit.config_digest || "Not Recorded"}</div>
-                {audit.model_input_digest ? <div>Model Review Input SHA-256：{audit.model_input_digest}</div> : null}
-                {audit.execution_ended_at ? <div>Result Record Time：{fmtTime(audit.execution_ended_at)}</div> : null}
+                <div>Tool Invocation ID: {audit.tool_use_id || "Not Recorded"}</div>
+                <div>Parameter Summary SHA-256: {audit.input_digest}</div>
+                <div>Review Configuration Fingerprint SHA-256: {audit.config_digest || "Not Recorded"}</div>
+                {audit.model_input_digest ? <div>Model Review Input SHA-256: {audit.model_input_digest}</div> : null}
+                {audit.execution_ended_at ? <div>Result Record Time: {fmtTime(audit.execution_ended_at)}</div> : null}
               </dl>
             </div>
           </CollapsibleContent>
@@ -789,7 +789,7 @@ export function ApprovalRecords({ taskId }: { taskId?: string }) {
           Refresh
         </Button>
       </div>
-      <p className="text-muted-foreground text-sm">Expand record to view tool request, approval decision, and the context and execution result at that time。</p>
+      <p className="text-muted-foreground text-sm">Expand record to view tool request, approval decision, and the context and execution result at that time.</p>
       <FieldGroup className="flex-row flex-wrap items-end gap-3" aria-label="Filter Approval Records">
         <Field className="w-full sm:w-40">
           <FieldLabel htmlFor={`${filterID}-status`}>Approval Status</FieldLabel>
@@ -848,26 +848,26 @@ export function ApprovalRecords({ taskId }: { taskId?: string }) {
       </FieldGroup>
       {error ? (
         <Alert variant="destructive">
-          <AlertDescription>Failed to Load Record：{error}。Click Refresh to Retry。</AlertDescription>
+          <AlertDescription>Failed to Load Record: {error}. Click Refresh to Retry.</AlertDescription>
         </Alert>
       ) : null}
       {pendingError ? (
         <Alert variant="destructive">
-          <AlertDescription>Failed to Load Pending Approvals：{pendingError}。Click Refresh to Retry。</AlertDescription>
+          <AlertDescription>Failed to Load Pending Approvals: {pendingError}. Click Refresh to Retry.</AlertDescription>
         </Alert>
       ) : null}
       {pending.length ? (
         <section className="overflow-hidden rounded-xl border">
           <div className="flex items-center gap-2 border-b bg-muted/40 px-4 py-3 font-medium text-sm">
             <ShieldAlertIcon className="size-4" />
-            Pending（{pending.length}）<span className="text-muted-foreground text-xs">Allow or Deny After Expanding</span>
+            Pending ({pending.length})<span className="text-muted-foreground text-xs">Allow or Deny After Expanding</span>
           </div>
           <ApprovalTable rows={pending} busy={deciding} decide={decide} revision={revision} label="Pending Approvals" />
         </section>
       ) : null}
       <section className="overflow-hidden rounded-xl border">
         <div className="border-b px-4 py-3 font-medium text-sm">
-          {filtered ? "Filter Results" : "All Records"}（{total}）
+          {filtered ? "Filter Results" : "All Records"} ({total})
         </div>
         {loading ? (
           <div className="flex flex-col gap-3 p-4">
@@ -885,8 +885,8 @@ export function ApprovalRecords({ taskId }: { taskId?: string }) {
               <EmptyTitle>{filtered ? "No approval records match the filter criteria" : "No Approval Records Yet"}</EmptyTitle>
               <EmptyDescription>
                 {filtered
-                  ? "Adjust approval status or decision source, or clear the filter to view all records。"
-                  : "Records appear here after a rule or model makes an approval decision。"}
+                  ? "Adjust approval status or decision source, or clear the filter to view all records."
+                  : "Records appear here after a rule or model makes an approval decision."}
               </EmptyDescription>
             </EmptyHeader>
           </Empty>

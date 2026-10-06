@@ -196,7 +196,7 @@ export default function AssetsPage() {
       setSelected(new Set());
       refresh();
     } catch (e) {
-      toast.error("Delete failed：" + String((e as Error)?.message ?? e));
+      toast.error("Delete failed: " + String((e as Error)?.message ?? e));
     } finally {
       setDeleting(false);
       setDeleteOpen(false);
@@ -215,7 +215,7 @@ export default function AssetsPage() {
       toast.success(msg);
       refresh();
     } catch (e) {
-      toast.error("Delete failed：" + String((e as Error)?.message ?? e));
+      toast.error("Delete failed: " + String((e as Error)?.message ?? e));
     } finally {
       setCompanyDeleting(false);
       setCompanyDeleteTarget(null);
@@ -406,7 +406,7 @@ export default function AssetsPage() {
                   {companies.length === 0 && (
                     <TableRow>
                       <TableCell colSpan={4} className="py-10 text-center text-sm text-muted-foreground">
-                        No enterprise yet. Click “Add Enterprise” at top right, fill asset scope, and the system will auto‑claim matching assets。
+                        No enterprise yet. Click “Add Enterprise” at top right, fill asset scope, and the system will auto-claim matching assets.
                       </TableCell>
                     </TableRow>
                   )}
@@ -740,7 +740,7 @@ export default function AssetsPage() {
             <AlertDialogTitle>Confirm deletion</AlertDialogTitle>
             <AlertDialogDescription>
               Will permanently delete <span className="font-semibold tabular-nums">{deleteIds.length}</span>{" "}
-              asset records; this action cannot be undone。
+              asset records; this action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -773,7 +773,7 @@ export default function AssetsPage() {
             <AlertDialogTitle>Delete enterprise · {companyDeleteTarget?.name}</AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="space-y-3">
-                <p>This will permanently delete the enterprise and its asset scope configuration; cannot be undone。</p>
+                <p>This will permanently delete the enterprise and its asset scope configuration; cannot be undone.</p>
                 <label
                   htmlFor="delete-assets-opt"
                   className="flex cursor-pointer items-center gap-2.5 rounded-md border p-3 hover:bg-muted/50"
@@ -870,7 +870,7 @@ function AssetCard({
             ) : (
               <TableRow>
                 <TableCell colSpan={cols.length} className="py-12 text-center text-sm text-muted-foreground">
-                  {loaded ? "No data。" : "Loading...…"}
+                  {loaded ? "No data." : "Loading…"}
                 </TableCell>
               </TableRow>
             )}
@@ -999,14 +999,14 @@ function CompanyDialog({ onSaved }: { onSaved: () => void }) {
       const res = await api.createCompany(name.trim(), parsedScope.rules);
       const added = res.scope_added ?? 0;
       const invalid = res.scope_invalid ?? 0;
-      if (invalid > 0) toast.warning(`Enterprise created, add ${added} scope entries；${invalid} Invalid row`);
-      else toast.success(`Enterprise created, add ${added} scope entries`);
+      if (invalid > 0) toast.warning(`Enterprise created, added ${added} scope entries; ${invalid} invalid rows`);
+      else toast.success(`Enterprise created, added ${added} scope entries`);
       setOpen(false);
       onSaved();
     } catch (e) {
       const msg = String((e as Error)?.message ?? e);
       if (/:\s*409$/.test(msg)) toast.error("Enterprise already exists, please choose a different name");
-      else toast.error(`Save Failed：${msg}`);
+      else toast.error(`Save failed: ${msg}`);
     } finally {
       setBusy(false);
     }
@@ -1022,7 +1022,7 @@ function CompanyDialog({ onSaved }: { onSaved: () => void }) {
       <SheetContent className="w-full! max-w-none! gap-0 p-0 sm:w-[520px]! sm:max-w-[520px]!">
         <SheetHeader className="border-b p-6">
           <SheetTitle>Add Enterprise</SheetTitle>
-          <SheetDescription>Configure enterprise and its asset scope. Keywords are only Agent prompts and do not automatically assign assets.。</SheetDescription>
+          <SheetDescription>Configure enterprise and its asset scope. Keywords are only Agent prompts and do not automatically assign assets.</SheetDescription>
         </SheetHeader>
         <div className="flex-1 overflow-y-auto p-6">
           <FieldGroup>
@@ -1030,7 +1030,7 @@ function CompanyDialog({ onSaved }: { onSaved: () => void }) {
               <FieldLabel htmlFor="cn-name">Enterprise Name</FieldLabel>
               <Input
                 id="cn-name"
-                placeholder="e.g., Acme Corp (unique name)）"
+                placeholder="e.g., Acme Corp (unique name)"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -1078,13 +1078,13 @@ function EditScopeDialog({ company, onSaved }: { company: Company; onSaved: () =
     try {
       const res = await api.updateCompanyScope(company.id, parsedScope.rules, reason);
       const errCount = res.invalid ?? 0;
-      if (errCount > 0) toast.warning(`Saved；${errCount} Invalid row`);
+      if (errCount > 0) toast.warning(`Saved; ${errCount} invalid rows`);
       else toast.success(`Scope updated, total ${res.added} items`);
       showScopeWarnings(res.warnings);
       setOpen(false);
       onSaved();
     } catch (e) {
-      toast.error(`Save Failed：${String((e as Error)?.message ?? e)}`);
+      toast.error(`Save failed: ${String((e as Error)?.message ?? e)}`);
     } finally {
       setBusy(false);
     }
@@ -1101,7 +1101,7 @@ function EditScopeDialog({ company, onSaved }: { company: Company; onSaved: () =
         <DialogHeader>
           <DialogTitle>Edit Asset Scope · {company.name}</DialogTitle>
           <DialogDescription>
-            Editing will replace all existing scopes. ICP precisely matches assets; enterprise keywords serve only as Agent prompts.。
+            Editing will replace all existing scopes. ICP precisely matches assets; enterprise keywords serve only as Agent prompts.
           </DialogDescription>
         </DialogHeader>
         <FieldGroup className="py-2">
@@ -1112,7 +1112,7 @@ function EditScopeDialog({ company, onSaved }: { company: Company; onSaved: () =
             parsed={parsedScope}
           />
           <Field>
-            <FieldLabel htmlFor="es-reason">Ownership basis (optional）</FieldLabel>
+            <FieldLabel htmlFor="es-reason">Ownership basis (optional)</FieldLabel>
             <Input
               id="es-reason"
               placeholder="e.g., certificate / whois / ASN evidence"
@@ -1161,13 +1161,13 @@ function AppendScopeDialog({ company, onSaved }: { company: Company; onSaved: ()
     try {
       const res = await api.addCompanyScope(company.id, parsedScope.rules, reason);
       const errCount = res.invalid ?? 0;
-      if (errCount > 0) toast.warning(`Saved；${errCount} Invalid row`);
+      if (errCount > 0) toast.warning(`Saved; ${errCount} invalid rows`);
       else toast.success(`Added ${res.added} scope entries`);
       showScopeWarnings(res.warnings);
       setOpen(false);
       onSaved();
     } catch (e) {
-      toast.error(`Save Failed：${String((e as Error)?.message ?? e)}`);
+      toast.error(`Save failed: ${String((e as Error)?.message ?? e)}`);
     } finally {
       setBusy(false);
     }
@@ -1183,7 +1183,7 @@ function AppendScopeDialog({ company, onSaved }: { company: Company; onSaved: ()
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Asset Scope · {company.name}</DialogTitle>
-          <DialogDescription>The new range will be added to the existing scope. ICP precisely matches assets; enterprise keywords serve only as Agent prompts.。</DialogDescription>
+          <DialogDescription>The new range will be added to the existing scope. ICP precisely matches assets; enterprise keywords serve only as Agent prompts.</DialogDescription>
         </DialogHeader>
         <FieldGroup className="py-2">
           <ScopeTextEditor
@@ -1193,7 +1193,7 @@ function AppendScopeDialog({ company, onSaved }: { company: Company; onSaved: ()
             parsed={parsedScope}
           />
           <Field>
-            <FieldLabel htmlFor="as-reason">Ownership basis (optional）</FieldLabel>
+            <FieldLabel htmlFor="as-reason">Ownership basis (optional)</FieldLabel>
             <Input
               id="as-reason"
               placeholder="e.g., certificate / whois / ASN evidence"

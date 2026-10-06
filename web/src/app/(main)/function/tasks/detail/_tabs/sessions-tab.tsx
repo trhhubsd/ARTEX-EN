@@ -425,8 +425,8 @@ function SessionItem({
             size="icon-xs"
             onClick={onCancel}
             disabled={controlling}
-            title="Delete this Intent (reason required, optional soft/hard delete)）"
-            aria-label="Delete this Intent (reason required, optional soft/hard delete)）"
+            title="Delete this Intent (reason required, optional soft/hard delete)"
+            aria-label="Delete this Intent (reason required, optional soft/hard delete)"
             className="text-destructive hover:text-destructive"
           >
             <Trash2Icon />
@@ -456,7 +456,7 @@ function WorkerAssetBadge({ assets }: { assets: IntentAsset[] }) {
     <Tooltip>
       <TooltipTrigger asChild>
         <Badge variant="outline" className="max-w-60 shrink-0 font-normal" title={firstRawLabel}>
-          <span className="truncate">Current Asset：{firstLabel}</span>
+          <span className="truncate">Current Asset: {firstLabel}</span>
           {displayAssets.length > 1 && <span className="shrink-0 tabular-nums">+{displayAssets.length - 1}</span>}
         </Badge>
       </TooltipTrigger>
@@ -553,7 +553,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
       const r = await api.chatUpload("task", taskId, Array.from(files));
       setAttachments((prev) => [...prev, ...r.attachments]);
     } catch (e) {
-      toast.error(`Upload failed：${(e as Error).message}`);
+      toast.error(`Upload failed: ${(e as Error).message}`);
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -576,7 +576,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
       setListOpen(false);
       setInput("");
     } catch (e) {
-      toast.error(`Failed to Create Session：${(e as Error).message}`);
+      toast.error(`Failed to Create Session: ${(e as Error).message}`);
     } finally {
       setCreatingMain(false);
       setConfirmNewMain(false);
@@ -607,22 +607,22 @@ export function SessionsTab({ taskId }: { taskId: string }) {
           toast.success(`Worker #${session.intent_id} Paused`);
         } else if (action === "resume") {
           patchIntentState(session.intent_id, "open");
-          toast.success(`Worker #${session.intent_id} Recovered, Awaiting Reassignment`);
+          toast.success(`Worker #${session.intent_id} recovered, awaiting reassignment`);
         } else if (mode === "hard") {
           // 真删除:意图及独占下游已物理移除,从列表剔除该行。
           patchIntentState(session.intent_id);
           const d = res.deleted;
-          const extra = d ? `（Including ${d.intents} Intent / ${d.facts} Fact / ${d.findings} Vulnerability）` : "";
+          const extra = d ? `(including ${d.intents} intents / ${d.facts} facts / ${d.findings} findings)` : "";
           toast.success(`Worker #${session.intent_id} And its exclusive downstream have been fully deleted${extra}`);
           setCancelReason("");
         } else {
           // 假删除:意图置 deleted、记录删除原因,保留节点与产出。
           patchIntentState(session.intent_id, "deleted");
-          toast.success(`Worker #${session.intent_id} Deleted (reason recorded, planner will replan accordingly)）`);
+          toast.success(`Worker #${session.intent_id} Deleted (reason recorded, planner will replan accordingly)`);
           setCancelReason("");
         }
       } catch (error) {
-        toast.error(`Worker Operation Failed：${(error as Error).message}`);
+        toast.error(`Worker Operation failed: ${(error as Error).message}`);
       } finally {
         setControllingIntent(null);
         setCancelIntent(null);
@@ -1513,7 +1513,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
       .catch((e) => {
         setInput(text); // restore so the user doesn't lose their text / attachments
         setAttachments(atts);
-        toast.error(`Send failed：${(e as Error).message || "Please Try Again Later"}`);
+        toast.error(`Send failed: ${(e as Error).message || "Please Try Again Later"}`);
       })
       .finally(() => setSending(false));
   }
@@ -1538,10 +1538,10 @@ export function SessionsTab({ taskId }: { taskId: string }) {
         patchIntentState(intentId, result.state);
         setWorkerMessage("");
         setWorkerMessageRequestId("");
-        toast.success(`Message Sent To Worker #${intentId}，Continued Immediately`);
+        toast.success(`Message Sent To Worker #${intentId}, Continued Immediately`);
       })
       .catch((error) => {
-        toast.error(`Send failed：${(error as Error).message || "Please Try Again Later"}`);
+        toast.error(`Send failed: ${(error as Error).message || "Please Try Again Later"}`);
       })
       .finally(() => setWorkerMessageSending(false));
   }
@@ -1563,9 +1563,9 @@ export function SessionsTab({ taskId }: { taskId: string }) {
 
   return (
     <TooltipProvider delayDuration={300}>
-      {/* Reserved height: page header (title row + target) + Tabs ≈ 7.5rem）+ Content Padding (Mobile) p-4、
-        Desktop: lg:p-6, with extra scroll margin; allocate 10rem / 13rem for two breakpoints – Mobile
-        Keeping 13rem wastes 3rem of record height。 */}
+      {/* Reserved height: page header (title row + target) + Tabs ≈ 7.5rem)+ Content Padding (Mobile) p-4,
+        Desktop: lg:p-6, with extra scroll margin; allocate 10rem / 13rem for two breakpoints: Mobile
+        Keeping 13rem wastes 3rem of record height. */}
       <div
         className={cn(
           "grid h-[calc(100svh-10rem)] min-h-0 grid-cols-1 gap-4",
@@ -1607,7 +1607,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                     "inline-flex items-center gap-1 text-[10px]",
                     sseLive ? "text-emerald-500" : "text-amber-500",
                   )}
-                  title={sseLive ? "Live Connection Healthy" : "Live Connection Lost, Reconnecting Automatically (History Still Visible)）"}
+                  title={sseLive ? "Live connection healthy" : "Live connection lost, reconnecting automatically (history still visible)"}
                 >
                   {sseLive ? (
                     <>
@@ -1667,8 +1667,8 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                           type="button"
                           onClick={() => setConfirmNewMain(true)}
                           disabled={creatingMain}
-                          title="Create New Main Agent Session (Clear Context, Preserve Task State)）"
-                          aria-label="Create New Main Agent Session"
+                          title="Create a new main agent session (clear context, preserve task state)"
+                          aria-label="Create new main agent session"
                           className="ml-auto flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-muted-foreground hover:bg-accent/60 hover:text-foreground disabled:opacity-50"
                         >
                           {creatingMain ? (
@@ -1724,7 +1724,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                 );
               })}
               {mainLoaded && !workerSessions.length && (
-                <div className="px-2 py-1 text-xs text-muted-foreground">No Active Worker Sessions。</div>
+                <div className="px-2 py-1 text-xs text-muted-foreground">No Active Worker Sessions.</div>
               )}
             </div>
           </ScrollArea>
@@ -1763,7 +1763,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                       variant="outline"
                       className="max-w-28 shrink-0 font-normal"
                       aria-label={
-                        activeResolution.available ? `Current configuration：${resolutionLabel(activeResolution)}` : "Model unavailable"
+                        activeResolution.available ? `Current configuration: ${resolutionLabel(activeResolution)}` : "Model unavailable"
                       }
                     >
                       <span className="truncate">
@@ -1780,7 +1780,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
               )}
               {activeAssets && activeAssets.length > 0 && <WorkerAssetBadge assets={activeAssets} />}
               {active.inherited && active.source_task_id && (
-                <Badge variant="outline">Source Task #{active.source_task_id} · Read‑only history</Badge>
+                <Badge variant="outline">Source Task #{active.source_task_id} · Read-only history</Badge>
               )}
               {active.live && (
                 <span className="inline-flex items-center gap-1 rounded bg-blue-500/15 px-1.5 py-0.5 text-[10px] font-medium text-blue-600 dark:text-blue-400">
@@ -1824,7 +1824,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                   </Tooltip>
                 )}
                 {runDuration != null && (
-                  <span className="inline-flex items-center gap-1" title="Runtime (first step → Last step）">
+                  <span className="inline-flex items-center gap-1" title="Runtime (first step → Last step)">
                     <ClockIcon className="size-3" />
                     {fmtDuration(runDuration)}
                   </span>
@@ -1841,11 +1841,11 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                   <div className="min-w-0">
                     <span className="font-medium text-destructive">This intent has been deleted by the user</span>
                     <span className="text-muted-foreground">
-                      （Execution stopped; planner notified. Intent and output are retained, view history below.）
+                      (Execution stopped; planner notified. Intent and output are retained, view history below.)
                     </span>
                     {dm.deleteReason && (
                       <p className="mt-1 break-words text-foreground">
-                        <span className="text-muted-foreground">Deletion reason：</span>
+                        <span className="text-muted-foreground">Deletion reason: </span>
                         {dm.deleteReason}
                       </p>
                     )}
@@ -1883,7 +1883,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                 ) : activeState?.error ? (
                   <div className="flex items-center gap-2 pl-9 text-xs text-red-500">
                     <CircleXIcon className="size-3.5" />
-                    Load Failed：{activeState.error}
+                    Load failed: {activeState.error}
                     <Button
                       size="sm"
                       variant="ghost"
@@ -1903,7 +1903,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                   />
                 ) : (
                   <div className="pl-9 text-xs text-muted-foreground">
-                    {isMain ? "No dialogue yet. Send a message to the main Agent below to guide exploration or intervene.。" : "No activity records。"}
+                    {isMain ? "No dialogue yet. Send a message to the main Agent below to guide exploration or intervene." : "No activity records."}
                   </div>
                 )}
               </div>
@@ -1946,7 +1946,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                     rows={1}
                     aria-label="Message the main Agent"
                     placeholder={
-                      mainBusy ? "Main Agent is running; you can type /btw to ask…" : "Message the main Agent，@ Reference vulnerabilities, assets, etc.…"
+                      mainBusy ? "Main Agent is running; you can type /btw to ask…" : "Message the main Agent, @ Reference vulnerabilities, assets, etc.…"
                     }
                     value={input}
                     disabled={sending}
@@ -2011,7 +2011,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
                     inputGroup
                     rows={1}
                     aria-label={`To Worker #${active.intent_id} Send message`}
-                    placeholder={`To Worker #${active.intent_id} Send message，@ Reference records, adjust execution direction…`}
+                    placeholder={`To Worker #${active.intent_id} Send message, @ Reference records, adjust execution direction…`}
                     value={workerMessage}
                     onValueChange={(value) => {
                       setWorkerMessage(value);
@@ -2114,18 +2114,18 @@ export function SessionsTab({ taskId }: { taskId: string }) {
         >
           <AlertDialogContent className="max-w-[min(32rem,calc(100vw-2rem))]">
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete Worker #{cancelIntent?.intent_id}？</AlertDialogTitle>
+              <AlertDialogTitle>Delete Worker #{cancelIntent?.intent_id}?</AlertDialogTitle>
               <AlertDialogDescription className="break-words whitespace-normal">
                 {deleteMode === "hard" ? (
                   <>
                     <strong>Hard delete</strong> will physically remove this intent, and <strong>only what it supports</strong>
-                    downstream nodes (cascading to leaves to avoid orphaned data); shared nodes, goals, and root task facts will be retained。
-                    <strong>This operation cannot be undone.</strong> The planner will receive a deletion notice and replans accordingly。
+                    downstream nodes (cascading to leaves to avoid orphaned data); shared nodes, goals, and root task facts will be retained.
+                    <strong>This operation cannot be undone.</strong> The planner will receive a deletion notice and replans accordingly.
                   </>
                 ) : (
                   <>
-                    <strong>Soft delete</strong> will mark the intent as “Deleted” and record the deletion reason, intent nodes, and execution logs、
-                    All recorded facts and vulnerabilities <strong>are retained</strong>. Planners receive “intent deleted by user + reason“ to replan.。
+                    <strong>Soft delete</strong> will mark the intent as “Deleted” and record the deletion reason, intent nodes, and execution logs,
+                    All recorded facts and vulnerabilities <strong>are retained</strong>. Planners receive “intent deleted by user + reason” to replan.
                   </>
                 )}
               </AlertDialogDescription>
@@ -2157,7 +2157,7 @@ export function SessionsTab({ taskId }: { taskId: string }) {
               </div>
               <div className="grid gap-2">
                 <label htmlFor="cancel-reason" className="text-sm font-medium">
-                  Deletion reason (required）
+                  Deletion reason (required)
                 </label>
                 <Textarea
                   id="cancel-reason"
@@ -2186,9 +2186,9 @@ export function SessionsTab({ taskId }: { taskId: string }) {
         <AlertDialog open={confirmNewMain} onOpenChange={(open) => !open && setConfirmNewMain(false)}>
           <AlertDialogContent className="max-w-[min(32rem,calc(100vw-2rem))]">
             <AlertDialogHeader>
-              <AlertDialogTitle>Start new session？</AlertDialogTitle>
+              <AlertDialogTitle>Start new session?</AlertDialogTitle>
               <AlertDialogDescription className="break-words whitespace-normal">
-                Current session will be archived (switch back anytime); main Agent will continue with a clean context. Task graph, assets, and goals remain unaffected。
+                Current session will be archived (switch back anytime); main Agent will continue with a clean context. Task graph, assets, and goals remain unaffected.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

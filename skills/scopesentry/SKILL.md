@@ -1,5 +1,5 @@
 ## name: scopesentry-mcp  
-description: Manage the security‑scanning platform (projects, tasks, templates, assets, nodes) via the ScopeSentry MCP. Use when the user mentions ScopeSentry, MCP, API Key, scan tasks, or asset queries.  
+description: Manage the security-scanning platform (projects, tasks, templates, assets, nodes) via the ScopeSentry MCP. Use when the user mentions ScopeSentry, MCP, API Key, scan tasks, or asset queries.  
 
 # ScopeSentry MCP User Guide  
 
@@ -15,7 +15,7 @@ For users of a **deployed ScopeSentry instance**. Connect to the platform with C
 ### 1.2 Create API Key  
 
 1. Log in to the ScopeSentry web UI in a browser.  
-2. Open the **API Key** management page and create a key (or use the admin‑provided endpoint).  
+2. Open the **API Key** management page and create a key (or use the admin-provided endpoint).  
 3. Save the returned `ssk_...` string (**shown only once**).  
 
 ### 1.3 Configure Cursor MCP  
@@ -73,7 +73,7 @@ Use `count_assets` when you only need the total number (matches the web paginati
 
 ### 3.1 Query Assets by Project  
 
-When the user or context already has a project condition, include `filter.project` to narrow the scope and avoid slow responses caused by cross‑project data. If no specific project is known, the filter can be omitted.  
+When the user or context already has a project condition, include `filter.project` to narrow the scope and avoid slow responses caused by cross-project data. If no specific project is known, the filter can be omitted.  
 
 1. Use `list_projects` or `list_projects_data` to obtain the target project's **ObjectID** (`id` / `children[].value`).  
 2. Call `list_assets` with `filter.project` (**must be the ID, not the project’s Chinese name**).  
@@ -103,12 +103,12 @@ When the user or context already has a project condition, include `filter.projec
 | `general`    | Directly input targets | `target` |
 | `project`    | Read targets from a project | `project` (array of project ObjectIDs) |
 | `asset`      | Search the web asset library | `search`; optional `project`, `filter`, `targetNumber` |
-| `RootDomain` | Search the root‑domain library | `search`; optional `project`, `filter`, `targetNumber` |
+| `RootDomain` | Search the root-domain library | `search`; optional `project`, `filter`, `targetNumber` |
 | `subdomain`  | Search the subdomain library | `search`; optional `project`, `filter`, `targetNumber` |
 | `UrlScan`    | Search URL scan results | `search`; optional `project`, `filter`, `targetNumber` |
 | `*Source` (e.g., `subdomainSource`) | Create from asset page “selected / searched” | Use `search` when `targetTp=search`; use `targetIds` when `targetTp=select` |
 
-**Example – Direct root‑domain scan:**  
+**Example: Direct root-domain scan:**  
 
 ```json
 {
@@ -121,7 +121,7 @@ When the user or context already has a project condition, include `filter.projec
 }
 ```
 
-**Example – Follow‑up scan from subdomain library (filter by previous task name):**  
+**Example: Follow-up scan from subdomain library (filter by previous task name):**  
 
 ```json
 {
@@ -134,7 +134,7 @@ When the user or context already has a project condition, include `filter.projec
 }
 ```
 
-### 3.3 Full Information Gathering for a Root Domain (Recommended Two‑Stage)  
+### 3.3 Full Information Gathering for a Root Domain (Recommended Two-Stage)  
 
 When the input is a **root domain** and you need comprehensive data collection, split the scan into two phases rather than running the entire pipeline at once.  
 
@@ -142,15 +142,15 @@ When the input is a **root domain** and you need comprehensive data collection, 
 
 **Best practice:**  
 
-1. **Phase 1 – Subdomain collection only**  
+1. **Phase 1: Subdomain collection only**  
    - `targetSource`: `general`  
    - `target`: all root domains (one per line)  
    - Template: enable only `SubdomainScan` and `SubdomainSecurity` (subdomain discovery + takeover)  
    - Use `get_task` to wait for completion  
 
-2. **Phase 2 – Subsequent modules**  
+2. **Phase 2: Subsequent modules**  
    - `targetSource`: `subdomain`  
-   - `search`: `task=="<Phase 1 task name>"` (exact match)  
+   - `search`: `task=="<Phase 1 task name>"` (exact match)  
    - Optional `project` to narrow scope  
    - Template: port scanning, asset mapping, vulnerability scanning, etc. (may omit `SubdomainScan`)  
    - Subdomains are distributed as independent targets across nodes, improving parallel efficiency  
@@ -159,9 +159,9 @@ The same effect can be achieved via the web UI: filter the “subdomain” asset
 
 ```mermaid
 flowchart LR
-    A[Root‑domain list] --> B[Phase 1: general + SubdomainScan]
+    A[Root-domain list] --> B[Phase 1: general + SubdomainScan]
     B --> C[Subdomains stored]
-    C --> D[Phase 2: subdomain + task==Phase 1 task name]
+    C --> D[Phase 2: subdomain + task==Phase 1 task name]
     D --> E[Port / asset / vulnerability modules]
 ```
 
@@ -187,10 +187,10 @@ flowchart LR
 
 **Performance tips (apply to both `list_assets` and `count_assets`):**  
 - When a project condition is available, always use `filter.project` to reduce the search space.  
-- In `search`, use `==` (exact) or `^` (prefix) on indexed fields (see section 4.3) rather than the fuzzy `=` operator, which bypasses indexes and can be slow on large tables.  
+- In `search`, use `==` (exact) or `^` (prefix) on indexed fields (see section 4.3) rather than the fuzzy `=` operator, which bypasses indexes and can be slow on large tables.  
 - If no project context exists, do not force a project filter.  
 
-Supported `filter.project` types are listed in the table of section 4.4.  
+Supported `filter.project` types are listed in the table of section 4.4.  
 
 ### 4.1 Asset Types (`asset_type`)  
 
@@ -202,9 +202,9 @@ Aliases (examples): `web` → `asset`, `vuln` → `vulnerability`, `ip` → `IPA
 
 | Parameter | Meaning |
 | --------- | --------------------------------------------------- |
-| `pageIndex` / `pageSize` | Pagination, defaults 1 / 20 |
+| `pageIndex` / `pageSize` | Pagination, defaults 1 / 20 |
 | `search` | Search expression (see next section) |
-| `filter` | Exact‑match JSON filter (see next section) |
+| `filter` | Exact-match JSON filter (see next section) |
 | `sort` | Only supported by **UrlScan** and **DirScanResult** (sort by `length`) |
 | `sid` | Only for **SensitiveResult**: name of the sensitivity rule |
 
@@ -218,9 +218,9 @@ Custom DSL ( **not SQL** ):
 | -------- | ------- | ----------- | ------- |
 | `=`  | Fuzzy (regex) match | No index | `domain=example` |
 | `==` | Exact match | **Uses index** | `port==443` |
-| `!=` | Not equal | — | `port!="80"` |
-| `&&` | AND | — | `domain==example.com && port==443` |
-| `||` | OR | — | `title=admin || body=login` |
+| `!=` | Not equal | - | `port!="80"` |
+| `&&` | AND | - | `domain==example.com && port==443` |
+| `||` | OR | - | `title=admin || body=login` |
 
 **Indexable fields:** `domain`, `ip`, `port`, `title`, etc. Only **`==`** or **prefix `^`** (e.g., `domain=^example.com`) can leverage indexes. The fuzzy `=` operator compiles to a regex and does **not** use indexes, which can be slow on large datasets.  
 
@@ -255,7 +255,7 @@ Do **not** place `project` in `search` (it is ignored or causes errors when comb
 - `level==high` (vulnerability)  
 - `statuscode==200` (DirScanResult)  
 
-Use `=` only for fuzzy containment, e.g., `title=admin` (non‑indexed, combine with project filter to limit scope).  
+Use `=` only for fuzzy containment, e.g., `title=admin` (non-indexed, combine with project filter to limit scope).  
 
 ### 4.4 `filter` Exact Filtering  
 
@@ -270,14 +270,14 @@ JSON object where multiple values for the same key are **OR**, different keys ar
 | `port` | Port | e.g., `"443"` |
 | `service` | Service / protocol | e.g., `"https"` |
 | `app` | Application fingerprint | e.g., `"Nginx"` |
-| `icon` | Icon hash | — |
+| `icon` | Icon hash | - |
 | `statuscode` | HTTP status code | Primarily for `asset` |
 | `status` | Status | UrlScan/DirScan HTTP code; vulnerability/sensitivity handling status |
 | `level` | Vulnerability severity | `critical` / `high` / `medium` / `low` / `info` |
 | `type` | Record type | e.g., A, CNAME for subdomains |
 | `color` | Sensitivity rule color | SensitiveResult |
 | `sname` | Sensitivity rule name | SensitiveResult |
-| `tags` | Tags | — |
+| `tags` | Tags | - |
 
 **Available filter keys per asset type:**  
 
@@ -343,7 +343,7 @@ Other asset types ignore `sort` and are ordered by creation time by default.
 | Symptom | Remedy |
 | -------- | ---------------------------------------------------- |
 | No tools in MCP | Check the URL, API Key, and that ScopeSentry is running |
-| 401 / 403 | Re‑create or replace the API Key |
+| 401 / 403 | Re-create or replace the API Key |
 | Asset not found | Ensure `filter.project` uses the ObjectID; do not place `project` in `search` |
 | Template / task creation fails | `template` must be a template ObjectID; `node` must be an online node name |
 | Query is slow / hangs | Add `filter.project` when possible; use `==` or `^` on indexed fields instead of `=`; reduce `pageSize` |

@@ -73,9 +73,9 @@ export default function SystemSettingsPage() {
       .setSettings({ workers: n })
       .then((s) => {
         apply(s);
-        toast.success("Saved concurrent agent count (applies to tasks started thereafter）");
+        toast.success("Saved concurrent agent count (applies to tasks started thereafter)");
       })
-      .catch((e) => toast.error("Save Failed：" + (e as Error).message))
+      .catch((e) => toast.error("Save failed: " + (e as Error).message))
       .finally(() => setSavingWorkers(false));
   };
 
@@ -87,7 +87,7 @@ export default function SystemSettingsPage() {
         apply(s);
         toast.success("Saved Python interpreter configuration");
       })
-      .catch((e) => toast.error("Save Failed：" + (e as Error).message))
+      .catch((e) => toast.error("Save failed: " + (e as Error).message))
       .finally(() => setSaving(false));
   };
   const detectPython = () => {
@@ -136,7 +136,7 @@ export default function SystemSettingsPage() {
       })
       .catch((e) => {
         setAgentTrafficBinding(!v);
-        toast.error(`Save Failed：${(e as Error).message}`);
+        toast.error(`Save failed: ${(e as Error).message}`);
       })
       .finally(() => setSaving(false));
   };
@@ -155,11 +155,11 @@ export default function SystemSettingsPage() {
       .setSettings({ noa_compaction: v })
       .then((s) => {
         apply(s);
-        toast.success(v ? "Noa context compression enabled (affects subsequent runs)）" : "Noa context compression disabled (reverts to built-in compression)）");
+        toast.success(v ? "Noa context compression enabled (affects subsequent runs)" : "Noa context compression disabled (reverts to built-in compression)");
       })
       .catch((e) => {
         setNoaCompaction(!v); // revert on failure
-        toast.error(`Save Failed：${(e as Error).message}`);
+        toast.error(`Save failed: ${(e as Error).message}`);
       });
   };
 
@@ -173,7 +173,7 @@ export default function SystemSettingsPage() {
         toast.success("Network search config saved");
       })
       .catch((e) => {
-        toast.error("Save Failed：" + (e as Error).message);
+        toast.error("Save failed: " + (e as Error).message);
         api
           .settings()
           .then(apply)
@@ -191,7 +191,7 @@ export default function SystemSettingsPage() {
         setBraveKeyInput("");
         toast.success("Saved Brave API Key");
       })
-      .catch((e) => toast.error("Save Failed：" + (e as Error).message))
+      .catch((e) => toast.error("Save failed: " + (e as Error).message))
       .finally(() => setSavingKey(false));
   };
 
@@ -204,7 +204,7 @@ export default function SystemSettingsPage() {
         setTavilyKeyInput("");
         toast.success("Saved Tavily API Key");
       })
-      .catch((e) => toast.error("Save Failed：" + (e as Error).message))
+      .catch((e) => toast.error("Save failed: " + (e as Error).message))
       .finally(() => setSavingTavilyKey(false));
   };
 
@@ -214,9 +214,9 @@ export default function SystemSettingsPage() {
       .setSettings({ web_search_proxy: proxyInput.trim() })
       .then((s) => {
         apply(s);
-        toast.success(proxyInput.trim() ? "Outbound proxy saved" : "Outbound proxy cleared (switch to direct)）");
+        toast.success(proxyInput.trim() ? "Outbound proxy saved" : "Outbound proxy cleared (switch to direct)");
       })
-      .catch((e) => toast.error("Save Failed：" + (e as Error).message))
+      .catch((e) => toast.error("Save failed: " + (e as Error).message))
       .finally(() => setSavingProxy(false));
   };
 
@@ -226,9 +226,9 @@ export default function SystemSettingsPage() {
       .setSettings({ global_proxy: globalProxyInput.trim() })
       .then((s) => {
         apply(s);
-        toast.success(globalProxyInput.trim() ? "Global proxy saved" : "Global proxy cleared (switch to direct)）");
+        toast.success(globalProxyInput.trim() ? "Global proxy saved" : "Global proxy cleared (switch to direct)");
       })
-      .catch((e) => toast.error("Save Failed：" + (e as Error).message))
+      .catch((e) => toast.error("Save failed: " + (e as Error).message))
       .finally(() => setSavingGlobalProxy(false));
   };
 
@@ -245,9 +245,9 @@ export default function SystemSettingsPage() {
       })
       .then((r) => {
         if (r.ok) toast.success(`Search test succeeded · ${r.backend} Back ${r.count} Results`);
-        else toast.error("Search test failed：" + (r.error || "Unknown error"));
+        else toast.error("Search test failed: " + (r.error || "Unknown error"));
       })
-      .catch((e) => toast.error("Search test failed：" + (e as Error).message))
+      .catch((e) => toast.error("Search test failed: " + (e as Error).message))
       .finally(() => setTesting(false));
   };
 
@@ -261,10 +261,10 @@ export default function SystemSettingsPage() {
         <p className="text-muted-foreground text-sm">Global runtime toggle</p>
       </div>
 
-      {/* Multiple columns instead of grid: network search cards are much taller and height varies with backend（brave/tavily
-          Key input is conditionally rendered; grid stretches tallest card across row, leaving large blank space，
+      {/* Multiple columns instead of grid: network search cards are much taller and height varies with backend (brave/tavily
+          Key input is conditionally rendered; grid stretches tallest card across row, leaving large blank space,
           Multiple columns auto-balance by content height; spacing uses margin-bottom instead of gap
-          column-gap Manage column spacing only; row spacing set by child elements。 */}
+          column-gap Manage column spacing only; row spacing set by child elements. */}
       <div className="columns-1 gap-4 md:gap-6 lg:columns-2">
         <UpdateCard />
 
@@ -276,7 +276,7 @@ export default function SystemSettingsPage() {
             </CardTitle>
             <CardDescription>
               When enabled, all Agents' HTTP traffic is fully logged via the recording proxy and injected into the Agent traffic_search / traffic_get
-              Tool and proxy configuration (prompt includes proxy description）。
+              Tool and proxy configuration (prompt includes proxy description).
               <br />
               When disabled (default), no traffic is recorded: the Agent
               <b>cannot obtain proxy configuration or traffic tools</b>, and prompts contain no proxy-related content. Switching rebuilds the Agent instantly.
@@ -302,11 +302,11 @@ export default function SystemSettingsPage() {
               Agent Auto-bind traffic
             </CardTitle>
             <CardDescription id="agent-traffic-binding-description">
-              Disabled by default; when enabled, the report Agent cross-checks existing HTTP requests/responses for vulnerability entries, links the traffic, then generates the report。
-              <b>Viewing packets and extra tool calls increases token consumption。</b>
+              Disabled by default; when enabled, the report Agent cross-checks existing HTTP requests/responses for vulnerability entries, links the traffic, then generates the report.
+              <b>Viewing packets and extra tool calls increases token consumption.</b>
               <br />
-              TCP、Can still report normally if no capture or matching traffic; this toggle does not affect traffic capture, manual binding, or viewing saved evidence. Applies to next round Agent
-              Effective; disabling immediately rejects new auto-bindings。
+              TCP, Can still report normally if no capture or matching traffic; this toggle does not affect traffic capture, manual binding, or viewing saved evidence. Applies to next round Agent
+              Effective; disabling immediately rejects new auto-bindings.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-between gap-4">
@@ -331,13 +331,13 @@ export default function SystemSettingsPage() {
             </CardTitle>
             <CardDescription>
               All Agents' target traffic goes out through this proxy (hides source IP / uses jump host). Supports http / https / socks5, can include{" "}
-              <code>user:pass</code> Authentication. Leave empty = direct connection。
+              <code>user:pass</code> Authentication. Leave empty = direct connection.
               <br />
               When traffic capture is on, it serves as the upstream of the recording proxy (traffic fully logged, then exits via this proxy); when off, inject directly
-              Agent bash/WebFetch outbound. Independent from network search proxy and LLM proxy。
+              Agent bash/WebFetch outbound. Independent from network search proxy and LLM proxy.
               <br />
-              Note: socks5 requires command‑line tools to support <code>ALL_PROXY</code> when capture is off (curl
-              works; some tools may ignore it). If you primarily use socks5, enable traffic capture — that path is set up by the MITM
+              Note: socks5 requires command-line tools to support <code>ALL_PROXY</code> when capture is off (curl
+              works; some tools may ignore it). If you primarily use socks5, enable traffic capture, since that path is set up by the MITM
               proxy manually; tools are unaware of it, which makes it stable.
             </CardDescription>
           </CardHeader>
@@ -349,7 +349,7 @@ export default function SystemSettingsPage() {
               <Input
                 id="global-proxy"
                 autoComplete="off"
-                placeholder="socks5://user:pass@host:1080 or http://host:port (leave empty = direct connect)）"
+                placeholder="socks5://user:pass@host:1080 or http://host:port (leave empty = direct connect)"
                 value={globalProxyInput}
                 disabled={!loaded || savingGlobalProxy}
                 onChange={(e) => setGlobalProxyInput(e.target.value)}
@@ -381,7 +381,7 @@ export default function SystemSettingsPage() {
           <CardContent className="flex flex-col gap-4">
             <div className="flex items-center justify-between gap-4">
               <Label htmlFor="inject-planner" className="text-sm font-normal text-muted-foreground">
-                Inject Planner（planner）{injectPlanner ? " · Enabled" : " · Closed"}
+                Inject Planner (planner){injectPlanner ? " · Enabled" : " · Closed"}
               </Label>
               <Switch
                 id="inject-planner"
@@ -392,7 +392,7 @@ export default function SystemSettingsPage() {
             </div>
             <div className="flex items-center justify-between gap-4">
               <Label htmlFor="inject-worker" className="text-sm font-normal text-muted-foreground">
-                Inject Executor（worker）{injectWorker ? " · Enabled" : " · Closed"}
+                Inject Executor (worker){injectWorker ? " · Enabled" : " · Closed"}
               </Label>
               <Switch
                 id="inject-worker"
@@ -411,12 +411,12 @@ export default function SystemSettingsPage() {
               Experimental Feature
             </CardTitle>
             <CardDescription>
-              Feature under verification, disabled by default. May alter Agent behavior or affect stability; enable only after understanding the impact.。
+              Feature under verification, disabled by default. May alter Agent behavior or affect stability; enable only after understanding the impact.
               <br />
-              <b>noa Context compression</b>: Model actively compresses long conversation history (norma v0.4.0). When enabled, the platform integrates four categories Agent（
-              <b>Planner / Executor / Main Agent / Dialogue</b>) now use noa to manage context, replacing built‑in compression.，
-              Compressed originals are archived in the task work directory for traceability. Switching takes effect immediately for subsequent runs, no rebuild needed. Agent；
-              Disabling restores built-in compression immediately。
+              <b>noa Context compression</b>: Model actively compresses long conversation history (norma v0.4.0). When enabled, the platform integrates four categories Agent (
+              <b>Planner / Executor / Main Agent / Dialogue</b>) now use noa to manage context, replacing built-in compression.,
+              Compressed originals are archived in the task work directory for traceability. Switching takes effect immediately for subsequent runs, no rebuild needed. Agent;
+              Disabling restores built-in compression immediately.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-between gap-4">
@@ -440,12 +440,12 @@ export default function SystemSettingsPage() {
             </CardTitle>
             <CardDescription>
               This is the <b>global switch + source configuration</b> for web search. After enabling, you can individually select activation in each <b>Agent's configuration</b>.
-              <b>web_search</b>（Only returns title/link/summary, without fetching the full content; fetching is handled by WebFetch). Web search <b>does not use</b>
-              Logging proxy, independent of traffic capture。
+              <b>web_search</b>(Only returns title/link/summary, without fetching the full content; fetching is handled by WebFetch). Web search <b>does not use</b>
+              Logging proxy, independent of traffic capture.
               <br />
-              Available sources: <b>DuckDuckGo (ddgs)</b> (no key required), <b>Brave (free version)</b> (requires Brave API Key）、{" "}
-              <b>Tavily</b>（Requires Tavily API Key) or <b>DeepSeek</b> (reuses current LLM configuration). When the global switch is off, each
-              Agent network search switch is unavailable。
+              Available sources: <b>DuckDuckGo (ddgs)</b> (no key required), <b>Brave (free version)</b> (requires Brave API Key), {" "}
+              <b>Tavily</b>(Requires Tavily API Key) or <b>DeepSeek</b> (reuses current LLM configuration). When the global switch is off, each
+              Agent network search switch is unavailable.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
@@ -479,10 +479,10 @@ export default function SystemSettingsPage() {
                     <SelectValue placeholder="Select Source" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ddgs">DuckDuckGo（ddgs · Free, no Key）</SelectItem>
-                    <SelectItem value="brave-free">Brave（Free version · Required Key）</SelectItem>
-                    <SelectItem value="tavily">Tavily（Required Key）</SelectItem>
-                    <SelectItem value="deepseek">DeepSeek（Official）</SelectItem>
+                    <SelectItem value="ddgs">DuckDuckGo (ddgs · Free, no Key)</SelectItem>
+                    <SelectItem value="brave-free">Brave (Free version · Required Key)</SelectItem>
+                    <SelectItem value="tavily">Tavily (Required Key)</SelectItem>
+                    <SelectItem value="deepseek">DeepSeek (Official)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -493,7 +493,7 @@ export default function SystemSettingsPage() {
                 <p className="text-sm font-medium">DeepSeek Official Online Search</p>
                 <p className="text-muted-foreground text-xs leading-relaxed">
                   This source directly reuses the <b>currently active LLM configuration</b>. Therefore it
-                  <b>supports DeepSeek official models only, and this setting must use the Anthropic protocol</b>—
+                  <b>supports DeepSeek official models only, and this setting must use the Anthropic protocol</b>:
                   the DeepSeek OpenAI-protocol endpoint does not support server-side search. Changing the LLM config may break this source.
                 </p>
                 <p className="text-muted-foreground text-xs leading-relaxed">
@@ -518,7 +518,7 @@ export default function SystemSettingsPage() {
                     id="brave-key"
                     type="password"
                     autoComplete="off"
-                    placeholder={braveKeySet ? "Configured (leave blank to keep unchanged)）" : "Input Brave API Key"}
+                    placeholder={braveKeySet ? "Configured (leave blank to keep unchanged)" : "Input Brave API Key"}
                     value={braveKeyInput}
                     disabled={!loaded || savingKey}
                     onChange={(e) => setBraveKeyInput(e.target.value)}
@@ -533,11 +533,11 @@ export default function SystemSettingsPage() {
                 </div>
                 {braveNeedsKey && (
                   <p className="text-xs text-amber-500">
-                    Brave selected but Key not configured — search tool remains disabled until the Key is saved。
+                    Brave selected but Key not configured: search tool remains disabled until the Key is saved.
                   </p>
                 )}
                 <p className="text-muted-foreground text-xs">
-                  Free tier: ~2,000 requests/month. Get it at https://brave.com/search/api/ Key。
+                  Free tier: ~2,000 requests/month. Get it at https://brave.com/search/api/ Key.
                 </p>
               </div>
             )}
@@ -553,7 +553,7 @@ export default function SystemSettingsPage() {
                     id="tavily-key"
                     type="password"
                     autoComplete="off"
-                    placeholder={tavilyKeySet ? "Configured (leave blank to keep unchanged)）" : "Input Tavily API Key（tvly-…）"}
+                    placeholder={tavilyKeySet ? "Configured (leave blank to keep unchanged)" : "Input Tavily API Key (tvly-…)"}
                     value={tavilyKeyInput}
                     disabled={!loaded || savingTavilyKey}
                     onChange={(e) => setTavilyKeyInput(e.target.value)}
@@ -568,23 +568,23 @@ export default function SystemSettingsPage() {
                 </div>
                 {webSearch && backend === "tavily" && !tavilyKeySet && (
                   <p className="text-xs text-amber-500">
-                    Tavily selected but Key not configured — search tool remains disabled until Key is saved。
+                    Tavily selected but Key not configured: search tool remains disabled until Key is saved.
                   </p>
                 )}
-                <p className="text-muted-foreground text-xs">Visit https://tavily.com to register and obtain API Key。</p>
+                <p className="text-muted-foreground text-xs">Visit https://tavily.com to register and obtain an API key.</p>
               </div>
             )}
 
             {webSearch && (
               <div className="flex flex-col gap-2">
                 <Label htmlFor="ws-proxy" className="text-sm font-normal text-muted-foreground">
-                  Outbound proxy (optional）
+                  Outbound proxy (optional)
                 </Label>
                 <div className="flex items-center gap-2">
                   <Input
                     id="ws-proxy"
                     autoComplete="off"
-                    placeholder="http://host:port Or socks5://host:port (leave empty for direct connection)）"
+                    placeholder="http://host:port Or socks5://host:port (leave empty for direct connection)"
                     value={proxyInput}
                     disabled={!loaded || savingProxy}
                     onChange={(e) => setProxyInput(e.target.value)}
@@ -594,7 +594,7 @@ export default function SystemSettingsPage() {
                   </Button>
                 </div>
                 <p className="text-muted-foreground text-xs">
-                  Independent outbound proxy used only for accessing search endpoints (VPN/SOCKS, etc.). Unrelated to MITM proxy that logs traffic; used when network is unreachable。
+                  Independent outbound proxy used only for accessing search endpoints (VPN/SOCKS, etc.). Unrelated to MITM proxy that logs traffic; used when network is unreachable.
                 </p>
               </div>
             )}
@@ -602,7 +602,7 @@ export default function SystemSettingsPage() {
             {webSearch && (
               <div className="flex items-center justify-between gap-4 border-t pt-4">
                 <p className="text-muted-foreground text-xs">
-                  Perform a real “test“ search with the current source, proxy, and key to verify functionality.。
+                  Perform a real “test” search with the current source, proxy, and key to verify functionality.
                 </p>
                 <Button
                   type="button"
@@ -626,14 +626,14 @@ export default function SystemSettingsPage() {
             </CardTitle>
             <CardDescription>
               Custom script-type tool runs Python; auto-detected on startup (python3 preferred), manually editable here. venv /
-              Absolute path to a specific version; leave blank for auto-detection at runtime。
+              Absolute path to a specific version; leave blank for auto-detection at runtime.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
             <div className="flex items-center gap-2">
               <Input
                 className="font-mono text-sm"
-                placeholder="/usr/bin/python3（Leave empty for auto-detection）"
+                placeholder="/usr/bin/python3 (Leave empty for auto-detection)"
                 value={pyInterp}
                 disabled={!loaded || saving}
                 onChange={(e) => setPyInterp(e.target.value)}
@@ -684,9 +684,9 @@ export default function SystemSettingsPage() {
               Send keystrokes from session input box
             </CardTitle>
             <CardDescription>
-              Shared between conversation page and task detail main Agent input box; takes effect immediately upon selection, no save needed。
+              Shared between conversation page and task detail main Agent input box; takes effect immediately upon selection, no save needed.
               <br />
-              Preference is local to this browser only; not synced across accounts. Changing browsers or clearing site data will require resetting.。
+              Preference is local to this browser only; not synced across accounts. Changing browsers or clearing site data will require resetting.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-between gap-4">

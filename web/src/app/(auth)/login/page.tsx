@@ -186,8 +186,8 @@ export default function LoginPage() {
               </h4>
               <p className="pl-7">
                 This software (ARTEX) is based on GNU Affero General Public License
-                v3.0 (AGPL‑3.0), an open‑source license. You may freely use, copy, modify, and distribute this software under its terms; however, any derivative works (including online services provided to third parties) must also be
-                released under the same AGPL‑3.0 license, with full source code provided to users. The complete AGPL‑3.0 terms are in the accompanying LICENSE file.
+                v3.0 (AGPL-3.0), an open-source license. You may freely use, copy, modify, and distribute this software under its terms; however, any derivative works (including online services provided to third parties) must also be
+                released under the same AGPL-3.0 license, with full source code provided to users. The complete AGPL-3.0 terms are in the accompanying LICENSE file.
               </p>
             </section>
 
@@ -199,7 +199,7 @@ export default function LoginPage() {
                 Article 2 · Authorized Usage Scope
               </h4>
               <p className="pl-7">
-                The software is intended solely for personal learning, code study, security principle exploration, and technical validation in a self‑hosted isolated environment, suitable for non‑offensive, non‑destructive uses such as education, academic research, and code review. Unless explicitly permitted herein, you may not use the software for any other purpose.
+                The software is intended solely for personal learning, code study, security principle exploration, and technical validation in a self-hosted isolated environment, suitable for non-offensive, non-destructive uses such as education, academic research, and code review. Unless explicitly permitted herein, you may not use the software for any other purpose.
               </p>
             </section>
 
@@ -213,10 +213,10 @@ export default function LoginPage() {
               </h4>
               <ul className="ml-7 list-decimal space-y-1.5 rounded-lg border border-destructive/20 bg-destructive/5 p-3 pl-8 text-foreground/80 marker:text-destructive/70">
                 <li>
-                  Strictly prohibited to scan, probe, exploit, or attack any website, online service, or networked system owned by others or third parties (regardless of authorization or ownership));
+                  Strictly prohibited to scan, probe, exploit, or attack any website, online service, or networked system owned by others or third parties (regardless of authorization or ownership);
                 </li>
-                <li>Strictly prohibited to use this software for real penetration testing, red‑team/blue‑team exercises, or production environments;</li>
-                <li>Strictly prohibited to use this software for illegal intrusion, data theft, ransomware, denial‑of‑service (DoS/DDoS), or any destructive/criminal activity;</li>
+                <li>Strictly prohibited to use this software for real penetration testing, red-team/blue-team exercises, or production environments;</li>
+                <li>Strictly prohibited to use this software for illegal intrusion, data theft, ransomware, denial-of-service (DoS/DDoS), or any destructive/criminal activity;</li>
                 <li>Strictly prohibited to remove, alter, or bypass any copyright, license, or security notice in the software or its output;</li>
                 <li>Strictly prohibited to engage in any conduct that violates the laws, regulations, or regulatory requirements of your country or region.</li>
               </ul>
@@ -230,7 +230,7 @@ export default function LoginPage() {
                 Article 4 · Intellectual Property
               </h4>
               <p className="pl-7">
-                The copyright and related IP of this software belong to the project authors and contributors, and are granted to you under the AGPL‑3.0 license. Except for rights expressly granted by the agreement, no other rights are granted, either expressly or impliedly.
+                The copyright and related IP of this software belong to the project authors and contributors, and are granted to you under the AGPL-3.0 license. Except for rights expressly granted by the agreement, no other rights are granted, either expressly or impliedly.
               </p>
             </section>
 
@@ -242,7 +242,7 @@ export default function LoginPage() {
                 Article 5 · Data and Privacy
               </h4>
               <p className="pl-7">
-                This software is a self‑deployed open‑source program; the authors do not operate any centralized service nor collect or upload your usage data. All data generated, processed, or accessed during use is under your control and you are responsible for its legality and security; any consequences of mishandling data are your sole responsibility.
+                This software is a self-deployed open-source program; the authors do not operate any centralized service nor collect or upload your usage data. All data generated, processed, or accessed during use is under your control and you are responsible for its legality and security; any consequences of mishandling data are your sole responsibility.
               </p>
             </section>
 
@@ -270,8 +270,8 @@ export default function LoginPage() {
                 Article 7 · Disclaimer and Limitation of Liability
               </h4>
               <p className="pl-7">
-                This software is provided "as‑is" (AS IS) and "as‑available" (AS
-                AVAILABLE) without any explicit or implicit warranties, including but not limited to merchantability, fitness for a particular purpose, accuracy, or non‑infringement. To the fullest extent permitted by applicable law, the authors and contributors are not liable for any direct, indirect, incidental, special, or consequential damages arising from use or inability to use the software, whether or not the use was appropriate, including but not limited to data loss, system damage, business interruption, loss of profit, or legal disputes.
+                This software is provided "as-is" (AS IS) and "as-available" (AS
+                AVAILABLE) without any explicit or implicit warranties, including but not limited to merchantability, fitness for a particular purpose, accuracy, or non-infringement. To the fullest extent permitted by applicable law, the authors and contributors are not liable for any direct, indirect, incidental, special, or consequential damages arising from use or inability to use the software, whether or not the use was appropriate, including but not limited to data loss, system damage, business interruption, loss of profit, or legal disputes.
               </p>
             </section>
 

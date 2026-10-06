@@ -19,8 +19,8 @@ import { Progress } from "@/components/ui/progress";
 import { api, sseUrl } from "@/lib/api";
 import type { UpdateCheck, UpdateProgress } from "@/lib/types";
 
-/** Maximum wait time for a new version to appear. An upgrade requires three process launches (temporary → Reload → New），
- *  Each takes seconds; three minutes is sufficient to cover slow disks and Docker container rebuilds。 */
+/** Maximum wait time for a new version to appear. An upgrade requires three process launches (temporary → Reload → New),
+ *  each taking seconds; three minutes is sufficient to cover slow disks and Docker container rebuilds. */
 const RESTART_TIMEOUT_MS = 180_000;
 
 function humanSize(n?: number): string {
@@ -54,13 +54,13 @@ export function UpdateCard() {
       .then((r) => {
         setInfo(r);
         if (!quiet) {
-          if (r.error) toast.error("Failed to check for updates：" + r.error);
+          if (r.error) toast.error("Failed to check for updates: " + r.error);
           else if (r.has_update) toast.success(`New version found ${r.latest}`);
           else if (r.comparable) toast.success("You are already on the latest version");
         }
       })
       .catch((e) => {
-        if (!quiet) toast.error("Failed to check for updates：" + (e as Error).message);
+        if (!quiet) toast.error("Failed to check for updates: " + (e as Error).message);
       })
       .finally(() => setChecking(false));
   }, []);
@@ -83,7 +83,7 @@ export function UpdateCard() {
         if (r.ok) {
           const j = (await r.json()) as { version?: string };
           if (j.version && j.version !== fromVersion) {
-            toast.success(`Updated to ${j.version}，Reloading page`);
+            toast.success(`Updated to ${j.version}, Reloading page`);
             await sleep(800);
             window.location.reload();
             return;
@@ -94,7 +94,7 @@ export function UpdateCard() {
       }
     }
     setRestarting(false);
-    toast.error("Service restart timed out. Check backend logs or confirm artex is started via start.sh / start.bat。");
+    toast.error("Service restart timed out. Check backend logs or confirm artex is started via start.sh / start.bat.");
   }, []);
 
   // 订阅更新进度。SSE 不走 Next 的 /api 重写（那层会缓冲，事件推不出来）。
@@ -112,7 +112,7 @@ export function UpdateCard() {
         if (p.phase === "failed") {
           es.close();
           setBusy(false);
-          toast.error("Update Failed：" + (p.error || p.message));
+          toast.error("Update failed: " + (p.error || p.message));
           return;
         }
         if (p.phase === "staged") {
@@ -134,11 +134,11 @@ export function UpdateCard() {
     if (!info) return;
     const from = info.current;
     const ok = window.confirm(
-      `Confirm update to ${info.latest}？\n\n` +
-        "Update will restart the program; running tasks will be interrupted。\n" +
+      `Confirm update to ${info.latest}?\n\n` +
+        "Update will restart the program; running tasks will be interrupted.\n" +
         (info.mode === "docker"
-          ? "\nNote: In-container updates only replace the program itself; they do not update toolchains like playwright / nmap in the image；" +
-            "If the new version depends on new tools, switch to docker compose pull。"
+          ? "\nNote: In-container updates only replace the program itself; they do not update toolchains like playwright / nmap in the image; " +
+            "If the new version depends on new tools, switch to docker compose pull."
           : ""),
     );
     if (!ok) return;
@@ -150,7 +150,7 @@ export function UpdateCard() {
       es.close();
       setBusy(false);
       setProgress(null);
-      toast.error("Failed to start update：" + (e as Error).message);
+      toast.error("Failed to start update: " + (e as Error).message);
     });
   };
 
@@ -158,7 +158,7 @@ export function UpdateCard() {
     if (!info) return;
     if (
       !window.confirm(
-        "Rollback to previous version？\n\nProgram will restart; running tasks will be interrupted。\nNote: Database schema will not revert; older versions may not recognize data written by newer versions。",
+        "Rollback to previous version?\n\nProgram will restart; running tasks will be interrupted.\nNote: Database schema will not revert; older versions may not recognize data written by newer versions.",
       )
     )
       return;
@@ -172,7 +172,7 @@ export function UpdateCard() {
       })
       .catch((e) => {
         setBusy(false);
-        toast.error("Rollback failed：" + (e as Error).message);
+        toast.error("Rollback failed: " + (e as Error).message);
       });
   };
 
@@ -191,7 +191,7 @@ export function UpdateCard() {
           <DownloadIcon className="size-4" />
           Version and updates
         </CardTitle>
-        <CardDescription>Check GitHub and install new version. Update will restart the program; running tasks will be interrupted。</CardDescription>
+        <CardDescription>Check GitHub and install new version. Update will restart the program; running tasks will be interrupted.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -237,8 +237,8 @@ export function UpdateCard() {
         {info?.error && (
           <p className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-2 text-xs text-destructive">
             <TriangleAlertIcon className="mt-0.5 size-3.5 shrink-0" />
-            Unable to connect GitHub：{info.error}
-            {"　"}Retry after configuring a global proxy above。
+            Unable to connect GitHub: {info.error}
+            {" "}Retry after configuring a global proxy above.
           </p>
         )}
 
@@ -247,21 +247,21 @@ export function UpdateCard() {
         {info?.has_update && info.asset_available === false && (
           <p className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-2 text-xs text-destructive">
             <TriangleAlertIcon className="mt-0.5 size-3.5 shrink-0" />
-            {info.latest} Not provided {info.os}/{info.arch} release package (missing {info.asset}），Automatic update failed。
+            {info.latest} Not provided {info.os}/{info.arch} release package (missing {info.asset}), Automatic update failed.
           </p>
         )}
 
         {info?.has_update && info.asset_available !== false && (
           <p className="text-xs text-muted-foreground">
             Will download <span className="font-mono">{info.asset}</span>
-            {info.size ? `（${humanSize(info.size)}）` : ""}，Replace after verifying SHA256 and smoke testing; on failure, keep current version automatically。
+            {info.size ? ` (${humanSize(info.size)}) ` : ""}, Replace after verifying SHA256 and smoke testing; on failure, keep current version automatically.
           </p>
         )}
 
         {info && !info.has_update && info.comparable && !info.error && (
           <p className="flex items-center gap-2 text-xs text-muted-foreground">
             <CheckCircle2Icon className="size-3.5 text-emerald-600" />
-            You are already on the latest version。
+            You are already on the latest version.
           </p>
         )}
 
@@ -278,7 +278,7 @@ export function UpdateCard() {
           <div className="space-y-1.5">
             <Progress value={pct} className={downloading ? undefined : "animate-pulse"} />
             <p className="text-xs text-muted-foreground">
-              {restarting ? "Restarting and applying new version, please wait (page will refresh automatically）…" : progress?.message}
+              {restarting ? "Restarting and applying new version, please wait (page will refresh automatically)…" : progress?.message}
             </p>
           </div>
         )}
@@ -305,8 +305,8 @@ export function UpdateCard() {
         </div>
 
         <p className="text-xs text-muted-foreground">
-          One‑click update dependencies; daemon script restarts the program. Please use <span className="font-mono">start.sh</span>（Windows For
-          <span className="font-mono"> start.bat</span>）Start ARTEX; when running the artex binary directly, the program won’t be automatically respawned after exit。
+          One-click update dependencies; daemon script restarts the program. Please use <span className="font-mono">start.sh</span>(Windows For
+          <span className="font-mono"> start.bat</span>) Start ARTEX; when running the artex binary directly, the program won’t be automatically respawned after exit.
         </p>
       </CardContent>
     </Card>

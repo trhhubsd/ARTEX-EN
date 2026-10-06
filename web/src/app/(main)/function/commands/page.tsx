@@ -378,7 +378,7 @@ export default function CommandsPage() {
                         selected.is_error && "text-red-600 dark:text-red-400",
                       )}
                     >
-                      {selected.output || "（Empty）"}
+                      {selected.output || "(Empty)"}
                     </pre>
                   </div>
                 </div>

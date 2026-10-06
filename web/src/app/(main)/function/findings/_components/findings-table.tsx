@@ -306,13 +306,13 @@ export function FindingsTable({
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Confirm deletion of this vulnerability？</AlertDialogTitle>
+                            <AlertDialogTitle>Confirm deletion of this vulnerability?</AlertDialogTitle>
                             <AlertDialogDescription className="break-words">
                               「
                               <span className="break-all">
                                 {f.name || f.vulnclass || f.summary || `#${f.finding_id}`}
                               </span>
-                              」Will be permanently deleted and removed from findings list, Task Findings tab, and exploration graph. This action cannot be undone.。
+                              ” will be permanently deleted and removed from findings list, Task Findings tab, and exploration graph. This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
@@ -328,7 +328,7 @@ export function FindingsTable({
               {open && (
                 <TableRow className="hover:bg-transparent">
                   {/* whitespace-normal Override TableCell's default nowrap; otherwise text in the expanded area will wrap
-                      Force single line, overflow cell directly。 */}
+                      Force single line, overflow cell directly. */}
                   <TableCell colSpan={COLUMN_COUNT} className="bg-muted/30 whitespace-normal">
                     <div className="flex flex-col gap-2 px-2 py-1">
                       {/* 行内编辑:名称/类别/严重等级,可改并保存(仅独立 finding 行)。 */}
@@ -378,14 +378,14 @@ export function FindingsTable({
                         Evidence
                         {f.vulnclass && (
                           <span>
-                            · Type：
+                            · Type:
                             <code className="rounded bg-muted px-1.5 py-0.5 font-mono">{f.vulnclass}</code>
                           </span>
                         )}
                         {f.param_id && <code className="rounded bg-muted px-1.5 py-0.5 font-mono">{f.param_id}</code>}
                         {f.assets && f.assets.length > 0 && (
                           <span className="flex flex-wrap items-center gap-1">
-                            · Asset：
+                            · Asset:
                             {f.assets.map((a) => (
                               <code key={a.id} className="rounded bg-muted px-1.5 py-0.5 font-mono" title={a.type}>
                                 {a.label}
@@ -420,9 +420,9 @@ export function FindingsTable({
                             if (!rep || rep.status === "loading")
                               return <p className="text-xs text-muted-foreground">Loading...…</p>;
                             if (rep.status === "error")
-                              return <p className="text-xs text-muted-foreground">Report load failed。</p>;
+                              return <p className="text-xs text-muted-foreground">Report load failed.</p>;
                             if (!rep.text.trim())
-                              return <p className="text-xs text-muted-foreground">No detailed report。</p>;
+                              return <p className="text-xs text-muted-foreground">No detailed report.</p>;
                             return (
                               // break-words 会继承到段落/列表,pre 另加
                               // whitespace-pre-wrap 让代码块也换行——否则长代码行/长 URL
@@ -444,7 +444,7 @@ export function FindingsTable({
         {items.length === 0 && (
           <TableRow>
             <TableCell colSpan={COLUMN_COUNT} className="py-12 text-center text-sm text-muted-foreground">
-              No matching findings。
+              No matching findings.
             </TableCell>
           </TableRow>
         )}

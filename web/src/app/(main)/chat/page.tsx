@@ -294,7 +294,7 @@ function LLMProfileRow({
   const [open, setOpen] = React.useState(false);
   const activeDefault = profiles.find((p) => p.is_default);
   const current = selected != null ? profiles.find((p) => Number(p.id) === selected) : null;
-  const label = current ? current.name : `Default${activeDefault ? `（${activeDefault.name}）` : ""}`;
+  const label = current ? current.name : `Default${activeDefault ? ` (${activeDefault.name}) ` : ""}`;
 
   return (
     <div className="flex min-w-0 shrink-0 items-center gap-1 px-1 pt-0.5 pb-1">
@@ -327,7 +327,7 @@ function LLMProfileRow({
               selected == null && "bg-accent",
             )}
           >
-            <span className="text-sm">Default{activeDefault ? `（${activeDefault.name}）` : ""}</span>
+            <span className="text-sm">Default{activeDefault ? ` (${activeDefault.name}) ` : ""}</span>
             {activeDefault && (
               <span className="text-muted-foreground text-[11px]">
                 {activeDefault.format} · {activeDefault.model}
@@ -395,7 +395,7 @@ function DraftChat({
       await api.sendConversationMessage(c.id, msg);
       onStarted(c);
     } catch (e) {
-      toast.error("Send failed：" + (e as Error).message);
+      toast.error("Send failed: " + (e as Error).message);
       setSending(false);
     }
   }
@@ -413,7 +413,7 @@ function DraftChat({
       const r = await api.chatUpload("session", `conv-${c.id}`, files);
       onStarted(c, { input, attachments: r.attachments });
     } catch (e) {
-      toast.error("Upload failed：" + (e as Error).message);
+      toast.error("Upload failed: " + (e as Error).message);
       setUploading(false);
     }
   }
@@ -450,7 +450,7 @@ function DraftChat({
         <div className="bg-primary/10 flex size-12 items-center justify-center rounded-full">
           <Bot className="text-primary size-6" />
         </div>
-        <div className="text-sm font-medium">Start and「{agent?.name ?? "Agent"}」Conversation</div>
+        <div className="text-sm font-medium">Start a conversation with “{agent?.name ?? "Agent"}”</div>
         {agent?.description && <p className="text-muted-foreground max-w-md text-xs">{agent.description}</p>}
       </div>
 
@@ -459,7 +459,7 @@ function DraftChat({
         onChange={setInput}
         onSend={send}
         disabled={sending || uploading || !agentKey}
-        placeholder="Enter message，@ Quote record, press Enter to send"
+        placeholder="Enter a message, @ to quote a record, press Enter to send"
         leftSlot={agentPicker}
         onPickFiles={pickFiles}
         uploading={uploading}
@@ -518,7 +518,7 @@ function ChatView({
       await api.updateConversationProfile(conv.id, id);
       onConvUpdated();
     } catch (e) {
-      toast.error("Switch LLM failed：" + (e as Error).message);
+      toast.error("Switch LLM failed: " + (e as Error).message);
     }
   }
 
@@ -716,7 +716,7 @@ function ChatView({
       const r = await api.chatUpload("session", `conv-${conv.id}`, files);
       setAttachments((prev) => [...prev, ...r.attachments]);
     } catch (e) {
-      toast.error("Upload failed：" + (e as Error).message);
+      toast.error("Upload failed: " + (e as Error).message);
     } finally {
       setUploading(false);
     }
@@ -736,7 +736,7 @@ function ChatView({
       // fetch avoids racing a separate post-send request against the poller.
       setRunning(true);
     } catch (e) {
-      toast.error("Send failed：" + (e as Error).message);
+      toast.error("Send failed: " + (e as Error).message);
       setInput(msg); // restore so the user doesn't lose their text
       setAttachments(atts); // and their attachments
     } finally {
@@ -753,7 +753,7 @@ function ChatView({
     try {
       await api.stopConversation(conv.id);
     } catch (e) {
-      toast.error("Stop failed：" + (e as Error).message);
+      toast.error("Stop failed: " + (e as Error).message);
     } finally {
       setStopping(false);
     }
@@ -778,8 +778,8 @@ function ChatView({
         <SideQuestionButton side={side} />
         <div className="text-muted-foreground ml-auto flex min-w-0 max-w-full items-center justify-end gap-x-3 gap-y-1 text-xs max-sm:w-full max-sm:flex-wrap">
           {tokenTotal.turns > 0 && (
-            <span title="agent Loop iterations (model calls)）" className="tabular-nums">
-              {tokenTotal.turns} Round
+            <span title="Agent loop iterations (model calls)" className="tabular-nums">
+              {tokenTotal.turns} rounds
             </span>
           )}
           {tokenTotal.any && (
@@ -797,7 +797,7 @@ function ChatView({
         <div className="min-w-0 max-w-full px-4 py-3" ref={contentRef}>
           {messages.length === 0 && !running ? (
             <div className="text-muted-foreground py-10 text-center text-sm">
-              Start and「{agent?.name ?? conv.agent_key}」Conversation
+              Start a conversation with “{agent?.name ?? conv.agent_key}”
             </div>
           ) : (
             <>
@@ -816,7 +816,7 @@ function ChatView({
         onSend={send}
         disabled={running || sending}
         allowBtw
-        placeholder={running ? "Agent Replying, you can type /btw to ask…" : "Enter message，@ Quote record, press Enter to send"}
+        placeholder={running ? "Agent is replying, you can type /btw to ask…" : "Enter a message, @ to quote a record, press Enter to send"}
         running={running}
         onStop={stop}
         stopDisabled={stopping}
@@ -897,7 +897,7 @@ const ConversationItem = React.memo(function ConversationItem({
         <Checkbox
           checked={selectedForDelete}
           onCheckedChange={(checked) => onSelectedForDeleteChange(conv.id, checked === true)}
-          aria-label={`Select conversation「${conv.title || "New conversation"}」`}
+          aria-label={`Select conversation “${conv.title || "New conversation"}”`}
           className="ml-1 shrink-0"
         />
       )}
@@ -963,7 +963,7 @@ const ConversationItem = React.memo(function ConversationItem({
             variant="ghost"
             size="icon-sm"
             className="text-muted-foreground shrink-0"
-            aria-label={`Manage conversations「${conv.title || "New conversation"}」`}
+            aria-label={`Manage conversations “${conv.title || "New conversation"}”`}
           >
             <MoreHorizontalIcon />
           </Button>
@@ -991,8 +991,8 @@ const ConversationItem = React.memo(function ConversationItem({
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete conversation「{conv.title || "New conversation"}」？</AlertDialogTitle>
-            <AlertDialogDescription>This action cannot be undone。</AlertDialogDescription>
+            <AlertDialogTitle>Delete conversation “{conv.title || "New conversation"}”?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -1022,7 +1022,7 @@ function AgentGroupHeader({
       type="button"
       onClick={() => onToggle(group.key)}
       aria-expanded={!collapsed}
-      title={collapsed ? `Expand「${group.name}」` : `Collapse「${group.name}」`}
+      title={collapsed ? `Expand “${group.name}”` : `Collapse “${group.name}”`}
       className={cn(
         "sticky top-0 z-10 flex min-w-0 items-center gap-1.5 rounded-md bg-card px-1.5 py-1 text-left font-medium text-[11px] transition-colors hover:bg-accent/50",
         collapsed && hasActive ? "text-foreground" : "text-muted-foreground",
@@ -1265,7 +1265,7 @@ export default function ChatPage() {
         });
         void reloadConvs();
       } catch (e) {
-        toast.error("Delete failed：" + (e as Error).message);
+        toast.error("Delete failed: " + (e as Error).message);
       }
     },
     [reloadConvs],
@@ -1297,7 +1297,7 @@ export default function ChatPage() {
           .slice(0, 3)
           .map((item) => `#${item.id}（${item.error}）`)
           .join("；");
-        toast.error(`${failed.length} Failed to delete conversations：${details}${failed.length > 3 ? " etc." : ""}`);
+        toast.error(`Failed to delete ${failed.length} conversations: ${details}${failed.length > 3 ? " etc." : ""}`);
       }
       setBulkDeleteOpen(false);
       // Fully successful → return to the clean list; keep selection mode on if
@@ -1305,7 +1305,7 @@ export default function ChatPage() {
       if (failed.length === 0) setSelectionMode(false);
       void reloadConvs();
     } catch (error) {
-      toast.error(`Batch delete failed：${(error as Error).message}`);
+      toast.error(`Batch delete failed: ${(error as Error).message}`);
       void reloadConvs();
     } finally {
       setBulkDeleting(false);
@@ -1319,7 +1319,7 @@ export default function ChatPage() {
         await api.pinConversation(conversation.id, !pinned);
         void reloadConvs();
       } catch (e) {
-        toast.error(`${pinned ? "Unpin" : "Pin"}Failed：${(e as Error).message}`);
+        toast.error(`${pinned ? "Unpin" : "Pin"}Failed: ${(e as Error).message}`);
       }
     },
     [reloadConvs],
@@ -1338,7 +1338,7 @@ export default function ChatPage() {
         await api.renameConversation(id, title);
         void reloadConvs();
       } catch (e) {
-        toast.error("Rename failed：" + (e as Error).message);
+        toast.error("Rename failed: " + (e as Error).message);
       }
     },
     [reloadConvs],
@@ -1545,8 +1545,8 @@ export default function ChatPage() {
       <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete selected {selectedConversationCount} conversations？</AlertDialogTitle>
-            <AlertDialogDescription>Conversation messages and execution logs will be deleted together; this action cannot be undone。</AlertDialogDescription>
+            <AlertDialogTitle>Delete selected {selectedConversationCount} conversations?</AlertDialogTitle>
+            <AlertDialogDescription>Conversation messages and execution logs will be deleted together; this action cannot be undone.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={bulkDeleting}>Cancel</AlertDialogCancel>

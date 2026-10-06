@@ -123,7 +123,7 @@ export function TaskLLMProfileChain({
                     <span className="flex min-w-0 items-center gap-2">
                       <span className="truncate">
                         {profile?.name ?? `Configuration #${id}`}
-                        {profile?.is_default ? "（Activate）" : ""}
+                        {profile?.is_default ? "(Activate)" : ""}
                       </span>
                     </span>
                     {profile && <span className="truncate text-muted-foreground text-xs">{profile.model}</span>}
@@ -136,7 +136,7 @@ export function TaskLLMProfileChain({
       </Combobox>
 
       {value.length === 0 ? (
-        <p className="text-muted-foreground text-xs">When no config specified, task follows Agent or global active config。</p>
+        <p className="text-muted-foreground text-xs">When no config specified, task follows Agent or global active config.</p>
       ) : (
         <div className="flex flex-col divide-y rounded-lg border">
           {value.map((id, index) => {

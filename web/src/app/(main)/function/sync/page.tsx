@@ -61,7 +61,7 @@ function ScopeSentryPanel() {
     api
       .ssStatus()
       .then(setStatus)
-      .catch((e) => toast.error(`Failed to read data source status：${e.message}`))
+      .catch((e) => toast.error(`Failed to read data source status: ${e.message}`))
       .finally(() => setLoadingStatus(false));
   }, []);
 
@@ -79,7 +79,7 @@ function ScopeSentryPanel() {
       ) : (
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground text-sm">
-            Once the data source is ready, select a project/task to sync。
+            Once the data source is ready, select a project/task to sync.
           </CardContent>
         </Card>
       )}
@@ -113,7 +113,7 @@ function DataSourceCard({
       toast.success("ScopeSentry data source created, please enter address and key");
       onChanged();
     } catch (e) {
-      toast.error(`Creation failed：${(e as Error).message}`);
+      toast.error(`Creation failed: ${(e as Error).message}`);
     } finally {
       setBusy(false);
     }
@@ -124,11 +124,11 @@ function DataSourceCard({
     setBusy(true);
     try {
       const r = await api.ssDatasource({ url: url.trim(), api_key: apiKey.trim() });
-      toast.success(r.enabled ? "Saved and enabled data source" : "Saved (enable conditions not yet met)）");
+      toast.success(r.enabled ? "Saved and enabled data source" : "Saved (enable conditions not yet met)");
       setApiKey("");
       onChanged();
     } catch (e) {
-      toast.error(`Save Failed：${(e as Error).message}`);
+      toast.error(`Save failed: ${(e as Error).message}`);
     } finally {
       setBusy(false);
     }
@@ -149,7 +149,7 @@ function DataSourceCard({
         {!status?.exists ? (
           <div className="flex items-center justify-between gap-4">
             <p className="text-muted-foreground text-sm">
-              ScopeSentry data source not created. After creation a placeholder MCP will be added (address/key empty, not enabled)）。
+              ScopeSentry data source not created. After creation a placeholder MCP will be added (address/key empty, not enabled).
             </p>
             <Button onClick={create} disabled={busy}>
               Create data source
@@ -159,11 +159,11 @@ function DataSourceCard({
           <>
             {!status.configured && (
               <p className="text-amber-600 text-sm dark:text-amber-500">
-                Data source created but not configured. Fill in MCP address and API Key to enable。
+                Data source created but not configured. Fill in MCP address and API Key to enable.
               </p>
             )}
             {status.configured && !status.enabled && (
-              <p className="text-amber-600 text-sm dark:text-amber-500">Data source configured but not enabled; will auto‑enable after saving。</p>
+              <p className="text-amber-600 text-sm dark:text-amber-500">Data source configured but not enabled; will auto-enable after saving.</p>
             )}
             <div className="grid gap-3 md:grid-cols-2">
               <div className="space-y-1.5">
@@ -171,7 +171,7 @@ function DataSourceCard({
                 <Input placeholder="http://<Host>:8082/mcp" value={url} onChange={(e) => setUrl(e.target.value)} />
               </div>
               <div className="space-y-1.5">
-                <Label>API Key（X-API-Key，Leave blank to keep original value）</Label>
+                <Label>API Key (X-API-Key, Leave blank to keep original value)</Label>
                 <Input
                   type="password"
                   placeholder="ssk_..."
@@ -241,7 +241,7 @@ function SyncWorkbench() {
       dimension === "project"
         ? api.ssProjects(page, 50, search).then((r) => setProjects(r.projects))
         : api.ssTasks(page, 50, search).then(setTasks);
-    fn.catch((e) => toast.error(`Failed to load list：${e.message}`)).finally(() => setLoading(false));
+    fn.catch((e) => toast.error(`Failed to load list: ${e.message}`)).finally(() => setLoading(false));
   }, [dimension, page, search]);
 
   React.useEffect(() => {
@@ -281,7 +281,7 @@ function SyncWorkbench() {
       const total = Object.values(r.synced ?? {}).reduce((a, b) => a + b, 0);
       toast.success(`Sync completed, total imported ${total} assets`);
     } catch (e) {
-      toast.error(`Sync failed：${(e as Error).message}`);
+      toast.error(`Sync failed: ${(e as Error).message}`);
     } finally {
       setSyncing(false);
     }
@@ -356,7 +356,7 @@ function SyncWorkbench() {
 
         {/* 资产类型 + 选项 */}
         <div className="flex flex-wrap items-center gap-4">
-          <span className="font-medium text-sm">Sync assets：</span>
+          <span className="font-medium text-sm">Sync assets: </span>
           {ASSET_TYPES.map((t) => (
             <label key={t.key} htmlFor={`at-${t.key}`} className="flex items-center gap-1.5 text-sm">
               <Checkbox
@@ -464,7 +464,7 @@ function SyncResult({ result }: { result: Awaited<ReturnType<typeof api.ssSync>>
         ))}
       </div>
       {result.companies && result.companies.length > 0 && (
-        <p className="text-muted-foreground">Create/Update enterprise：{result.companies.join("、")}</p>
+        <p className="text-muted-foreground">Created/updated enterprises: {result.companies.join(", ")}</p>
       )}
       {result.warnings && result.warnings.length > 0 && (
         <ul className="list-inside list-disc text-amber-600 dark:text-amber-500">

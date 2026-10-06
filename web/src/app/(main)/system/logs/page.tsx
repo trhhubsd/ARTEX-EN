@@ -205,7 +205,7 @@ export default function LogsPage() {
             </div>
           )}
           {filtered.length === 0 ? (
-            <p className="py-10 text-center text-muted-foreground">No logs。</p>
+            <p className="py-10 text-center text-muted-foreground">No logs.</p>
           ) : (
             filtered.map((l) => {
               const body =

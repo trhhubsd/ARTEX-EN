@@ -193,7 +193,7 @@ function SkillsOverview({
     <div className="mx-auto w-full max-w-3xl space-y-6">
       <div>
         <h2 className="text-base font-semibold">Skill library overview</h2>
-        <p className="text-muted-foreground text-sm">Select a Skill on the left to view details and call history, or see overall usage here。</p>
+        <p className="text-muted-foreground text-sm">Select a Skill on the left to view details and call history, or see overall usage here.</p>
       </div>
 
       {/* 指标卡 */}
@@ -212,7 +212,7 @@ function SkillsOverview({
         <Label className="text-xs text-muted-foreground">Call ranking</Label>
         {agg.ranked.length === 0 ? (
           <p className="text-muted-foreground rounded-lg border border-dashed p-4 text-center text-xs">
-            No Skill call records yet。
+            No Skill call records yet.
           </p>
         ) : (
           <div className="space-y-1.5">
@@ -244,7 +244,7 @@ function SkillsOverview({
         <div className="space-y-2">
           <Label className="text-xs text-muted-foreground">Recent calls</Label>
           {agg.recent.length === 0 ? (
-            <p className="text-muted-foreground text-xs">No records。</p>
+            <p className="text-muted-foreground text-xs">No records.</p>
           ) : (
             <div className="space-y-1">
               {agg.recent.map((s) => (
@@ -269,7 +269,7 @@ function SkillsOverview({
             {agg.neverUsed.length > 0 && <span className="ml-1 font-normal">（{agg.neverUsed.length}）</span>}
           </Label>
           {agg.neverUsed.length === 0 ? (
-            <p className="text-muted-foreground text-xs">All Skills have been called。</p>
+            <p className="text-muted-foreground text-xs">All Skills have been called.</p>
           ) : (
             <div className="flex flex-wrap gap-1.5">
               {agg.neverUsed.map((s) => (
@@ -362,18 +362,18 @@ export default function SkillsPage() {
     setUploading(true);
     try {
       const r = await api.uploadSkill(file, overwrite);
-      toast.success(`Installed Skill：${r.name}（${r.files} files）`);
+      toast.success(`Installed Skill: ${r.name} (${r.files} files) `);
       load();
     } catch (e) {
       const msg = (e as Error).message;
       // offer overwrite when the skill already exists
       if (!overwrite && msg.includes("Already exists")) {
-        if (window.confirm(`${msg}\n\nOverwrite same name? Skill？`)) {
+        if (window.confirm(`${msg}\n\nOverwrite the skill with the same name?`)) {
           await uploadZip(file, true);
           return;
         }
       } else {
-        toast.error("Upload failed：" + msg);
+        toast.error("Upload failed: " + msg);
       }
     } finally {
       setUploading(false);
@@ -469,17 +469,17 @@ export default function SkillsPage() {
     try {
       if (c.kind === "dir") {
         await api.createSkillDir(c.skill, fullPath);
-        toast.success(`Folder created：${fullPath}`);
+        toast.success(`Folder created: ${fullPath}`);
         ensureExpanded(c.skill, fullPath);
       } else {
         await api.writeSkillFile(c.skill, fullPath, "");
-        toast.success(`File created：${fullPath}`);
+        toast.success(`File created: ${fullPath}`);
         setSelected({ skill: c.skill, path: fullPath });
         ensureExpanded(c.skill, c.inDir);
       }
       load();
     } catch (e) {
-      toast.error("Creation failed：" + (e as Error).message);
+      toast.error("Creation failed: " + (e as Error).message);
     }
   }
 
@@ -492,22 +492,22 @@ export default function SkillsPage() {
   async function deletePath(skill: string, path: string) {
     try {
       await api.deleteSkillPath(skill, path);
-      toast.success(`Deleted：${path}`);
+      toast.success(`Deleted: ${path}`);
       if (selected?.skill === skill && selected.path === path) setSelected(null);
       load();
     } catch (e) {
-      toast.error("Delete failed：" + (e as Error).message);
+      toast.error("Delete failed: " + (e as Error).message);
     }
   }
 
   async function deleteSkill(name: string) {
     try {
       await api.deleteSkill(name);
-      toast.success(`Deleted Skill：${name}`);
+      toast.success(`Deleted Skill: ${name}`);
       if (selected?.skill === name) setSelected(null);
       load();
     } catch (e) {
-      toast.error("Delete failed：" + (e as Error).message);
+      toast.error("Delete failed: " + (e as Error).message);
     }
   }
 
@@ -532,7 +532,7 @@ export default function SkillsPage() {
       toast.success("Saved");
       setDirty(false);
     } catch (e) {
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     } finally { setSaving(false); }
   }
 
@@ -543,12 +543,12 @@ export default function SkillsPage() {
     setDetailMcps(next);
     try {
       await api.updateSkillMeta(skillName, { mcps: next });
-      toast.success(`${mcpOn ? "Link" : "Unlink"}「${mcpName}」`);
+      toast.success(`${mcpOn ? "Link" : "Unlink"} “${mcpName}”`);
       load();
     } catch (e) {
       // roll back on error
       setDetailMcps(detailMcps);
-      toast.error("Operation Failed：" + (e as Error).message);
+      toast.error("Operation failed: " + (e as Error).message);
     }
   }
 
@@ -556,11 +556,11 @@ export default function SkillsPage() {
     const on = (visibility[skillName] ?? []).includes(agentId);
     try {
       await api.toggleSkillVisibility(agentId, skillName, !on);
-      toast.success(`${on ? "Cancel" : "Grant"}「${agentName}」Visible`);
+      toast.success(`${on ? "Cancel" : "Grant"} “${agentName}” visibility`);
       const ids = await api.skillVisibility(skillName);
       setVisibility((v) => ({ ...v, [skillName]: ids }));
     } catch (e) {
-      toast.error("Operation Failed：" + (e as Error).message);
+      toast.error("Operation failed: " + (e as Error).message);
     }
   }
 
@@ -585,7 +585,7 @@ export default function SkillsPage() {
       setNewMcps([]); setNewVisibility([]);
       load();
     } catch (e) {
-      toast.error("Creation failed：" + (e as Error).message);
+      toast.error("Creation failed: " + (e as Error).message);
     } finally { setCreatingSkill(false); }
   }
 
@@ -718,7 +718,7 @@ export default function SkillsPage() {
             </PopoverTrigger>
             <PopoverContent align="end" className="w-80">
               <p className="mb-2 text-xs text-muted-foreground">
-                Agent Named calls to non‑existent skills, sorted by count。
+                Agent Named calls to non-existent skills, sorted by count.
               </p>
               <div className="space-y-1">
                 {missing.map((m) => (
@@ -860,9 +860,9 @@ export default function SkillsPage() {
                 </div>
               </div>
 
-              {/* Two‑column layout: config (MCP/visibility) on left, call stats on right。
-                  lg When overflow, flex‑row‑reverse collapses to single column – stats appear first due to DOM order，
-                  On narrow screens, stack above config (same as previous top‑bottom order)）。 */}
+              {/* Two-column layout: config (MCP/visibility) on left, call stats on right.
+                  lg When overflow, flex-row-reverse collapses to single column: stats appear first due to DOM order,
+                  On narrow screens, stack above config (same as previous top-bottom order). */}
               <div className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start">
                 {/* ── 右侧：调用统计 ── */}
                 <div className="space-y-2 lg:w-80 lg:shrink-0">
@@ -885,7 +885,7 @@ export default function SkillsPage() {
                   </div>
                   {selectedSkill.usage_agents.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1">
-                      <span className="text-xs text-muted-foreground">Caller：</span>
+                      <span className="text-xs text-muted-foreground">Caller: </span>
                       {selectedSkill.usage_agents.map((k) => (
                         <Badge key={k} variant="secondary" className="text-xs font-normal">{k}</Badge>
                       ))}
@@ -902,14 +902,14 @@ export default function SkillsPage() {
                             <span className="tabular-nums text-muted-foreground">{fmtTime(c.ts)}</span>
                             <Badge variant="outline" className="font-normal">{c.agent_key || "—"}</Badge>
                             <span className="ml-auto text-muted-foreground">
-                              {c.task_id > 0 ? `Task #${c.task_id}` : c.session_id ? "Conversation session" : "—"}
+                              {c.task_id > 0 ? `Task #${c.task_id}` : c.session_id ? "Conversation session" : "-"}
                             </span>
                           </div>
                         ))}
                       </div>
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground">No call records yet。</p>
+                    <p className="text-xs text-muted-foreground">No call records yet.</p>
                   )}
                 </div>
 
@@ -918,10 +918,10 @@ export default function SkillsPage() {
                   <div className="space-y-2">
                     <Label className="text-xs text-muted-foreground">
                       Link MCP
-                      <span className="ml-1 font-normal">（Tools revealed/unlocked only when loading the Skill）</span>
+                      <span className="ml-1 font-normal">(Tools revealed/unlocked only when loading the Skill)</span>
                     </Label>
                     {mcpOptions.length === 0 ? (
-                      <p className="text-xs text-muted-foreground">No MCP; add on the MCP page。</p>
+                      <p className="text-xs text-muted-foreground">No MCP; add on the MCP page.</p>
                     ) : (
                       <div className="flex flex-wrap gap-x-4 gap-y-2">
                         {mcpOptions.map((m) => (
@@ -938,7 +938,7 @@ export default function SkillsPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-xs text-muted-foreground">Visibility (per Agent authorization）</Label>
+                    <Label className="text-xs text-muted-foreground">Visibility (per Agent authorization)</Label>
                     <div className="space-y-2">
                       {agents.map((a) => (
                         <label key={a.key} className="flex cursor-pointer items-center gap-2 text-sm">
@@ -950,7 +950,7 @@ export default function SkillsPage() {
                         </label>
                       ))}
                       {agents.length === 0 && (
-                        <span className="text-xs text-muted-foreground">（None Agent）</span>
+                        <span className="text-xs text-muted-foreground">(None Agent)</span>
                       )}
                     </div>
                   </div>
@@ -988,16 +988,16 @@ export default function SkillsPage() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {pendingDelete?.kind === "skill" && `Delete Skill「${pendingDelete.skill}」？`}
-              {pendingDelete?.kind === "dir" && `Delete folder「${pendingDelete.path}」？`}
-              {pendingDelete?.kind === "file" && `Delete file「${pendingDelete.path}」？`}
+              {pendingDelete?.kind === "skill" && `Delete Skill “${pendingDelete.skill}”?`}
+              {pendingDelete?.kind === "dir" && `Delete folder “${pendingDelete.path}”?`}
+              {pendingDelete?.kind === "file" && `Delete file “${pendingDelete.path}”?`}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {pendingDelete?.kind === "skill"
-                ? "Will delete all files, MCP links, and visibility settings of this Skill. This action cannot be undone。"
+                ? "Will delete all files, MCP links, and visibility settings of this Skill. This action cannot be undone."
                 : pendingDelete?.kind === "dir"
-                  ? "Will also delete all files in this folder. This action cannot be undone。"
-                  : "This action cannot be undone。"}
+                  ? "Will also delete all files in this folder. This action cannot be undone."
+                  : "This action cannot be undone."}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -1044,12 +1044,12 @@ export default function SkillsPage() {
               <div className="grid gap-1.5">
                 <Label htmlFor="sk-name">Name <span className="text-destructive">*</span></Label>
                 <Input id="sk-name" placeholder="sqli-deepdive" value={newName} onChange={(e) => setNewName(e.target.value)} />
-                <p className="text-muted-foreground text-xs">lowercase letters / digits / hyphens, 1–64 chars</p>
+                <p className="text-muted-foreground text-xs">lowercase letters / digits / hyphens, 1-64 chars</p>
               </div>
               <div className="grid gap-1.5">
                 <Label htmlFor="sk-desc">Description <span className="text-destructive">*</span></Label>
                 <Textarea id="sk-desc" rows={2} className="resize-none"
-                  placeholder="What this skill does and when to use it。"
+                  placeholder="What this skill does and when to use it."
                   value={newDesc} onChange={(e) => setNewDesc(e.target.value)} />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -1059,23 +1059,23 @@ export default function SkillsPage() {
                 </div>
                 <div className="grid gap-1.5">
                   <Label className="text-muted-foreground text-xs">compatibility</Label>
-                  <Input placeholder="Required sqlmap、python3" value={newCompat} onChange={(e) => setNewCompat(e.target.value)} />
+                  <Input placeholder="Required sqlmap, python3" value={newCompat} onChange={(e) => setNewCompat(e.target.value)} />
                 </div>
               </div>
               <div className="flex min-h-0 flex-1 flex-col gap-1.5">
-                <Label htmlFor="sk-inst">Body <span className="text-muted-foreground text-xs font-normal">（Leave blank to auto-generate skeleton）</span></Label>
+                <Label htmlFor="sk-inst">Body <span className="text-muted-foreground text-xs font-normal">(Leave blank to auto-generate skeleton)</span></Label>
                 <Textarea id="sk-inst"
                   className="min-h-40 flex-1 resize-none font-mono text-sm leading-relaxed"
-                  placeholder={"## Execution method\n\n1. Detect errors first\n2. Distinguish blind injection types\n\nPut scripts in the scripts/ directory。"}
+                  placeholder={"## Execution method\n\n1. Detect errors first\n2. Distinguish blind injection types\n\nPut scripts in the scripts/ directory."}
                   value={newInst} onChange={(e) => setNewInst(e.target.value)} />
               </div>
             </TabsContent>
 
             {/* 关联 MCP */}
             <TabsContent value="mcp" className="overflow-y-auto px-4 pb-4 pt-4 data-[state=inactive]:hidden">
-              <p className="mb-3 text-xs text-muted-foreground">Reveal and unlock selected MCP tools when loading a Skill。</p>
+              <p className="mb-3 text-xs text-muted-foreground">Reveal and unlock selected MCP tools when loading a Skill.</p>
               {mcpOptions.length === 0 ? (
-                <p className="text-xs text-muted-foreground">No MCP; add on the MCP page。</p>
+                <p className="text-xs text-muted-foreground">No MCP; add on the MCP page.</p>
               ) : (
                 <div className="flex flex-col gap-2">
                   {mcpOptions.map((m) => (
@@ -1095,9 +1095,9 @@ export default function SkillsPage() {
 
             {/* 可见性 */}
             <TabsContent value="visibility" className="overflow-y-auto px-4 pb-4 pt-4 data-[state=inactive]:hidden">
-              <p className="mb-3 text-xs text-muted-foreground">Visible after creating the selected Agent Skill。</p>
+              <p className="mb-3 text-xs text-muted-foreground">Visible after creating the selected Agent Skill.</p>
               {agents.length === 0 ? (
-                <p className="text-xs text-muted-foreground">（None Agent）</p>
+                <p className="text-xs text-muted-foreground">(None Agent)</p>
               ) : (
                 <div className="flex flex-col gap-2">
                   {agents.map((a) => (

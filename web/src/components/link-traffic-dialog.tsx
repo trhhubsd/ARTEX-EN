@@ -85,7 +85,7 @@ export function LinkTrafficDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Link to Vulnerability</DialogTitle>
-          <DialogDescription>Apply selected {trafficIds.length} Save traffic entries as evidence for existing vulnerability。</DialogDescription>
+          <DialogDescription>Apply selected {trafficIds.length} Save traffic entries as evidence for existing vulnerability.</DialogDescription>
         </DialogHeader>
         <FieldGroup>
           <Field>
@@ -147,7 +147,7 @@ export function LinkTrafficDialog({
           </Button>
         </div>
         <p className="text-sm">
-          {selected ? `Selected vulnerability：#${selected.finding_id} ${selected.name || selected.vulnclass}` : "Please select a vulnerability"}
+          {selected ? `Selected vulnerability: #${selected.finding_id} ${selected.name || selected.vulnclass}` : "Please select a vulnerability"}
         </p>
         <DialogFooter>
           <Button variant="outline" disabled={busy} onClick={onClose}>

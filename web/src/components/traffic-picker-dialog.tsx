@@ -114,7 +114,7 @@ export function TrafficPickerDialog({
           <DialogHeader>
             <DialogTitle>Bind traffic</DialogTitle>
             <DialogDescription>
-              Filter and Multi-select Requests/Responses (selection persists across pages). After binding, set purpose, notes, and order.。
+              Filter and Multi-select Requests/Responses (selection persists across pages). After binding, set purpose, notes, and order.
             </DialogDescription>
           </DialogHeader>
           <FieldGroup className="flex flex-col gap-3 sm:flex-row">

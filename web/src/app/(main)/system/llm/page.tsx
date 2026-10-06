@@ -40,24 +40,24 @@ const NONE = "none";
 const fromStore = (v?: string) => (v ? v : NONE);
 const toStore = (v: string) => (v === NONE ? "" : v);
 const THINKING_TYPES: { value: string; label: string }[] = [
-  { value: NONE, label: "Do not send (default)）" },
+  { value: NONE, label: "Do not send (default)" },
   { value: "disabled", label: "Close" },
   { value: "enabled", label: "Enable" },
 ];
 // 输出上限用哪个请求字段名（仅 openai 格式有意义）。NONE ↔ "" 走同一套哨兵转换。
 const MAX_TOKENS_FIELDS: { value: string; label: string }[] = [
-  { value: NONE, label: "max_tokens（Default）" },
+  { value: NONE, label: "max_tokens (Default)" },
   { value: "max_completion_tokens", label: "max_completion_tokens" },
 ];
 // 另外两种格式各自定死了字段名，选项对它们无意义，说明文案里直接讲清楚。
 const MAX_TOKENS_FIELD_HINTS: Record<string, string> = {
   openai:
-    "Which key to send for limit. max_tokens is default and recognized by most compatible gateways; OpenAI official inference models (o-series / GPT-5) only accept max_completion_tokens and will error on max_tokens. unsupported_parameter。",
-  anthropic: "Only OpenAI format optional; Anthropic field names are fixed max_tokens。",
-  "openai-responses": "Only OpenAI format optional; Responses API field names are fixed max_output_tokens。",
+    "Which key to send for limit. max_tokens is default and recognized by most compatible gateways; OpenAI official inference models (o-series / GPT-5) only accept max_completion_tokens and will error on max_tokens. unsupported_parameter.",
+  anthropic: "Only OpenAI format optional; Anthropic field names are fixed max_tokens.",
+  "openai-responses": "Only OpenAI format optional; Responses API field names are fixed max_output_tokens.",
 };
 const EFFORT_LEVELS: { value: string; label: string }[] = [
-  { value: NONE, label: "Do not send (default)）" },
+  { value: NONE, label: "Do not send (default)" },
   { value: "low", label: "low" },
   { value: "medium", label: "medium" },
   { value: "high", label: "high" },
@@ -135,7 +135,7 @@ function PoolSheet({
         toast.success("Fallback settings updated");
       }
     } catch (e) {
-      toast.error(`Setting failed：${(e as Error).message}`);
+      toast.error(`Setting failed: ${(e as Error).message}`);
     } finally {
       setBusy(false);
     }
@@ -147,7 +147,7 @@ function PoolSheet({
       await onReload();
       toast.success(id ? "Configuration restored" : "All configurations restored");
     } catch (e) {
-      toast.error(`Restore failed：${(e as Error).message}`);
+      toast.error(`Restore failed: ${(e as Error).message}`);
     }
   }
 
@@ -166,7 +166,7 @@ function PoolSheet({
           </SheetTitle>
           <SheetDescription>
             When enabled, agents without a specified model are unavailable in the current configuration (insufficient balance / key invalid / rate limited) /
-            Automatically switch to next configuration on service error。
+            Automatically switch to next configuration on service error.
           </SheetDescription>
         </SheetHeader>
 
@@ -174,7 +174,7 @@ function PoolSheet({
           <div className="flex items-center justify-between gap-4 rounded-lg border p-3">
             <div className="grid gap-0.5">
               <Label className="text-sm">Enable polling</Label>
-              <p className="text-muted-foreground text-xs">Off by default. When off, only the active configuration is used; failure is final。</p>
+              <p className="text-muted-foreground text-xs">Off by default. When off, only the active configuration is used; failure is final.</p>
             </div>
             <Switch
               checked={enabled}
@@ -190,15 +190,15 @@ function PoolSheet({
                 <div className="grid gap-0.5">
                   <Label className="text-sm">Fallback also on specified model failure</Label>
                   <p className="text-muted-foreground text-xs">
-                    Off by default: if Agent or task specifies a config, only that is used; failure is final (won’t silently switch models)）。
-                    When enabled, if the specified config fails it falls back to the downstream polling chain。
+                    Off by default: if Agent or task specifies a config, only that is used; failure is final (won’t silently switch models).
+                    When enabled, if the specified config fails it falls back to the downstream polling chain.
                   </p>
                 </div>
                 <Switch
                   checked={pool?.bind_fallback ?? false}
                   disabled={busy}
                   onCheckedChange={(v) => void toggle({ llm_pool_bind_fallback: v })}
-                  aria-label="Binding‑failure fallback toggle"
+                  aria-label="Binding-failure fallback toggle"
                 />
               </div>
 
@@ -215,7 +215,7 @@ function PoolSheet({
                 </div>
                 {inChain.length < 2 && (
                   <p className="text-muted-foreground text-xs">
-                    Currently only {inChain.length} available configurations, polling will not take effect — at least 2 configurations with filled API Keys participating in polling are required。
+                    Currently only {inChain.length} available configurations, polling will not take effect: at least 2 configurations with filled API Keys participating in polling are required.
                   </p>
                 )}
                 {chain.map((m) => {
@@ -282,9 +282,9 @@ function PoolSheet({
               </div>
 
               <div className="rounded-lg border border-dashed p-3 text-muted-foreground text-xs leading-relaxed">
-                Active configuration is always priority 1; others are ordered by priority high to low (set per configuration). A configuration enters cooldown after failure. （60s → 5min →
-                30min），Skipped during cooldown and automatically restored afterwards. Configurations that don't fit in the context window are skipped. Applies to the specified model. Agent
-                Excluded from task polling by default.。
+                Active configuration is always priority 1; others are ordered by priority high to low (set per configuration). A configuration enters cooldown after failure. (60s → 5min →
+                30min), Skipped during cooldown and automatically restored afterwards. Configurations that don't fit in the context window are skipped. Applies to the specified model. Agent
+                Excluded from task polling by default.
               </div>
             </>
           )}
@@ -375,10 +375,10 @@ function ProfileSheet({
         setModelsOpen(true);
         toast.success(`Loaded ${r.models.length} models`);
       } else {
-        toast.error(`Failed to load model：${r.error ?? "Model not retrieved"}`);
+        toast.error(`Failed to load model: ${r.error ?? "Model not retrieved"}`);
       }
     } catch (e) {
-      toast.error(`Error loading model：${(e as Error).message}`);
+      toast.error(`Error loading model: ${(e as Error).message}`);
     } finally {
       setLoadingModels(false);
     }
@@ -405,11 +405,11 @@ function ProfileSheet({
       // 回复内容一并展示：看得见模型确实说了话，才算和会话里跑通是一回事。
       if (r.ok)
         toast.success(`Connection successful · ${r.latency_ms ?? "?"}ms · ${r.model ?? model}`, {
-          description: r.reply ? `Reply：${r.reply}` : undefined,
+          description: r.reply ? `Reply: ${r.reply}` : undefined,
         });
-      else toast.error(`Connection failed：${r.error ?? "Unknown"}`);
+      else toast.error(`Connection failed: ${r.error ?? "Unknown"}`);
     } catch (e) {
-      toast.error(`Test error：${(e as Error).message}`);
+      toast.error(`Test error: ${(e as Error).message}`);
     } finally {
       setTesting(false);
     }
@@ -446,12 +446,12 @@ function ProfileSheet({
         session_header_key: sessionHeaderKey.trim(),
         retry,
       });
-      if (isNew) toast.success(`Created：${name.trim()}（Set as active on the card to enable）`);
+      if (isNew) toast.success(`Created: ${name.trim()} (Set as active on the card to enable) `);
       else toast.success(profile?.is_default ? "Saved; active configuration takes effect immediately, no restart required" : "Saved");
       onSaved(String(id));
       onOpenChange(false);
     } catch (e) {
-      toast.error(`Save Failed：${(e as Error).message}`);
+      toast.error(`Save failed: ${(e as Error).message}`);
     } finally {
       setSaving(false);
     }
@@ -465,7 +465,7 @@ function ProfileSheet({
       >
         <SheetHeader className="px-4">
           <SheetTitle className="flex items-center gap-2">
-            {isNew ? "Create new model configuration" : `Edit：${profile?.name}`}
+            {isNew ? "Create new model configuration" : `Edit: ${profile?.name}`}
             {profile?.is_default && (
               <Badge variant="outline" className="border-amber-400/50 text-amber-500">
                 Active
@@ -474,8 +474,8 @@ function ProfileSheet({
           </SheetTitle>
           <SheetDescription>
             {isNew
-              ? "Newly created items are not auto‑activated; click “Set as active” on the card to enable。"
-              : "After editing, click Save; saved active configuration applies to all Agents immediately。"}
+              ? "Newly created items are not auto-activated; click “Set as active” on the card to enable."
+              : "After editing, click Save; saved active configuration applies to all Agents immediately."}
           </SheetDescription>
         </SheetHeader>
 
@@ -515,8 +515,8 @@ function ProfileSheet({
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
               />
-              {/* modal: The content of this Popover is portal'ed to <body>, outside the Sheet's scroll lock，
-                  Without a modal, the list renders but doesn't scroll. The modal makes it hold the topmost scroll lock.。 */}
+              {/* modal: The content of this Popover is portal'ed to <body>, outside the Sheet's scroll lock,
+                  Without a modal, the list renders but doesn't scroll. The modal makes it hold the topmost scroll lock. */}
               <Popover open={modelsOpen} onOpenChange={setModelsOpen} modal>
                 <PopoverTrigger asChild>
                   <Button
@@ -553,7 +553,7 @@ function ProfileSheet({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="p-base-url">Base URL（Optional）</Label>
+            <Label htmlFor="p-base-url">Base URL (Optional)</Label>
             <Input
               id="p-base-url"
               className="font-mono"
@@ -564,7 +564,7 @@ function ProfileSheet({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="p-proxy">Proxy (optional）</Label>
+            <Label htmlFor="p-proxy">Proxy (optional)</Label>
             <Input
               id="p-proxy"
               className="font-mono"
@@ -574,23 +574,23 @@ function ProfileSheet({
             />
             <p className="text-muted-foreground text-xs">
               Only outbound LLM requests use this proxy; supports http/https/socks5 and can include username/password (e.g.,
-              socks5://user:pass@host:port，Passwords with special characters require URL encoding); leave empty to disable proxy (direct connection）。
+              socks5://user:pass@host:port, Passwords with special characters require URL encoding); leave empty to disable proxy (direct connection).
             </p>
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="p-session-header">Custom session header (optional）</Label>
+            <Label htmlFor="p-session-header">Custom session header (optional)</Label>
             <Input
               id="p-session-header"
               className="font-mono"
-              placeholder="e.g., x-session-id (leave empty = do not send）"
+              placeholder="e.g., x-session-id (leave empty = do not send)"
               value={sessionHeaderKey}
               onChange={(e) => setSessionHeaderKey(e.target.value)}
             />
             <p className="text-muted-foreground text-xs">
               After entering the header name, each request will include this HTTP header, with the value auto-filled as <b>the current session's session id</b> (chat sessions like
-              conv-12、worker e.g., exp3-worker-i87). Used for prompt caching based on the session-id header /
-              Sticky routing gateway; same session remains stable across turns, different sessions are distinct. Leave empty to not send.。
+              conv-12, worker e.g., exp3-worker-i87). Used for prompt caching based on the session-id header /
+              Sticky routing gateway; same session remains stable across turns, different sessions are distinct. Leave empty to not send.
             </p>
           </div>
 
@@ -599,7 +599,7 @@ function ProfileSheet({
             <Input
               id="p-api-key"
               type="password"
-              placeholder={keyHint ? `Set（${keyHint}），Leave empty to keep unchanged` : "sk-…"}
+              placeholder={keyHint ? `Set (${keyHint}), Leave empty to keep unchanged` : "sk-…"}
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
             />
@@ -628,8 +628,7 @@ function ProfileSheet({
             </div>
           </div>
           <p className="-mt-2 text-muted-foreground text-xs">
-            Rate limit 0 = unlimited, shared by all agents. Context window unit: K (thousand tokens), 0 = default 200K, max 1000.
-            1M）；Setting too high may prevent compression from triggering。
+            Rate limit 0 = unlimited, shared by all agents. Context window unit: K (thousand tokens), 0 = default 200K, max 1000 (the compression trigger threshold defaults to 1M); setting it too high may prevent compression from triggering.
           </p>
 
           <div className="grid gap-3 rounded-lg border p-3">
@@ -639,7 +638,7 @@ function ProfileSheet({
                   Polling priority
                 </Label>
                 <p className="text-muted-foreground text-xs">
-                  Higher numbers are selected first; active configuration is always priority 1, independent of this value. Configurations with equal priority rotate, naturally sharing quota.。
+                  Higher numbers are selected first; active configuration is always priority 1, independent of this value. Configurations with equal priority rotate, naturally sharing quota.
                 </p>
               </div>
               <Input
@@ -655,7 +654,7 @@ function ProfileSheet({
                 <Label className="text-sm">Do not participate in polling</Label>
                 <p className="text-muted-foreground text-xs">
                   When enabled, it won't be used as a failover target (though agents/tasks can still explicitly select it). Suitable for dedicated use where you don't want others to consume it upon failure Agent
-                  dedicated, expensive configuration you don't want others to consume on failure。
+                  dedicated, expensive configuration you don't want others to consume on failure.
                 </p>
               </div>
               <Switch checked={poolExclude} onCheckedChange={setPoolExclude} aria-label="Do not participate in polling" />
@@ -664,9 +663,9 @@ function ProfileSheet({
               <div className="grid gap-0.5">
                 <Label className="text-sm">Streaming output · streaming</Label>
                 <p className="text-muted-foreground text-xs">
-                  Enabled (default) uses streaming SSE with real‑time progress and token count. Disabled uses standard response.·Non‑streaming（stream:false，
-                  Returns the full response at once) — can bypass some gateways' poor SSE implementations (empty frames / missing thinking fields).），
-                  The trade‑off is losing real‑time progress updates.。
+                  Enabled (default) uses streaming SSE with real-time progress and token count. Disabled uses standard response. Non-streaming (stream:false,
+                  Returns the full response at once); can bypass some gateways' poor SSE implementations (empty frames / missing thinking fields).),
+                  The trade-off is losing real-time progress updates.
                 </p>
               </div>
               <Switch checked={streaming} onCheckedChange={setStreaming} aria-label="Streaming output" />
@@ -680,9 +679,9 @@ function ProfileSheet({
                   Output limit · max tokens
                 </Label>
                 <p className="text-muted-foreground text-xs">
-                  Maximum tokens per reply; sent with each request. 0 (default) = omit field, server default used.。
-                  This is different from the “context window” above: that is the model’s total capacity, used locally only to compute the compression threshold.。
-                  Setting it too low will truncate the reasoning model during the thinking phase, preventing even single‑character answers.。
+                  Maximum tokens per reply; sent with each request. 0 (default) = omit field, server default used.
+                  This is different from the “context window” above: that is the model’s total capacity, used locally only to compute the compression threshold.
+                  Setting it too low will truncate the reasoning model during the thinking phase, preventing even single-character answers.
                 </p>
               </div>
               <Input
@@ -725,7 +724,7 @@ function ProfileSheet({
                 <Label className="text-sm">Reasoning toggle · thinking.type</Label>
                 <p className="text-muted-foreground text-xs">
                   Control whether to send the thinking field. Not send = omit field (compatible with MiniMax etc.); off = send.
-                  disabled；Enable = send enabled. Independent of the intensity below.。
+                  disabled; Enable = send enabled. Independent of the intensity below.
                 </p>
               </div>
               <Select value={thinkingType} onValueChange={setThinkingType}>
@@ -746,7 +745,7 @@ function ProfileSheet({
                 <Label className="text-sm">Reasoning intensity · reasoning_effort</Label>
                 <p className="text-muted-foreground text-xs">
                   Independent intensity level (OpenAI 'reasoning_effort' / Anthropic 'output_config.effort'). Some APIs lack it. thinking
-                  Field; reasoning can be activated solely by intensity, so it can be set alone and the thinking toggle omitted.。
+                  Field; reasoning can be activated solely by intensity, so it can be set alone and the thinking toggle omitted.
                 </p>
               </div>
               <Select value={effort} onValueChange={setEffort}>
@@ -829,10 +828,10 @@ export default function LLMPage() {
   async function activate(id: string, name: string) {
     try {
       await api.activateLLMProfile(id);
-      toast.success(`Activated：${name}`);
+      toast.success(`Activated: ${name}`);
       await load();
     } catch (e) {
-      toast.error(`Activation failed：${(e as Error).message}`);
+      toast.error(`Activation failed: ${(e as Error).message}`);
     }
   }
 
@@ -843,10 +842,10 @@ export default function LLMPage() {
     }
     try {
       await api.deleteLLMProfile(p.id);
-      toast.success(`Deleted：${p.name}`);
+      toast.success(`Deleted: ${p.name}`);
       await load();
     } catch (e) {
-      toast.error(`Delete failed：${(e as Error).message}`);
+      toast.error(`Delete failed: ${(e as Error).message}`);
     }
   }
 
@@ -858,7 +857,7 @@ export default function LLMPage() {
         <div>
           <h1 className="font-semibold text-xl tracking-tight">LLM</h1>
           <p className="text-muted-foreground text-sm">
-            Global Agent‑shared format/model/rate‑limit settings. Click a card to edit; starred one is the active configuration.。
+            Global Agent-shared format/model/rate-limit settings. Click a card to edit; starred one is the active configuration.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -972,7 +971,7 @@ export default function LLMPage() {
             })}
             {profiles.length === 0 && (
               <div className="col-span-full rounded-lg border border-dashed p-10 text-center text-muted-foreground text-sm">
-                No model configuration yet; click “New” at the top‑right to create the first one.。
+                No model configuration yet; click “New” at the top-right to create the first one.
               </div>
             )}
           </div>

@@ -110,7 +110,7 @@ function sdkTool(key: string, description: string): Tool {
 
 const SDK_EXEC: Tool[] = [
   sdkTool("Bash",        "Execute command in shell"),
-  sdkTool("WebFetch",    "Send HTTP/HTTPS request (proxy supported）"),
+  sdkTool("WebFetch",    "Send HTTP/HTTPS request (proxy supported)"),
   sdkTool("web_search",  "Web Search"),
   sdkTool("shell_open",  "Start persistent PTY interactive session"),
   sdkTool("shell_send",  "Send input to interactive session"),
@@ -121,7 +121,7 @@ const SDK_EXEC: Tool[] = [
 
 const SDK_WRITE: Tool[] = [
   sdkTool("Write",     "Write to file"),
-  sdkTool("Edit",      "Edit file (exact replace）"),
+  sdkTool("Edit",      "Edit file (exact replace)"),
   sdkTool("MultiEdit", "Batch edit files"),
 ];
 
@@ -267,7 +267,7 @@ function JudgeCard() {
       await api.interceptSetJudgeConfig({ ...cfg, prompt: "" });
       const j = await api.interceptGetJudgeConfig();
       setCfg(j);
-      toast.success("Restored built‑in default template");
+      toast.success("Restored built-in default template");
     } catch (e) {
       toast.error("Restore failed: " + (e as Error).message);
     } finally {
@@ -350,7 +350,7 @@ function JudgeCard() {
                 className="min-h-[22rem] flex-1 resize-none font-mono text-xs leading-relaxed"
                 value={cfg.prompt}
                 onChange={(e) => patch({ prompt: e.target.value })}
-                placeholder="Leave empty to use built‑in template"
+                placeholder="Leave empty to use built-in template"
                 spellCheck={false}
               />
               <p className="text-right text-[11px] text-muted-foreground">{cfg.prompt.length} Characters</p>
@@ -375,7 +375,7 @@ function JudgeCard() {
                     </SelectContent>
                   </Select>
                 </Field>
-                <Field label="Model decision timeout (seconds）">
+                <Field label="Model decision timeout (seconds)">
                   <Input
                     type="number"
                     min={1}
@@ -386,7 +386,7 @@ function JudgeCard() {
                     }}
                   />
                 </Field>
-                <Field label="When model fails (error / timeout / unparsable）">
+                <Field label="When model fails (error / timeout / unparsable)">
                   <Select value={cfg.fail_action} onValueChange={(v) => patch({ fail_action: v as JudgeConfig["fail_action"] })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
@@ -401,8 +401,8 @@ function JudgeCard() {
               <Separator />
 
               <div className="space-y-4">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Manual approval (when model determines “Escalate“)）</p>
-                <Field label="Approval wait timeout (seconds)）">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Manual approval (when model determines “Escalate”)</p>
+                <Field label="Approval wait timeout (seconds)">
                   <Input
                     type="number"
                     min={5}
@@ -629,7 +629,7 @@ export default function InterceptPage() {
           <span className="shrink-0 font-medium">Interception scope</span>
           {scopeTools.length === 0 ? (
             <span className="text-amber-700 dark:text-amber-500">
-              No tools enabled — intercept rules and model fallback are ineffective
+              No tools enabled: intercept rules and model fallback are ineffective
             </span>
           ) : (
             <>
@@ -778,7 +778,7 @@ export default function InterceptPage() {
               />
             </Field>
 
-            <Field label="Priority (higher number matches first)）">
+            <Field label="Priority (higher number matches first)">
               <Input
                 type="number"
                 value={form.priority}
@@ -795,8 +795,8 @@ export default function InterceptPage() {
               >
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="tool_name">Tool Name（tool_name）</SelectItem>
-                  <SelectItem value="tool_input">Input（tool_input JSON）</SelectItem>
+                  <SelectItem value="tool_name">Tool Name (tool_name)</SelectItem>
+                  <SelectItem value="tool_input">Input (tool_input JSON)</SelectItem>
                 </SelectContent>
               </Select>
             </Field>
@@ -825,7 +825,7 @@ export default function InterceptPage() {
                 <p className="text-xs text-destructive mt-1">{regexErr}</p>
               )}
               {regexWarn && (
-                <p className="text-xs text-amber-600 mt-1">Includes Go RE2 extended syntax (e.g. <code className="font-mono">(?i)</code>），Cannot preview in browser; validated by server after submission</p>
+                <p className="text-xs text-amber-600 mt-1">Includes Go RE2 extended syntax (e.g. <code className="font-mono">(?i)</code>); cannot preview in browser, validated by the server after submission</p>
               )}
             </Field>
 
@@ -838,15 +838,15 @@ export default function InterceptPage() {
               >
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="allow">Allow — pass through directly, skip subsequent rules</SelectItem>
-                  <SelectItem value="deny">Block — intercept and return rejection message to model</SelectItem>
-                  <SelectItem value="ask">Request from user — pending approval</SelectItem>
+                  <SelectItem value="allow">Allow: pass through directly, skip subsequent rules</SelectItem>
+                  <SelectItem value="deny">Block: intercept and return rejection message to model</SelectItem>
+                  <SelectItem value="ask">Request from user: pending approval</SelectItem>
                 </SelectContent>
               </Select>
             </Field>
 
             {form.action !== "allow" && (
-              <Field label={form.action === "deny" ? "Rejection message (returned to model）" : "Approval note (optional）"}>
+              <Field label={form.action === "deny" ? "Rejection message (returned to model)" : "Approval note (optional)"}>
                 <Textarea
                   placeholder={form.action === "deny" ? "Action blocked by security policy" : ""}
                   value={form.message}
@@ -872,7 +872,7 @@ export default function InterceptPage() {
                 </div>
                 {form.timeout_enabled && (
                   <div className="flex items-end gap-3">
-                    <Field label="Timeout (seconds)）">
+                    <Field label="Timeout (seconds)">
                       <Input
                         type="number"
                         min={5}

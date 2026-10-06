@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string }[] }[] = [
   {
     name: "domain",
-    desc: "Domain (Root/Subdomain/Service Domain)）",
+    desc: "Domain (Root/Subdomain/Service Domain)",
     ops: [
       { op: "=", desc: "Fuzzy match" },
       { op: "==", desc: "Exact Match" },
@@ -32,7 +32,7 @@ const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string 
   },
   {
     name: "url",
-    desc: "Full URL (Service/Endpoint)）",
+    desc: "Full URL (Service/Endpoint)",
     ops: [
       { op: "=", desc: "Fuzzy match" },
       { op: "==", desc: "Exact Match" },
@@ -50,7 +50,7 @@ const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string 
   },
   {
     name: "page_title",
-    desc: "Page Title (HTTP Service)）",
+    desc: "Page Title (HTTP Service)",
     ops: [
       { op: "=", desc: "Fuzzy match" },
       { op: "==", desc: "Exact Match" },
@@ -68,7 +68,7 @@ const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string 
   },
   {
     name: "service_name",
-    desc: "Service Name (Non-HTTP Service)）",
+    desc: "Service Name (Non-HTTP Service)",
     ops: [
       { op: "=", desc: "Fuzzy match" },
       { op: "==", desc: "Exact Match" },
@@ -121,7 +121,7 @@ const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string 
   },
   {
     name: "service_type",
-    desc: "Service Type：http | other",
+    desc: "Service Type: http | other",
     ops: [
       { op: "==", desc: "Exact Match" },
       { op: "!=", desc: "Exclude" },
@@ -137,7 +137,7 @@ const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string 
   },
   {
     name: "technology",
-    desc: "Technical Fingerprint (Array Field)）",
+    desc: "Technical Fingerprint (Array Field)",
     ops: [
       { op: "=", desc: "Fuzzy match" },
       { op: "==", desc: "Exact Match" },
@@ -146,7 +146,7 @@ const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string 
   },
   {
     name: "port",
-    desc: "Port Number (Integer)）",
+    desc: "Port Number (Integer)",
     ops: [
       { op: "==", desc: "Equals" },
       { op: "!=", desc: "Not Equals" },
@@ -158,7 +158,7 @@ const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string 
   },
   {
     name: "status_code",
-    desc: "HTTP Status Code (Integer)）",
+    desc: "HTTP Status Code (Integer)",
     ops: [
       { op: "==", desc: "Equals" },
       { op: "!=", desc: "Not Equals" },
@@ -168,13 +168,13 @@ const DSL_FIELDS: { name: string; desc: string; ops: { op: string; desc: string 
       { op: "<=", desc: "Less Than or Equal" },
     ],
   },
-  { name: "company_id", desc: "Company ID (Integer)）", ops: [{ op: "==", desc: "Equals" }] },
-  { name: "task_id", desc: "Source Task ID (Integer)）", ops: [{ op: "==", desc: "Equals" }] },
+  { name: "company_id", desc: "Company ID (Integer)", ops: [{ op: "==", desc: "Equals" }] },
+  { name: "task_id", desc: "Source Task ID (Integer)", ops: [{ op: "==", desc: "Equals" }] },
 ];
 
 const LOGIC_OPS = [
-  { label: "AND", desc: "AND (both conditions met)）" },
-  { label: "OR", desc: "OR (either condition met)）" },
+  { label: "AND", desc: "AND (both conditions met)" },
+  { label: "OR", desc: "OR (either condition met)" },
 ];
 
 interface DslSuggestion {
@@ -341,7 +341,7 @@ export function AssetDslSearch({
         <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           ref={inputRef}
-          placeholder="DSL Search：domain=example AND status_code>=400"
+          placeholder="DSL Search: domain=example AND status_code>=400"
           value={query}
           onChange={handleChange}
           onKeyDown={handleKeyDown}

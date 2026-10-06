@@ -73,7 +73,7 @@ export function RetestsTab({ taskId }: { taskId: string }) {
       {error ? (
         <Alert variant="destructive">
           <AlertDescription>
-            Failed to load task vulnerabilities：{error}
+            Failed to load task vulnerabilities: {error}
             <Button variant="outline" size="sm" onClick={refresh}>
               Retry
             </Button>
@@ -84,7 +84,7 @@ export function RetestsTab({ taskId }: { taskId: string }) {
         <Card className="min-w-0">
           <CardHeader>
             <CardTitle>Select vulnerability{data ? ` · ${data.total}` : ""}</CardTitle>
-            <CardDescription>View retest records or start new retest。</CardDescription>
+            <CardDescription>View retest records or start new retest.</CardDescription>
           </CardHeader>
           <CardContent className="flex max-h-[32rem] flex-col overflow-y-auto">
             {!loaded && !error ? <Skeleton className="h-24 w-full" /> : null}
@@ -94,7 +94,7 @@ export function RetestsTab({ taskId }: { taskId: string }) {
                 <Button
                   variant={finding.id === selectedId ? "secondary" : "ghost"}
                   className="h-auto w-full shrink-0 flex-col items-start gap-2 whitespace-normal py-3 text-left"
-                  aria-label={`Select vulnerability：${findingLabel(finding)}`}
+                  aria-label={`Select vulnerability: ${findingLabel(finding)}`}
                   aria-pressed={finding.id === selectedId}
                   onClick={() => setSelectedId(finding.id)}
                 >
@@ -110,7 +110,7 @@ export function RetestsTab({ taskId }: { taskId: string }) {
               <Empty>
                 <EmptyHeader>
                   <EmptyTitle>No vulnerabilities available for retest</EmptyTitle>
-                  <EmptyDescription>Manually start retest after finding vulnerabilities。</EmptyDescription>
+                  <EmptyDescription>Manually start retest after finding vulnerabilities.</EmptyDescription>
                 </EmptyHeader>
               </Empty>
             ) : null}

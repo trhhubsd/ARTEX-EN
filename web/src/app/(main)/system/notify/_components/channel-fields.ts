@@ -69,10 +69,10 @@ export const CHANNEL_FIELDS: Record<string, FieldDef[]> = {
       label: "Request method",
       kind: "select",
       options: [
-        { value: "POST", label: "POST（With request body）" },
-        { value: "PUT", label: "PUT（With request body）" },
-        { value: "PATCH", label: "PATCH（With request body）" },
-        { value: "GET", label: "GET（Without request body）" },
+        { value: "POST", label: "POST (With request body)" },
+        { value: "PUT", label: "PUT (With request body)" },
+        { value: "PATCH", label: "PATCH (With request body)" },
+        { value: "GET", label: "GET (Without request body)" },
       ],
     },
     { key: "headers", label: "Custom request header", kind: "kv", help: "“Custom request header”, kind: “kv”, help: “One per line KEY=VALUE, e.g.” Authorization=Bearer xxx" },
@@ -81,9 +81,9 @@ export const CHANNEL_FIELDS: Record<string, FieldDef[]> = {
       label: "Request body template",
       kind: "textarea",
       help:
-        "Leave empty to use built‑in default template. Variables：{{.Title}} {{.Batch}} {{.Count}} {{.HomeURL}} {{.SentAt}}，" +
-        "Also under range .Items .Name/.VulnClass/.Severity/.Summary/.Assets/.DetailURL/.StatusLabel。" +
-        "Use for inserting strings {{json .Xxx}} rather than {{.Xxx}}，Otherwise quotes in the title will break JSON。",
+        "Leave empty to use built-in default template. Variables: {{.Title}} {{.Batch}} {{.Count}} {{.HomeURL}} {{.SentAt}}, " +
+        "Also under range .Items .Name/.VulnClass/.Severity/.Summary/.Assets/.DetailURL/.StatusLabel." +
+        "Use for inserting strings {{json .Xxx}} rather than {{.Xxx}}, Otherwise quotes in the title will break JSON.",
     },
   ],
   telegram: [
@@ -94,7 +94,7 @@ export const CHANNEL_FIELDS: Record<string, FieldDef[]> = {
       label: "API Address",
       kind: "text",
       placeholder: "https://api.telegram.org",
-      help: "Leave empty for official address; fill when using self‑hosted Bot API proxy.",
+      help: "Leave empty for official address; fill when using self-hosted Bot API proxy.",
     },
   ],
   email: [
@@ -110,7 +110,7 @@ export const CHANNEL_FIELDS: Record<string, FieldDef[]> = {
     { key: "password", label: "Password / Auth Code", kind: "password" },
     { key: "from", label: "Sender", kind: "text", placeholder: "artex@example.com" },
     { key: "to", label: "Recipient", kind: "list", help: "Separate multiple addresses with commas" },
-    { key: "tls", label: "Implicit TLS", kind: "switch", help: "465 Port open; keep 587 closed (auto) STARTTLS）" },
+    { key: "tls", label: "Implicit TLS", kind: "switch", help: "465 Port open; keep 587 closed (auto) STARTTLS)" },
   ],
 };
 

@@ -59,13 +59,13 @@ export default function NotifyPage() {
         setBaseURL(m.public_base_url);
         setDigestMin(m.digest_interval_min);
       })
-      .catch((e) => toast.error("Failed to read push configuration：" + (e as Error).message));
+      .catch((e) => toast.error("Failed to read push configuration: " + (e as Error).message));
     // 渠道列表加载失败要报出来：静默失败会显示成「一个渠道都没有」，
     // 用户会以为配置丢了，比直接报错更让人慌。
     api
       .notifyChannels()
       .then(setChannels)
-      .catch((e) => toast.error("Failed to read channel list：" + (e as Error).message));
+      .catch((e) => toast.error("Failed to read channel list: " + (e as Error).message));
   }, []);
   React.useEffect(() => {
     load();
@@ -190,7 +190,7 @@ export default function NotifyPage() {
       }
       load();
     } catch (e) {
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     } finally {
       setSaving(false);
     }
@@ -201,10 +201,10 @@ export default function NotifyPage() {
     setTesting(true);
     try {
       const r = await api.notifyTestChannel(editing.id);
-      toast.success(`Test message sent（${r.latency_ms} ms），Please confirm in the group`);
+      toast.success(`Test message sent (${r.latency_ms} ms), please confirm in the group`);
     } catch (e) {
       // 后端把渠道返回的原始错误如实回传，这是排查配置的唯一线索，原样展示。
-      toast.error("Test failed：" + (e as Error).message, { duration: 12000 });
+      toast.error("Test failed: " + (e as Error).message, { duration: 12000 });
     } finally {
       setTesting(false);
     }
@@ -213,11 +213,11 @@ export default function NotifyPage() {
   async function removeChannel(ch: NotificationChannel) {
     try {
       await api.notifyDeleteChannel(ch.id);
-      toast.success(`Deleted：${ch.name}`);
+      toast.success(`Deleted: ${ch.name}`);
       setOpen(false);
       load();
     } catch (e) {
-      toast.error("Delete failed：" + (e as Error).message);
+      toast.error("Delete failed: " + (e as Error).message);
     }
   }
 
@@ -226,7 +226,7 @@ export default function NotifyPage() {
       await api.notifyUpdateChannel(ch.id, { enabled: !ch.enabled });
       load();
     } catch (e) {
-      toast.error("Operation Failed：" + (e as Error).message);
+      toast.error("Operation failed: " + (e as Error).message);
     }
   }
 
@@ -237,7 +237,7 @@ export default function NotifyPage() {
       setMeta((m) => (m ? { ...m, enabled: on } : m));
       toast.success(on ? "Push enabled" : "Push paused");
     } catch (e) {
-      toast.error("Operation Failed：" + (e as Error).message);
+      toast.error("Operation failed: " + (e as Error).message);
     } finally {
       setGlobalSaving(false);
     }
@@ -253,7 +253,7 @@ export default function NotifyPage() {
       toast.success("Saved");
       load();
     } catch (e) {
-      toast.error("Save Failed：" + (e as Error).message);
+      toast.error("Save failed: " + (e as Error).message);
     } finally {
       setGlobalSaving(false);
     }
@@ -316,10 +316,10 @@ export default function NotifyPage() {
               value={baseURL}
               onChange={(e) => setBaseURL(e.target.value)}
             />
-            <p className="text-muted-foreground text-xs">URL that the “View Details” button in messages points to. Leaving empty omits the button。</p>
+            <p className="text-muted-foreground text-xs">URL that the “View Details” button in messages points to. Leaving empty omits the button.</p>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="n-digest">Aggregation interval (minutes）</Label>
+            <Label htmlFor="n-digest">Aggregation interval (minutes)</Label>
             <Input
               id="n-digest"
               type="number"
@@ -329,7 +329,7 @@ export default function NotifyPage() {
               value={digestMin}
               onChange={(e) => setDigestMin(e.target.value)}
             />
-            <p className="text-muted-foreground text-xs">Effective only for channels in “aggregation” mode。</p>
+            <p className="text-muted-foreground text-xs">Effective only for channels in “aggregation” mode.</p>
           </div>
           <div className="sm:col-span-2">
             <Button onClick={saveGlobal} disabled={globalSaving}>
@@ -366,10 +366,10 @@ export default function NotifyPage() {
                   <div className="flex items-center gap-2">
                     <BellIcon className="text-muted-foreground size-4 shrink-0" />
                     <CardTitle className="truncate text-base">{ch.name}</CardTitle>
-                    {/* The entire card is clickable (enters edit), so these two controls must each stop propagation，
+                    {/* The entire card is clickable (enters edit), so these two controls must each stop propagation,
                         Otherwise toggles/delete will also trigger edit. Attach stopPropagation to the control itself
                         on the element itself, rather than wrapping in a div: wrapping in a div creates a static element that appears interactive but isn’t
-                        role” static element, which triggers a11y warnings and is semantically incorrect。 */}
+                        role” static element, which triggers a11y warnings and is semantically incorrect. */}
                     <div className="ml-auto flex items-center gap-2">
                       <Switch
                         checked={ch.enabled}
@@ -446,7 +446,7 @@ export default function NotifyPage() {
                 </Select>
                 {editing && (
                   <p className="text-muted-foreground text-xs">
-                    Channel type cannot be changed—changing it requires a new set of credentials; please create a new channel。
+                    Channel type cannot be changed; changing it requires a new set of credentials; please create a new channel.
                   </p>
                 )}
               </div>
@@ -463,7 +463,7 @@ export default function NotifyPage() {
 
               {fields.length === 0 ? (
                 <p className="text-muted-foreground text-sm">
-                  The form for this channel is not defined (frontend missing CHANNEL_FIELDS entry); please complete it and try again。
+                  The form for this channel is not defined (frontend missing CHANNEL_FIELDS entry); please complete it and try again.
                 </p>
               ) : (
                 fields.map((d) => (
@@ -489,12 +489,12 @@ export default function NotifyPage() {
                   </SelectContent>
                 </Select>
                 <p className="text-muted-foreground text-xs">
-                  To have \“high-risk real-time, others summarized\“, create two channels: one real-time with high-risk threshold, one summary with no level limit。
+                  To have \“high-risk real-time, others summarized\”, create two channels: one real-time with high-risk threshold, one summary with no level limit.
                 </p>
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="n-rate">Rate limit (items/minute）</Label>
+                <Label htmlFor="n-rate">Rate limit (items/minute)</Label>
                 <Input
                   id="n-rate"
                   type="number"
@@ -504,12 +504,12 @@ export default function NotifyPage() {
                   onChange={(e) => setF({ ratePerMin: e.target.value })}
                 />
                 <p className="text-muted-foreground text-xs">
-                  Leave empty to use channel default; 0 means no rate limit. Exceeding limit won’t drop messages, only delays sending.。
+                  Leave empty to use channel default; 0 means no rate limit. Exceeding limit won’t drop messages, only delays sending.
                 </p>
               </div>
 
               <div className="border-t pt-4">
-                <p className="mb-3 text-sm font-medium">Filter rule (empty = no filter)）</p>
+                <p className="mb-3 text-sm font-medium">Filter rule (empty = no filter)</p>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label>Minimum level</Label>
@@ -538,7 +538,7 @@ export default function NotifyPage() {
                       onChange={(e) => setF({ includeText: e.target.value })}
                     />
                     <p className="text-muted-foreground text-xs">
-                      One keyword per line, case‑insensitive substring match. Leave empty = all types。
+                      One keyword per line, case-insensitive substring match. Leave empty = all types.
                     </p>
                   </div>
                   <div className="grid gap-2">
@@ -549,7 +549,7 @@ export default function NotifyPage() {
                       value={form.excludeText}
                       onChange={(e) => setF({ excludeText: e.target.value })}
                     />
-                    <p className="text-muted-foreground text-xs">Exclusion takes precedence over inclusion; when both match, it is excluded.。</p>
+                    <p className="text-muted-foreground text-xs">Exclusion takes precedence over inclusion; when both match, it is excluded.</p>
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="n-tasks">Restrict to tasks ID</Label>
@@ -568,7 +568,7 @@ export default function NotifyPage() {
                       value={form.assetIDsText}
                       onChange={(e) => setF({ assetIDsText: e.target.value })}
                     />
-                    <p className="text-muted-foreground text-xs">Task/asset, leave empty = any; if filled, must intersect with vulnerabilities。</p>
+                    <p className="text-muted-foreground text-xs">Task/asset, leave empty = any; if filled, must intersect with vulnerabilities.</p>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Switch
@@ -576,7 +576,7 @@ export default function NotifyPage() {
                       onCheckedChange={(v) => setF({ onStatusChange: v })}
                       aria-label="Receive status changes"
                     />
-                    Also push on vulnerability disposition status change (real‑time mode only)）
+                    Also push on vulnerability disposition status change (real-time mode only)
                   </div>
                 </div>
               </div>

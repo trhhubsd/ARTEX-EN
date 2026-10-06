@@ -50,7 +50,7 @@ playwright-cli snapshot
 # search the snapshot for text or a regexp, returns matching nodes with surrounding context
 playwright-cli find "Sign in"
 playwright-cli find --regex "Sign (in|up)"
-# wrap the regexp in slashes to add flags, e.g. /i for case‑insensitive
+# wrap the regexp in slashes to add flags, e.g. /i for case-insensitive
 playwright-cli find --regex "/sign (in|up)/i"
 playwright-cli eval "document.title"
 playwright-cli eval "el => el.textContent" e5
@@ -222,7 +222,7 @@ playwright-cli open --browser=msedge
 playwright-cli open --mobile
 playwright-cli open --device="iPhone 15"
 
-# Use persistent profile (by default profile is in‑memory)
+# Use persistent profile (by default profile is in-memory)
 playwright-cli open --persistent
 # Use persistent profile with custom directory
 playwright-cli open --profile=/path/to/profile
@@ -276,7 +276,7 @@ After each command, playwright-cli provides a snapshot of the current browser st
 You can also take a snapshot on demand using `playwright-cli snapshot` command. All the options below can be combined as needed.
 
 ```bash
-# default - save to a file with timestamp‑based name
+# default - save to a file with timestamp-based name
 playwright-cli snapshot
 
 # save to file, use when snapshot is a part of the workflow result
@@ -368,7 +368,7 @@ playwright-cli snapshot
 playwright-cli close
 ```
 
-## Example: Multi‑tab workflow
+## Example: Multi-tab workflow
 
 ```bash
 playwright-cli open https://example.com

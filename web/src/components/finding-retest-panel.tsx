@@ -85,7 +85,7 @@ export function FindingRetestPanel({
       <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-3">
         <div className="flex flex-col gap-1.5">
           <CardTitle>Vulnerability retest</CardTitle>
-          <CardDescription>Validate current state in separate session; preserve each retest's conclusion and evidence。</CardDescription>
+          <CardDescription>Validate current state in separate session; preserve each retest's conclusion and evidence.</CardDescription>
         </div>
         {running?.conversation_id != null ? (
           <Button asChild variant="outline" size="sm">
@@ -106,7 +106,7 @@ export function FindingRetestPanel({
         {error ? (
           <Alert variant="destructive">
             <AlertDescription>
-              Failed to load retest records：{error}
+              Failed to load retest records: {error}
               <Button variant="outline" size="sm" onClick={() => void load()}>
                 Retry
               </Button>
@@ -118,7 +118,7 @@ export function FindingRetestPanel({
           <Empty>
             <EmptyHeader>
               <EmptyTitle>No retest records</EmptyTitle>
-              <EmptyDescription>After remediation, you may start retest and compare new vs. old evidence。</EmptyDescription>
+              <EmptyDescription>After remediation, you may start retest and compare new vs. old evidence.</EmptyDescription>
             </EmptyHeader>
           </Empty>
         ) : null}
@@ -152,7 +152,7 @@ export function FindingRetestPanel({
                 ) : null}
                 {item.notes ? (
                   <p className="whitespace-pre-wrap break-words text-muted-foreground text-xs">
-                    Additional notes：{item.notes}
+                    Additional notes: {item.notes}
                   </p>
                 ) : null}
                 {item.status === "completed" && item.evidence ? (

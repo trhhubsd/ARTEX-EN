@@ -169,7 +169,7 @@ function TaskTemplateManager({
         toast.success("Template updated");
       }
     } catch (error) {
-      toast.error(`Save Failed：${(error as Error).message}`);
+      toast.error(`Save failed: ${(error as Error).message}`);
     } finally {
       setSaving(false);
     }
@@ -192,7 +192,7 @@ function TaskTemplateManager({
       setDeleteOpen(false);
       toast.success("Template deleted");
     } catch (error) {
-      toast.error(`Delete failed：${(error as Error).message}`);
+      toast.error(`Delete failed: ${(error as Error).message}`);
     } finally {
       setDeleting(false);
     }
@@ -207,7 +207,7 @@ function TaskTemplateManager({
         <SheetContent className="grid h-full w-full! max-w-none! grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-0 sm:w-[48rem]! sm:max-w-[48rem]!">
           <SheetHeader className="border-b px-6 py-5">
             <SheetTitle>Task template management</SheetTitle>
-            <SheetDescription>Template saves description, target, classification, and task-level block/allow rules; changes won’t affect existing tasks。</SheetDescription>
+            <SheetDescription>Template saves description, target, classification, and task-level block/allow rules; changes won’t affect existing tasks.</SheetDescription>
           </SheetHeader>
           <div className="grid min-h-0 overflow-y-auto lg:grid-cols-[15rem_minmax(0,1fr)] lg:overflow-hidden">
             <div className="flex min-h-0 flex-col border-b p-3 lg:border-r lg:border-b-0">
@@ -286,7 +286,7 @@ function TaskTemplateManager({
                       </NativeSelectOption>
                     ))}
                   </NativeSelect>
-                  <FieldDescription>Category (prefilled, editable)）。</FieldDescription>
+                  <FieldDescription>Category (prefilled, editable).</FieldDescription>
                 </Field>
                 <Field>
                   <FieldLabel>Task-level block/allow rules</FieldLabel>
@@ -295,7 +295,7 @@ function TaskTemplateManager({
                     onChange={(rules) => patchDraft({ interceptRules: rules })}
                   />
                   <FieldDescription>
-                    Prefilled task-level rules (block/allow, new tasks only)）。
+                    Prefilled task-level rules (block/allow, new tasks only).
                   </FieldDescription>
                 </Field>
               </FieldGroup>
@@ -321,8 +321,8 @@ function TaskTemplateManager({
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete template「{draft.name || "Untitled template"}」？</AlertDialogTitle>
-            <AlertDialogDescription>Existing tasks from this template are unaffected。</AlertDialogDescription>
+            <AlertDialogTitle>Delete template “{draft.name || "Untitled template"}”?</AlertDialogTitle>
+            <AlertDialogDescription>Existing tasks from this template are unaffected.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
@@ -378,7 +378,7 @@ export function TaskTemplateControls({
       setTemplates(await api.taskTemplates());
     } catch (error) {
       setTemplates([]);
-      toast.error(`Failed to load template：${(error as Error).message}`);
+      toast.error(`Failed to load template: ${(error as Error).message}`);
     } finally {
       setLoading(false);
     }
@@ -498,7 +498,7 @@ export function TaskTemplateControls({
             </ComboboxList>
           </ComboboxContent>
         </Combobox>
-        <FieldDescription>Selecting will copy the template's description, objectives, categories, and task‑level rules without keeping a link to the template。</FieldDescription>
+        <FieldDescription>Selecting will copy the template's description, objectives, categories, and task-level rules without keeping a link to the template.</FieldDescription>
       </Field>
 
       <AlertDialog
@@ -511,8 +511,8 @@ export function TaskTemplateControls({
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Use Template「{pendingTemplate?.name}」？</AlertDialogTitle>
-            <AlertDialogDescription>Current description and objectives will be overwritten by the template。</AlertDialogDescription>
+            <AlertDialogTitle>Use Template “{pendingTemplate?.name}”?</AlertDialogTitle>
+            <AlertDialogDescription>Current description and objectives will be overwritten by the template.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>

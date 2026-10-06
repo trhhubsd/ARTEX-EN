@@ -55,10 +55,10 @@ function AgentGridCard({
   async function del() {
     try {
       await api.deleteAgent(agent.key);
-      toast.success(`Deleted Agent「${agent.name}」`);
+      toast.success(`Deleted Agent “${agent.name}”`);
       onDeleted();
     } catch (e) {
-      toast.error("Delete failed：" + (e as Error).message);
+      toast.error("Delete failed: " + (e as Error).message);
     }
   }
   return (
@@ -84,7 +84,7 @@ function AgentGridCard({
           )}
         </div>
         <p className="text-muted-foreground line-clamp-2 min-h-8 text-xs">
-          {agent.description || "（No description）"}
+          {agent.description || "(No description)"}
         </p>
         <div className="text-muted-foreground flex flex-wrap gap-1.5 text-[10px]">
           <span className="rounded border px-1.5 py-0.5">MCP {agent.mcp_count ?? 0}</span>
@@ -105,9 +105,9 @@ function AgentGridCard({
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete Agent「{agent.name}」？</AlertDialogTitle>
+              <AlertDialogTitle>Delete Agent “{agent.name}”?</AlertDialogTitle>
               <AlertDialogDescription>
-                This will also delete its prompts, variables, visibility, and tool bindings. This action cannot be undone。
+                This will also delete its prompts, variables, visibility, and tool bindings. This action cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -132,14 +132,14 @@ function CreateAgentDialog({ onCreated }: { onCreated: (key: string) => void }) 
     setBusy(true);
     try {
       const a = await api.createAgent(key.trim(), name.trim(), description.trim());
-      toast.success(`Created Agent「${a.name}」`);
+      toast.success(`Created Agent “${a.name}”`);
       setOpen(false);
       setKey("");
       setName("");
       setDescription("");
       onCreated(a.key);
     } catch (e) {
-      toast.error("Creation failed：" + (e as Error).message);
+      toast.error("Creation failed: " + (e as Error).message);
     } finally {
       setBusy(false);
     }
@@ -159,7 +159,7 @@ function CreateAgentDialog({ onCreated }: { onCreated: (key: string) => void }) 
         <DialogHeader>
           <DialogTitle>Create Custom Agent</DialogTitle>
           <DialogDescription>
-            Create a conversational assistant. The key is an internal identifier and cannot be changed after creation; name and description are for identification。
+            Create a conversational assistant. The key is an internal identifier and cannot be changed after creation; name and description are for identification.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-2">
@@ -189,7 +189,7 @@ function CreateAgentDialog({ onCreated }: { onCreated: (key: string) => void }) 
             <Label htmlFor="agent-desc">Description</Label>
             <Textarea
               id="agent-desc"
-              placeholder="One‑sentence description of what this Agent does"
+              placeholder="One-sentence description of what this Agent does"
               rows={2}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -225,7 +225,7 @@ export default function AgentsPage() {
         <div>
           <h1 className="text-xl font-semibold tracking-tight">Agent</h1>
           <p className="text-muted-foreground text-sm">
-            Built‑in Agent prompts/configuration, and creation/management of custom conversational Agents
+            Built-in Agent prompts/configuration, and creation/management of custom conversational Agents
           </p>
         </div>
         <CreateAgentDialog
@@ -243,7 +243,7 @@ export default function AgentsPage() {
         </CardHeader>
         <CardContent>
           {agents.length === 0 ? (
-            <p className="text-muted-foreground py-6 text-center text-sm">（None Agent）</p>
+            <p className="text-muted-foreground py-6 text-center text-sm">(None Agent)</p>
           ) : (
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {agents.map((a) => (

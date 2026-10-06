@@ -22,7 +22,7 @@ export function ScopeTextEditor({
   onValueChange,
   parsed,
   label = "Asset scope",
-  description = "One per line; auto-detect domain, IP, CIDR, ICP registration, and company keywords。",
+  description = "One per line; auto-detect domain, IP, CIDR, ICP registration, and company keywords.",
 }: {
   id: string;
   value: string;
@@ -67,7 +67,7 @@ export function ScopeTextEditor({
         <FieldError>
           {parsed.errors.slice(0, 5).map((item) => (
             <span key={`${item.line}-${item.error}`} className="block">
-              Page {item.line} Line：{item.error}
+              Page {item.line} Line: {item.error}
             </span>
           ))}
           {parsed.errors.length > 5 && <span className="block">Other {parsed.errors.length - 5} Row error</span>}

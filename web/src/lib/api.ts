@@ -165,25 +165,25 @@ export async function http<T>(path: string, init?: RequestInit): Promise<T> {
 // Token is appended as ?token= because SSE can't carry cookies cross-origin.
 // mockReport returns a canned Markdown report for the demo.
 function mockReport(_task?: string): string {
-  return `# ARTEX Penetration test report — Acme Corp
+  return `# ARTEX Penetration test report: Acme Corp
 
 ## Overview
-- Scope: acme.com (including www / admin / api / shop / vpn subdomains）
-- Confirmed findings: 6 items (high risk 3 · Medium Risk 3 · Low Risk 2）
-- Engine mode：exploring
+- Scope: acme.com (including www / admin / api / shop / vpn subdomains)
+- Confirmed findings: 6 items (high risk 3 · Medium Risk 3 · Low Risk 2)
+- Engine mode: exploring
 
 ## Key findings
-1. **[High] Default backend password** admin.acme.com admin/admin123 → Can fully take over backend。
-2. **[High] SQL Injection** www.acme.com/search?q= → Can read acme_prod database。
-3. **[High] IDOR** api.acme.com/v1/orders?id= → Can read others' orders (including phone number/address）。
-4. **[Medium] Reflected XSS**, **Exposed .git source code**, **Login without rate limiting**。
+1. **[High] Default backend password** admin.acme.com admin/admin123 → Can fully take over backend.
+2. **[High] SQL Injection** www.acme.com/search?q= → Can read acme_prod database.
+3. **[High] IDOR** api.acme.com/v1/orders?id= → Can read others' orders (including phone number/address).
+4. **[Medium] Reflected XSS**, **Exposed .git source code**, **Login without rate limiting**.
 
 ## Suggestion
-- Force password change in backend, enable MFA, and block default passwords。
-- search API parameterized queries, output encoding。
-- API Add object-level auth checks (IDOR), replace strong JWT key。
+- Force password change in backend, enable MFA, and block default passwords.
+- search API parameterized queries, output encoding.
+- API Add object-level auth checks (IDOR), replace strong JWT key.
 
-> （demo）Report generated from mock data, for UI demo only。`;
+> (demo) Report generated from mock data, for UI demo only.`;
 }
 
 export function sseUrl(path: string): string {
@@ -454,7 +454,7 @@ export const api = {
   workspaceDownload: async (path: string) => {
     let blob: Blob;
     if (MOCK) {
-      blob = new Blob([`（demo）${path} Download content example。`], { type: "text/plain" });
+      blob = new Blob([` (demo)${path} Download content example.`], { type: "text/plain" });
     } else {
       const token = getToken();
       const r = await fetch(`/api/workspace/download?path=${encodeURIComponent(path)}`, {

@@ -159,7 +159,7 @@ function summaryOf(n: TaskNode): string {
 }
 
 function prettyPayload(raw?: string): string {
-  if (!raw?.trim()) return "（None payload）";
+  if (!raw?.trim()) return "(no payload)";
   try {
     return JSON.stringify(JSON.parse(raw), null, 2);
   } catch {
@@ -262,7 +262,7 @@ function RelatedNodeCard({ node, assets }: { node: TaskNode; assets: FindingAsse
         <span>Source {node.origin || "system"}</span>
         <span>{Number.isNaN(ts) ? node.ts : new Date(ts).toLocaleString("zh-CN")}</span>
       </div>
-      <p className="line-clamp-4 text-xs break-words">{summary || "（No summary）"}</p>
+      <p className="line-clamp-4 text-xs break-words">{summary || "(No summary)"}</p>
       <AssetList assets={assets} dense />
       <pre className="max-h-40 overflow-auto rounded border bg-muted/40 p-2 font-mono text-[11px] whitespace-pre-wrap">
         {prettyPayload(node.payload)}
@@ -659,7 +659,7 @@ export function BroadcastTab({ taskId }: { taskId: string }) {
           </div>
         ) : items.length === 0 ? (
           <p className="py-10 text-center text-sm text-muted-foreground">
-            {query || kinds.length > 0 ? "No matching broadcasts。" : "No exploration nodes generated for this task yet。"}
+            {query || kinds.length > 0 ? "No matching broadcasts." : "No exploration nodes generated for this task yet."}
           </p>
         ) : (
           groups.map((group) => (

@@ -9,14 +9,15 @@ import { ArrowUpCircleIcon } from "lucide-react";
 import { api } from "@/lib/api";
 
 /**
- * In the top bar"New version"Tip: Check on page load; updates highlight next to version number，
- * Click to go to the “Version & Update” card on the system settings page。
+ * Top bar "new version" notice: checked once on full page load; when an update is
+ * available it shows next to the version number, and clicking goes to the
+ * "Version & Update" card on the system settings page.
  *
- * GitHub query results cached 30 min; safe to check on each mount
- * ——Unauthenticated GitHub API: 60 requests/hour/IP; without cache, opening many tabs may exceed limit
- * Will exhaust quota, preventing future updates。
+ * The backend caches GitHub query results for 30 minutes, so checking on every mount
+ * is safe: the unauthenticated GitHub API only allows 60 requests/hour/IP, and without
+ * that cache, opening several tabs could exhaust the quota and hide future updates.
  *
- * Silent on query failures; errors shown when user clicks “Check for Updates” in settings。
+ * Silent on query failure; errors show only when the user clicks "Check for Updates" in settings.
  */
 export function UpdateBadge() {
   const [latest, setLatest] = React.useState("");
@@ -42,7 +43,7 @@ export function UpdateBadge() {
   return (
     <Link
       href="/system/settings"
-      title={`New version found ${latest}，Click to go to update`}
+      title={`New version found ${latest}; click to update`}
       className="inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 font-medium text-primary-foreground text-xs transition-opacity hover:opacity-90"
     >
       {/* 呼吸点：顶栏元素很多，纯文字容易被忽略，动效让它一眼可见。 */}

@@ -22,12 +22,12 @@ import type { AssetInterceptKind, AssetInterceptRule } from "@/lib/types";
 // ---- kind 元信息 ----
 
 const KIND_OPTIONS: { value: AssetInterceptKind; label: string; group: string; placeholder: string }[] = [
-  { value: "exact_domain", label: "Domain (exact)）", group: "Exact match", placeholder: "example.gov.cn" },
-  { value: "exact_ip", label: "IP（Exact Match）", group: "Exact match", placeholder: "203.0.113.10" },
-  { value: "exact_url", label: "URL（Exact Match）", group: "Exact match", placeholder: "https://example.gov.cn/login" },
-  { value: "fuzzy_domain", label: "Domain (fuzzy)）", group: "Fuzzy match", placeholder: ".gov.cn" },
-  { value: "fuzzy_ip", label: "IP（Fuzzy）", group: "Fuzzy match", placeholder: "203.0.113." },
-  { value: "fuzzy_url", label: "URL（Fuzzy）", group: "Fuzzy match", placeholder: "/admin" },
+  { value: "exact_domain", label: "Domain (exact)", group: "Exact match", placeholder: "example.gov.cn" },
+  { value: "exact_ip", label: "IP (Exact Match)", group: "Exact match", placeholder: "203.0.113.10" },
+  { value: "exact_url", label: "URL (Exact Match)", group: "Exact match", placeholder: "https://example.gov.cn/login" },
+  { value: "fuzzy_domain", label: "Domain (fuzzy)", group: "Fuzzy match", placeholder: ".gov.cn" },
+  { value: "fuzzy_ip", label: "IP (Fuzzy)", group: "Fuzzy match", placeholder: "203.0.113." },
+  { value: "fuzzy_url", label: "URL (Fuzzy)", group: "Fuzzy match", placeholder: "/admin" },
   { value: "cidr", label: "CIDR Network segment", group: "Network segment", placeholder: "192.168.0.0/16" },
 ];
 
@@ -82,7 +82,7 @@ function frontValidate(form: RuleForm): string | null {
   const p = form.pattern.trim();
   if (!p) return "Match content cannot be empty";
   if (form.kind === "cidr" && !/^[0-9a-fA-F:.]+\/\d{1,3}$/.test(p)) {
-    return "CIDR Invalid format, e.g. 192.168.0.0/16";
+    return "Invalid CIDR format, e.g. 192.168.0.0/16";
   }
   return null;
 }
@@ -153,7 +153,7 @@ export default function AssetInterceptPage() {
   }
 
   async function handleDelete(rule: AssetInterceptRule) {
-    if (!window.confirm(`Confirm delete asset interception rule「${rule.pattern}」？`)) return;
+    if (!window.confirm(`Confirm delete asset interception rule “${rule.pattern}”?`)) return;
     try {
       await api.deleteAssetInterceptRule(rule.id);
       toast.success("Rule deleted");
@@ -189,8 +189,8 @@ export default function AssetInterceptPage() {
 
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-muted-foreground">
-          Supports exact and fuzzy matching for domains / IPs / URLs and CIDR blocks; defaults include fuzzy blocking of government (.gov / .gov.cn) and education（.edu /
-          .edu.cn）Website
+          Supports exact and fuzzy matching for domains / IPs / URLs and CIDR blocks; defaults include fuzzy blocking of government (.gov / .gov.cn) and education (.edu /
+          .edu.cn) Website
         </p>
         <Button onClick={openNew} size="sm" className="shrink-0">
           <PlusIcon className="h-4 w-4" />
@@ -317,7 +317,7 @@ export default function AssetInterceptPage() {
               />
             </Field>
 
-            <Field label="Notes (optional）">
+            <Field label="Notes (optional)">
               <Textarea
                 placeholder="Describe the purpose of this rule"
                 value={form.note}

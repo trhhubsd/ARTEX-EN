@@ -179,7 +179,7 @@ export default function FindingsPage() {
         setActiveRetests(Object.fromEntries(rows.map((item) => [item.finding_id, item])));
         failed = false;
       } catch (error) {
-        if (!disposed && !failed) toast.error(`Failed to load replay status：${(error as Error).message}`);
+        if (!disposed && !failed) toast.error(`Failed to load replay status: ${(error as Error).message}`);
         failed = true;
       } finally {
         if (!disposed) timer = setTimeout(() => void refreshRetests(), 3000);
@@ -292,7 +292,7 @@ export default function FindingsPage() {
       setExportOpen(false);
       toast.success("Export file download started");
     } catch (e) {
-      toast.error(`Export failed：${(e as Error).message}`);
+      toast.error(`Export failed: ${(e as Error).message}`);
     } finally {
       setExporting(false);
     }
@@ -362,7 +362,7 @@ export default function FindingsPage() {
     } catch (e) {
       if (request !== assetTreeRequest.current || activeFilterFingerprint.current !== requestFilter) return;
       setAssetTree((current) => ({ ...current, loading: false }));
-      toast.error(`Asset tree failed to load：${(e as Error).message}`);
+      toast.error(`Asset tree failed to load: ${(e as Error).message}`);
     }
   }, [filterFingerprint, severity, status, vulnclass, task, query, sort]);
 
@@ -607,7 +607,7 @@ export default function FindingsPage() {
       setFindings((cur) => cur.map((x) => (isSameFinding(x, f) ? { ...x, status: next } : x)));
       try {
         await api.setFindingStatus(f.finding_id, next);
-        toast.success(`Marked as「${statusMeta("finding", next).label}」`);
+        toast.success(`Marked as “${statusMeta("finding", next).label}”`);
         // refresh stat cards (pending count) and drop the row if it no longer matches the status filter
         api
           .findingStats()
@@ -623,7 +623,7 @@ export default function FindingsPage() {
         refreshAfterMutation(f);
       } catch (e) {
         setFindings((cur) => cur.map((x) => (isSameFinding(x, f) ? { ...x, status: prev } : x)));
-        toast.error(`Update Failed：${(e as Error).message}`);
+        toast.error(`Update failed: ${(e as Error).message}`);
       }
     },
     [refreshAfterMutation, setFindings, status],
@@ -687,7 +687,7 @@ export default function FindingsPage() {
           });
         refreshAfterMutation(f);
       } catch (e) {
-        toast.error(`Save Failed：${(e as Error).message}`);
+        toast.error(`Save failed: ${(e as Error).message}`);
       } finally {
         setSaving(false);
       }
@@ -720,7 +720,7 @@ export default function FindingsPage() {
           });
         refreshAfterMutation(f, true);
       } catch (e) {
-        toast.error(`Delete failed：${(e as Error).message}`);
+        toast.error(`Delete failed: ${(e as Error).message}`);
       }
     },
     [refreshAfterMutation, setFindings],
@@ -739,13 +739,13 @@ export default function FindingsPage() {
       toast.success(
         result.queued
           ? `Deep Intent #${result.intent_id} In task queue`
-          : `Created high‑priority Worker intent #${result.intent_id}`,
+          : `Created high-priority Worker intent #${result.intent_id}`,
       );
       refreshAfterMutation(deepenFinding);
       setDeepenFinding(null);
       setDeepenDescription("");
     } catch (error) {
-      toast.error(`Submission failed：${(error as Error).message}`);
+      toast.error(`Submission failed: ${(error as Error).message}`);
     } finally {
       setDeepening(false);
     }
@@ -819,7 +819,7 @@ export default function FindingsPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">Discover</h1>
-          <p className="text-muted-foreground text-sm">Cross‑task vulnerability summary</p>
+          <p className="text-muted-foreground text-sm">Cross-task vulnerability summary</p>
         </div>
         <Tabs value={view} onValueChange={(v) => setView(v as FindingView)}>
           <TabsList>
@@ -921,7 +921,7 @@ export default function FindingsPage() {
               <SelectItem value={UNASSIGNED_TASK}>Unlinked / Task Deleted</SelectItem>
               {(stats.tasks ?? []).map((t) => {
                 const id = String(t.id);
-                const label = t.name || t.description || `Task #${id}（Deleted）`;
+                const label = t.name || t.description || `Task #${id} (Deleted) `;
                 return (
                   <SelectItem key={id} value={id}>
                     <span className="flex w-full items-center gap-2">
@@ -1049,7 +1049,7 @@ export default function FindingsPage() {
                             {group.task_id === null
                               ? "Unlinked / Task Deleted"
                               : group.task_name
-                                ? `${group.task_name}（Task #${group.task_id}）`
+                                ? `${group.task_name} (Task #${group.task_id}) `
                                 : `Task #${group.task_id}`}
                           </CardTitle>
                           <CardDescription className="truncate" title={group.task_description}>
@@ -1110,7 +1110,7 @@ export default function FindingsPage() {
             })}
             {groups.length === 0 && (
               <Card>
-                <CardContent className="py-12 text-center text-sm text-muted-foreground">No matching findings。</CardContent>
+                <CardContent className="py-12 text-center text-sm text-muted-foreground">No matching findings.</CardContent>
               </Card>
             )}
             <TablePagination
@@ -1161,7 +1161,7 @@ export default function FindingsPage() {
           <DialogHeader>
             <DialogTitle>Deep exploit</DialogTitle>
             <DialogDescription className="break-words">
-              Will be in the original task #{deepenFinding?.task_id} Create a priority 10 Worker intent, performing secondary verification based on the current vulnerability：
+              Will be in the original task #{deepenFinding?.task_id} Create a priority 10 Worker intent, performing secondary verification based on the current vulnerability:
               {deepenFinding?.name || deepenFinding?.vulnclass || deepenFinding?.summary}
             </DialogDescription>
           </DialogHeader>
@@ -1177,7 +1177,7 @@ export default function FindingsPage() {
                 disabled={deepening}
               />
               <FieldDescription className="flex justify-between gap-3">
-                <span>The new intent will inherit the asset anchor of this vulnerability。</span>
+                <span>The new intent will inherit the asset anchor of this vulnerability.</span>
                 <span className="shrink-0 tabular-nums">{deepenDescription.length} / 4000</span>
               </FieldDescription>
             </Field>
@@ -1205,7 +1205,7 @@ export default function FindingsPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Export Findings</DialogTitle>
-            <DialogDescription>Select export range and format; the browser will automatically download after generation。</DialogDescription>
+            <DialogDescription>Select export range and format; the browser will automatically download after generation.</DialogDescription>
           </DialogHeader>
 
           <div className="flex flex-col gap-5 py-1">
@@ -1214,7 +1214,7 @@ export default function FindingsPage() {
               <RadioGroup value={exportScope} onValueChange={(v) => setExportScope(v as typeof exportScope)}>
                 <label htmlFor="export-scope-filtered" className="flex items-center gap-2 text-sm">
                   <RadioGroupItem id="export-scope-filtered" value="filtered" /> Export current filtered results (total {filteredTotal}{" "}
-                  items）
+                  items)
                 </label>
                 <label htmlFor="export-scope-all" className="flex items-center gap-2 text-sm">
                   <RadioGroupItem id="export-scope-all" value="all" /> Export All
@@ -1233,13 +1233,13 @@ export default function FindingsPage() {
               <span className="text-xs text-muted-foreground">Export Format</span>
               <RadioGroup value={exportFormat} onValueChange={(v) => setExportFormat(v as typeof exportFormat)}>
                 <label htmlFor="export-format-md-single" className="flex items-center gap-2 text-sm">
-                  <RadioGroupItem id="export-format-md-single" value="md-single" /> Markdown Summary Report (single .md file）
+                  <RadioGroupItem id="export-format-md-single" value="md-single" /> Markdown Summary Report (single .md file)
                 </label>
                 <label htmlFor="export-format-md-zip" className="flex items-center gap-2 text-sm">
-                  <RadioGroupItem id="export-format-md-zip" value="md-zip" /> Markdown Split into separate files (one .md per vulnerability) and package .zip）
+                  <RadioGroupItem id="export-format-md-zip" value="md-zip" /> Markdown Split into separate files (one .md per vulnerability) and package .zip)
                 </label>
                 <label htmlFor="export-format-csv" className="flex items-center gap-2 text-sm">
-                  <RadioGroupItem id="export-format-csv" value="csv" /> CSV Table（.csv）
+                  <RadioGroupItem id="export-format-csv" value="csv" /> CSV Table (.csv)
                 </label>
                 <label htmlFor="export-format-json" className="flex items-center gap-2 text-sm">
                   <RadioGroupItem id="export-format-json" value="json" /> JSON（.json）

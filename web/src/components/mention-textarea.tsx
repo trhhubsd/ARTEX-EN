@@ -277,7 +277,7 @@ export function MentionTextarea({ value, onValueChange, onKeyDown, className, in
             )}
             {!categories.length && !loading && error && (
               <div role="alert" className="p-3 text-destructive text-sm">
-                Search Failed：{error}。Please re-enter to retry。
+                Search failed: {error}. Please re-enter to retry.
               </div>
             )}
             {!categories.length && !loading && !error && !items.length && (

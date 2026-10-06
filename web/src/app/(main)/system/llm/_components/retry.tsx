@@ -55,58 +55,58 @@ export const RETRY_LAYERS = {
     title: "Connection retry",
     where: "SDK · Before receiving 200",
     trigger:
-      "Cannot connect or haven’t received 200: connection reset / read‑write timeout / DNS failure and other network‑level errors, as well as HTTP 408、429、500、502、503、504。",
-    skips: "Other status codes (400, 401, 403, 404, 413, 422, etc.) are deterministic rejections; retrying will also fail, propagate immediately.。",
-    desc: "Resend the same request unchanged. Once the stream starts (200 received), mid‑stream disconnections are not handled here.。",
+      "Cannot connect or haven’t received 200: connection reset / read-write timeout / DNS failure and other network-level errors, as well as HTTP 408, 429, 500, 502, 503, 504.",
+    skips: "Other status codes (400, 401, 403, 404, 413, 422, etc.) are deterministic rejections; retrying will also fail, propagate immediately.",
+    desc: "Resend the same request unchanged. Once the stream starts (200 received), mid-stream disconnections are not handled here.",
     attemptsLabel: "Retry count",
     defAttempts: 3,
-    defInterval: "0.5s→1s→2s Exponential (capped 8s）",
+    defInterval: "0.5s→1s→2s Exponential (capped 8s)",
     offHint: "-1 = Never retry; fail fast.",
   },
   empty: {
     title: "Retry on empty response",
-    where: "SDK · OpenAI‑only format",
+    where: "SDK · OpenAI-only format",
     trigger:
-      "HTTP 200、finish_reason Normal stop, but the whole response has no content block—gateway empty frame, missing thinking field, or sampling hiccup cause this.。",
-    skips: "Responses cut off by max_tokens are ignored (increase the output limit to fix; retry will just hit the same limit).）。",
-    desc: "Resend the entire prompt, which is expensive for long contexts; keep the retry count low.。",
+      "HTTP 200, finish_reason Normal stop, but the whole response has no content block; gateway empty frame, missing thinking field, or sampling hiccup cause this.",
+    skips: "Responses cut off by max_tokens are ignored (increase the output limit to fix; retry will just hit the same limit).).",
+    desc: "Resend the entire prompt, which is expensive for long contexts; keep the retry count low.",
     attemptsLabel: "Retry count",
     defAttempts: 2,
-    defInterval: "0.5s→1s→2s Exponential (capped 8s）",
-    offHint: "-1 = Return empty response as‑is",
+    defInterval: "0.5s→1s→2s Exponential (capped 8s)",
+    offHint: "-1 = Return empty response as-is",
   },
   stream: {
     title: "Retry within the same provider’s safety window",
     where: "This project · Before any output is delivered",
     trigger:
-      "Issues occurring after the stream is established (200 received): mid‑stream disconnection, provider overload, 429/5xx errors inside the stream—no token delivered to the caller yet.。",
+      "Issues occurring after the stream is established (200 received): mid-stream disconnection, provider overload, 429/5xx errors inside the stream; no token delivered to the caller yet.",
     skips:
-      "Quota exhausted (402/insufficient_quota → rotate config), context too long (413/context length → compress), deterministic rejections (400/401/403/404/422) are never retried.。",
-    desc: "Replay the same request on the same configuration. Since no output has been delivered, replay won’t duplicate model output or tool execution.。",
+      "Quota exhausted (402/insufficient_quota → rotate config), context too long (413/context length → compress), deterministic rejections (400/401/403/404/422) are never retried.",
+    desc: "Replay the same request on the same configuration. Since no output has been delivered, replay won’t duplicate model output or tool execution.",
     attemptsLabel: "Retry count",
     defAttempts: 2,
-    defInterval: "0.5s→1s Exponential (capped 4s）",
+    defInterval: "0.5s→1s Exponential (capped 4s)",
     offHint: "-1 = When the stream breaks, hand the intent over to the outer layer for a full rerun.",
   },
   breaker: {
-    title: "Polling circuit‑break",
-    where: "This project · Process‑level, single global instance",
+    title: "Polling circuit-break",
+    where: "This project · Process-level, single global instance",
     trigger:
-      "Instant failures (429, 5xx, network errors) trigger circuit‑break once they accumulate to the threshold; deterministic failures like insufficient balance (402), invalid key (401/403), or missing model (404) break immediately without threshold.。",
-    skips: "A successful call resets the counter, so occasional glitches won’t gradually trigger circuit‑break.。",
-    desc: "After circuit‑break, enter cooldown; during cooldown polling skips this configuration. State is persisted; restart does not lose it.。",
-    attemptsLabel: "Circuit‑break after several consecutive failures",
+      "Instant failures (429, 5xx, network errors) trigger circuit-break once they accumulate to the threshold; deterministic failures like insufficient balance (402), invalid key (401/403), or missing model (404) break immediately without threshold.",
+    skips: "A successful call resets the counter, so occasional glitches won’t gradually trigger circuit-break.",
+    desc: "After circuit-break, enter cooldown; during cooldown polling skips this configuration. State is persisted; restart does not lose it.",
+    attemptsLabel: "Circuit-break after several consecutive failures",
     defAttempts: 3,
     defInterval: "1min→5min→30min Gradient",
-    offHint: "-1 = Instant failures never trigger circuit‑break (deterministic failures still do)）",
+    offHint: "-1 = Instant failures never trigger circuit-break (deterministic failures still do)",
   },
   intent: {
     title: "Intent rerun",
-    where: "This project · Process‑level, single global instance",
+    where: "This project · Process-level, single global instance",
     trigger:
-      "Previous layers didn’t catch it: worker ends with 'model_error'—inner retries exhausted, or the stream broke after output started (rewind unsafe, must rerun whole request).）。",
-    skips: "Quota exhaustion is handled by config rotation, not rerun here; when a task is paused/terminated/completing, yield immediately without using backoff time.。",
-    desc: "Rerun the entire intent from the beginning. It’s the outermost layer; a single rerun multiplies the retry counts of inner layers.。",
+      "Previous layers didn’t catch it: worker ends with 'model_error'; inner retries exhausted, or the stream broke after output started (rewind unsafe, must rerun whole request).).",
+    skips: "Quota exhaustion is handled by config rotation, not rerun here; when a task is paused/terminated/completing, yield immediately without using backoff time.",
+    desc: "Rerun the entire intent from the beginning. It’s the outermost layer; a single rerun multiplies the retry counts of inner layers.",
     attemptsLabel: "Rerun count",
     defAttempts: 2,
     defInterval: "Fixed 3s",
@@ -188,11 +188,11 @@ export function RetryRuleFields({
         </div>
         {/* 哪些错误会走到这层，具体到状态码——填了旋钮却看不到效果，多半是错误压根不落在这层。 */}
         <p className="text-muted-foreground text-xs">
-          <span className="font-medium text-foreground">Trigger</span>：{meta.trigger}
+          <span className="font-medium text-foreground">Trigger</span>: {meta.trigger}
         </p>
         {!compact && meta.skips && (
           <p className="text-muted-foreground text-xs">
-            <span className="font-medium text-foreground">Skip this layer</span>：{meta.skips}
+            <span className="font-medium text-foreground">Skip this layer</span>: {meta.skips}
           </p>
         )}
         {!compact && <p className="text-muted-foreground text-xs">{meta.desc}</p>}
@@ -224,7 +224,7 @@ export function RetryRuleFields({
           <span className="text-muted-foreground text-xs">{human ? `Fixed ${human}` : meta.defInterval}</span>
         </div>
       </div>
-      {!compact && <p className="text-muted-foreground text-xs">Leave blank = use default.；{meta.offHint}。</p>}
+      {!compact && <p className="text-muted-foreground text-xs">Leave blank = use default; {meta.offHint}.</p>}
     </div>
   );
 }
@@ -242,8 +242,8 @@ export function ProfileRetryFields({
       <div className="grid gap-0.5">
         <Label className="text-sm">Retry override</Label>
         <p className="text-muted-foreground text-xs">
-          Applies only to this configuration, overriding the global default in “Retry and Backoff“. Leave a field blank to follow global; set attempts to -1 to disable this retry layer.；
-          If interval is set, use fixed interval instead of exponential backoff. Circuit breaker and intent retry are process‑level, adjustable only on the global page。
+          Applies only to this configuration, overriding the global default in “Retry and Backoff”. Leave a field blank to follow global; set attempts to -1 to disable this retry layer.
+          If interval is set, use fixed interval instead of exponential backoff. Circuit breaker and intent retry are process-level, adjustable only on the global page.
         </p>
       </div>
       {(["connect", "empty", "stream"] as const).map((k) => (
@@ -273,7 +273,7 @@ export function RetryPolicyPanel() {
       const p = await api.llmRetryPolicy();
       setPolicy({ ...ZERO_POLICY, ...p });
     } catch (e) {
-      toast.error(`Failed to read retry policy：${(e as Error).message}`);
+      toast.error(`Failed to read retry policy: ${(e as Error).message}`);
     } finally {
       setLoading(false);
     }
@@ -290,9 +290,9 @@ export function RetryPolicyPanel() {
       // 后端会把越界值夹回区间并回传，直接用回传值刷新，所见即所存。
       const saved = await api.saveLLMRetryPolicy(policy);
       setPolicy({ ...ZERO_POLICY, ...saved });
-      toast.success("Saved, takes effect immediately (current in‑progress call still uses old parameters）");
+      toast.success("Saved, takes effect immediately (current in-progress call still uses old parameters)");
     } catch (e) {
-      toast.error(`Save Failed：${(e as Error).message}`);
+      toast.error(`Save failed: ${(e as Error).message}`);
     } finally {
       setSaving(false);
     }
@@ -311,12 +311,12 @@ export function RetryPolicyPanel() {
   return (
     <div className="grid gap-4">
       <div className="rounded-lg border bg-muted/30 p-3 text-muted-foreground text-xs leading-relaxed">
-        A model call failure goes through five retry layers sequentially, from inner to outer：
-        <span className="text-foreground"> Establish connection → Empty response → Same provider security window → Polling circuit‑break → Intent rerun</span>
-        。Outer layer is reached only after inner layer exhausts, so count is
+        A model call failure goes through five retry layers sequentially, from inner to outer:
+        <span className="text-foreground"> Establish connection → Empty response → Same provider security window → Polling circuit-break → Intent rerun</span>
+        . Outer layer is reached only after inner layer exhausts, so count is
         <span className="text-foreground">Multiplicative</span>
-        —max out each layer; a single jitter can consume dozens of requests。
-        Leave all fields empty to use current defaults, matching behavior when this page is absent. The first three layers can be overridden individually in each model config。
+        ; max out each layer; a single jitter can consume dozens of requests.
+        Leave all fields empty to use current defaults, matching behavior when this page is absent. The first three layers can be overridden individually in each model config.
       </div>
 
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">

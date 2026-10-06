@@ -32,7 +32,7 @@ export function DeliveryList({ channels }: { channels: NotificationChannel[] }) 
         setRows(r.deliveries);
         setTotal(r.total);
       })
-      .catch((e) => toast.error("Failed to read delivery record：" + (e as Error).message))
+      .catch((e) => toast.error("Failed to read delivery record: " + (e as Error).message))
       .finally(() => setLoading(false));
   }, [channelID, state, page]);
   React.useEffect(() => {
@@ -45,7 +45,7 @@ export function DeliveryList({ channels }: { channels: NotificationChannel[] }) 
       toast.success("Requeued");
       load();
     } catch (e) {
-      toast.error("Resend failed：" + (e as Error).message);
+      toast.error("Resend failed: " + (e as Error).message);
     }
   }
 
@@ -129,7 +129,7 @@ export function DeliveryList({ channels }: { channels: NotificationChannel[] }) 
                       <Badge variant="outline" className={toneClasses[statusMeta("severity", d.severity).tone]}>
                         {statusMeta("severity", d.severity).label}
                       </Badge>
-                      <span className="truncate text-sm">{d.title || "（Untitled）"}</span>
+                      <span className="truncate text-sm">{d.title || "(Untitled)"}</span>
                       {d.event_kind === "finding_status_changed" && (
                         <Badge variant="outline" className="shrink-0">
                           Status change

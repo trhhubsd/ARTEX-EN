@@ -145,7 +145,7 @@ function fmtBytes(n: number): string {
 
 // UPLOAD_MARKER labels the auto-appended block of uploaded-file paths inside the task
 // description, so re-uploads append under the same block instead of adding a new header.
-const UPLOAD_MARKER = "【Upload File (Absolute Path)）】";
+const UPLOAD_MARKER = "[Upload File (Absolute Path)]";
 
 // appendUploads folds newly-uploaded files' ABSOLUTE paths into the description as a
 // Read/Bash-friendly manifest — the worker opens them by path. Keeps one marked block:
@@ -156,7 +156,7 @@ function appendUploads(desc: string, atts: ChatAttachment[]): string {
     return `${desc.replace(/\s*$/, "")}\n${bullets}\n`;
   }
   const head = desc.trim() ? `${desc.replace(/\s*$/, "")}\n\n` : "";
-  return `${head}${UPLOAD_MARKER} worker Open by Path (Read/Bash)：\n${bullets}\n`;
+  return `${head}${UPLOAD_MARKER} worker can open them by path (Read/Bash):\n${bullets}\n`;
 }
 
 // POLL_MS is the task-list refresh interval. Task state moves on the server (planner /
@@ -216,7 +216,7 @@ function deleteDetails(result: DeleteCounts): string[] {
 
 function deleteSummary(result: DeleteTaskResult): string {
   const details = deleteDetails(result);
-  return details.length > 0 ? `Task Deleted（${details.join("，")}）` : "Task Deleted";
+  return details.length > 0 ? `Task Deleted (${details.join(", ")}) ` : "Task Deleted";
 }
 
 // fmtDateTime renders a unix-seconds timestamp as a compact local date-time
@@ -530,13 +530,13 @@ export default function TasksPage() {
       try {
         const result = await api.deleteTask(id, options);
         if (result.cleanup_warning) {
-          toast.warning(`${deleteSummary(result)}；Partial external data cleanup incomplete：${result.cleanup_warning}`);
+          toast.warning(`${deleteSummary(result)}; Partial external data cleanup incomplete: ${result.cleanup_warning}`);
         } else {
           toast.success(deleteSummary(result));
         }
         load();
       } catch (e) {
-        toast.error("Delete failed：" + (e as Error).message);
+        toast.error("Delete failed: " + (e as Error).message);
         throw e;
       }
     },
@@ -551,10 +551,10 @@ export default function TasksPage() {
       try {
         const result = await api.controlTask(id, action);
         toast.success(
-          action === "pause" ? `Task #${id} Paused` : `Task #${id} Resumed${result.queued ? "，Queued" : ""}`,
+          action === "pause" ? `Task #${id} Paused` : `Task #${id} Resumed${result.queued ? " (queued)" : ""}`,
         );
       } catch (e) {
-        toast.error(`${action === "pause" ? "Pause" : "Continue"}Failed：${(e as Error).message}`);
+        toast.error(`${action === "pause" ? "Pause" : "Continue"} failed: ${(e as Error).message}`);
       } finally {
         // 无论成败都刷新:失败多半是状态已变化,重新拉取才能让按钮回到正确形态。
         lastRef.current = "";
@@ -572,7 +572,7 @@ export default function TasksPage() {
         lastRef.current = "";
         load();
       } catch (error) {
-        toast.error(`Rename failed：${(error as Error).message}`);
+        toast.error(`Rename failed: ${(error as Error).message}`);
         throw error;
       }
     },
@@ -588,7 +588,7 @@ export default function TasksPage() {
         lastRef.current = "";
         load();
       } catch (error) {
-        toast.error(`${pinned ? "Unpin" : "Pin"}Failed：${(error as Error).message}`);
+        toast.error(`${pinned ? "Unpin" : "Pin"}Failed: ${(error as Error).message}`);
         throw error;
       }
     },
@@ -604,7 +604,7 @@ export default function TasksPage() {
         lastRef.current = "";
         load();
       } catch (error) {
-        toast.error(`Archive failed：${(error as Error).message}`);
+        toast.error(`Archive failed: ${(error as Error).message}`);
         throw error;
       }
     },
@@ -651,9 +651,9 @@ export default function TasksPage() {
           return next;
         });
         const details = deleteDetails(total);
-        const summary = `Deleted ${deleted.length} tasks` + (details.length > 0 ? `（${details.join("，")}）` : "");
+        const summary = `Deleted ${deleted.length} tasks` + (details.length > 0 ? ` (${details.join(", ")}) ` : "");
         if (warnings.length > 0) {
-          toast.warning(`${summary}；Partial external data cleanup incomplete：${warnings.join("；")}`);
+          toast.warning(`${summary}; Partial external data cleanup incomplete: ${warnings.join("; ")}`);
         } else {
           toast.success(summary);
         }
@@ -663,7 +663,7 @@ export default function TasksPage() {
           .slice(0, 3)
           .map((f) => `#${f.id}（${f.message}）`)
           .join("；");
-        toast.error(`${failed.length} Failed to delete tasks：${head}${failed.length > 3 ? " etc." : ""}`);
+        toast.error(`${failed.length} Failed to delete tasks: ${head}${failed.length > 3 ? " etc." : ""}`);
       }
       load();
     },
@@ -692,9 +692,9 @@ export default function TasksPage() {
     if (succeeded.length > 0) toast.success(`Already ${succeeded.length} tasks added to archive queue`);
     if (failed.length > 0) {
       toast.error(
-        `${failed.length} tasks cannot be archived：${failed
+        `${failed.length} tasks cannot be archived: ${failed
           .slice(0, 3)
-          .map((item) => `#${item.id}（${item.error || "Status changed"}）`)
+          .map((item) => `#${item.id} (${item.error || "Status changed"}) `)
           .join("；")}`,
       );
     }
@@ -720,20 +720,20 @@ export default function TasksPage() {
           toast.success(
             action === "pause"
               ? `Paused ${succeeded.length} tasks`
-              : `Resumed ${succeeded.length} tasks${succeeded.some((item) => item.queued) ? "，Some tasks have entered the queue" : ""}`,
+              : `Resumed ${succeeded.length} tasks${succeeded.some((item) => item.queued) ? ", some queued" : ""}`,
           );
         }
         if (failed.length > 0) {
           const details = failed
             .slice(0, 3)
-            .map((item) => `#${item.id}（${item.error || "Status changed"}）`)
+            .map((item) => `#${item.id} (${item.error || "Status changed"}) `)
             .join("；");
-          toast.error(`${failed.length} tasks operation failed：${details}${failed.length > 3 ? " etc." : ""}`);
+          toast.error(`${failed.length} tasks operation failed: ${details}${failed.length > 3 ? " etc." : ""}`);
         }
         lastRef.current = "";
         load();
       } catch (error) {
-        toast.error(`${action === "pause" ? "Batch pause" : "Batch resume"}Failed：${(error as Error).message}`);
+        toast.error(`${action === "pause" ? "Batch pause" : "Batch resume"}Failed: ${(error as Error).message}`);
       } finally {
         setBatchControlling(null);
       }
@@ -757,19 +757,19 @@ export default function TasksPage() {
         const failed = result.items.filter((item) => !item.ok);
         const target = result.category?.name ?? "Uncategorized";
         if (succeeded.length > 0) {
-          toast.success(`Already ${succeeded.length} tasks moved to「${target}」`);
+          toast.success(`Moved ${succeeded.length} tasks to “${target}”`);
           setSelectedIds(new Set());
         }
         if (failed.length > 0) {
           const details = failed
             .slice(0, 3)
-            .map((item) => `#${item.id}（${item.error || "Task no longer exists"}）`)
+            .map((item) => `#${item.id} (${item.error || "Task no longer exists"}) `)
             .join("；");
-          toast.error(`${failed.length} tasks could not be moved：${details}${failed.length > 3 ? " etc." : ""}`);
+          toast.error(`${failed.length} tasks could not be moved: ${details}${failed.length > 3 ? " etc." : ""}`);
         }
         refreshCategoriesAndTasks();
       } catch (error) {
-        toast.error(`Failed to change category：${(error as Error).message}`);
+        toast.error(`Failed to change category: ${(error as Error).message}`);
       } finally {
         setMovingCategory(false);
       }
@@ -914,11 +914,11 @@ export default function TasksPage() {
 
             {tasks.length === 0 ? (
               <div className="text-muted-foreground mx-4 flex items-center justify-center rounded-lg border border-dashed py-20 text-sm lg:mx-6">
-                No tasks yet, click “New Task” at the top right to start。
+                No tasks yet, click “New Task” at the top right to start.
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-muted-foreground mx-4 flex items-center justify-center rounded-lg border border-dashed py-20 text-sm lg:mx-6">
-                No matching tasks。
+                No matching tasks.
               </div>
             ) : (
               <Table className="**:data-[slot='table-cell']:px-4 **:data-[slot='table-head']:px-4">
@@ -1046,7 +1046,7 @@ function SortableTaskHead({
   if (active) ariaSort = direction === "asc" ? "ascending" : "descending";
 
   let actionLabel = `By${label}Sort Descending`;
-  if (active) actionLabel = `${label}Current${direction === "asc" ? "Ascending" : "Descending"}，Click to toggle sort direction`;
+  if (active) actionLabel = `${label}Current${direction === "asc" ? "Ascending" : "Descending"}, Click to toggle sort direction`;
 
   return (
     <TableHead className={className} aria-sort={ariaSort}>
@@ -1096,7 +1096,7 @@ function ConcurrencySettingsDialog() {
       toast.success(enabled ? `Concurrency limit enabled: max concurrent runs ${nextLimit} tasks` : "Task concurrency limit disabled");
       setOpen(false);
     } catch (error) {
-      toast.error(`Save Failed：${(error as Error).message}`);
+      toast.error(`Save failed: ${(error as Error).message}`);
     } finally {
       setSaving(false);
     }
@@ -1113,7 +1113,7 @@ function ConcurrencySettingsDialog() {
         <DialogHeader>
           <DialogTitle>Task Concurrency Limit</DialogTitle>
           <DialogDescription>
-            Limits the number of tasks that can run simultaneously. When the limit is reached, new tasks queue by creation order and start automatically when a slot opens.。
+            Limits the number of tasks that can run simultaneously. When the limit is reached, new tasks queue by creation order and start automatically when a slot opens.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-5 py-2">
@@ -1491,7 +1491,7 @@ function ArchiveConfirmDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>{count === 1 ? "Archive Task" : `Archive ${count} tasks`}</AlertDialogTitle>
           <AlertDialogDescription className="[overflow-wrap:anywhere]">
-            Archiving stops task scheduling and compresses graphs, LLM history, files, and exclusive assets/traffic to local cold storage. Archived items can be restored from “Archived”.。
+            Archiving stops task scheduling and compresses graphs, LLM history, files, and exclusive assets/traffic to local cold storage. Archived items can be restored from “Archived”.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -1616,9 +1616,9 @@ function ArchiveDeleteDialog({
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Permanently {archives.length} task archives？</AlertDialogTitle>
+          <AlertDialogTitle>Delete Permanently {archives.length} task archives?</AlertDialogTitle>
           <AlertDialogDescription className="[overflow-wrap:anywhere]">
-            Will permanently delete about {formatArchiveBytes(bytes)} archive package and {rows.toLocaleString()} related data snapshots. This action cannot be undone。
+            Will permanently delete about {formatArchiveBytes(bytes)} archive package and {rows.toLocaleString()} related data snapshots. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -1684,7 +1684,7 @@ function TaskArchivesPanel({ onChanged }: { onChanged: () => void }) {
         if (restored) onChanged();
       }
     } catch (error) {
-      toast.error(`Failed to read archive list：${(error as Error).message}`);
+      toast.error(`Failed to read archive list: ${(error as Error).message}`);
     } finally {
       setLoading(false);
     }
@@ -1744,7 +1744,7 @@ function TaskArchivesPanel({ onChanged }: { onChanged: () => void }) {
       if (failed > 0) toast.error(`${failed} tasks could not be restored`);
       afterAction();
     } catch (error) {
-      toast.error(`Restore Failed：${(error as Error).message}`);
+      toast.error(`Restore failed: ${(error as Error).message}`);
     }
   }
 
@@ -1769,7 +1769,7 @@ function TaskArchivesPanel({ onChanged }: { onChanged: () => void }) {
       if (failed > 0) toast.error(`${failed} archives could not be deleted`);
       afterAction();
     } catch (error) {
-      toast.error(`Permanent deletion failed：${(error as Error).message}`);
+      toast.error(`Permanent deletion failed: ${(error as Error).message}`);
       throw error;
     }
   }
@@ -1782,7 +1782,7 @@ function TaskArchivesPanel({ onChanged }: { onChanged: () => void }) {
       toast.success("Rejoined processing queue");
       afterAction();
     } catch (error) {
-      toast.error(`Retry failed：${(error as Error).message}`);
+      toast.error(`Retry failed: ${(error as Error).message}`);
     }
   }
 
@@ -1861,7 +1861,7 @@ function TaskArchivesPanel({ onChanged }: { onChanged: () => void }) {
           <Empty className="mx-4 border border-dashed lg:mx-6">
             <EmptyHeader>
               <EmptyTitle>No task archives</EmptyTitle>
-              <EmptyDescription>Paused or completed tasks can be archived from the current task list。</EmptyDescription>
+              <EmptyDescription>Paused or completed tasks can be archived from the current task list.</EmptyDescription>
             </EmptyHeader>
           </Empty>
         ) : (
@@ -2075,7 +2075,7 @@ function DeleteOptionFields({
           />
           <FieldContent>
             <FieldLabel htmlFor={`delete-all-${idPrefix}`}>Delete all</FieldLabel>
-            <FieldDescription>Select all related data below, including assets, traffic, files, vulnerabilities, and LLM request/response logs。</FieldDescription>
+            <FieldDescription>Select all related data below, including assets, traffic, files, vulnerabilities, and LLM request/response logs.</FieldDescription>
           </FieldContent>
         </Field>
         <Field orientation="horizontal">
@@ -2086,7 +2086,7 @@ function DeleteOptionFields({
           />
           <FieldContent>
             <FieldLabel htmlFor={`delete-assets-${idPrefix}`}>Associated assets</FieldLabel>
-            <FieldDescription>Delete assets exclusive to this task; shared assets only unlinked from this task。</FieldDescription>
+            <FieldDescription>Delete assets exclusive to this task; shared assets only unlinked from this task.</FieldDescription>
           </FieldContent>
         </Field>
         <Field orientation="horizontal">
@@ -2097,7 +2097,7 @@ function DeleteOptionFields({
           />
           <FieldContent>
             <FieldLabel htmlFor={`delete-traffic-${idPrefix}`}>Associated traffic</FieldLabel>
-            <FieldDescription>Delete by exact hostname of associated assets; shared host traffic referenced by other tasks is retained。</FieldDescription>
+            <FieldDescription>Delete by exact hostname of associated assets; shared host traffic referenced by other tasks is retained.</FieldDescription>
           </FieldContent>
         </Field>
         <Field orientation="horizontal">
@@ -2108,7 +2108,7 @@ function DeleteOptionFields({
           />
           <FieldContent>
             <FieldLabel htmlFor={`delete-files-${idPrefix}`}>Task files</FieldLabel>
-            <FieldDescription>Delete uploaded files, command outputs, and other artifacts in the task's working directory。</FieldDescription>
+            <FieldDescription>Delete uploaded files, command outputs, and other artifacts in the task's working directory.</FieldDescription>
           </FieldContent>
         </Field>
         <Field orientation="horizontal">
@@ -2119,7 +2119,7 @@ function DeleteOptionFields({
           />
           <FieldContent>
             <FieldLabel htmlFor={`delete-findings-${idPrefix}`}>Associated vulnerabilities</FieldLabel>
-            <FieldDescription>Permanently delete independent vulnerability records and reports generated by this task。</FieldDescription>
+            <FieldDescription>Permanently delete independent vulnerability records and reports generated by this task.</FieldDescription>
           </FieldContent>
         </Field>
         <Field orientation="horizontal">
@@ -2130,7 +2130,7 @@ function DeleteOptionFields({
           />
           <FieldContent>
             <FieldLabel htmlFor={`delete-llm-records-${idPrefix}`}>LLM Request/Response logs</FieldLabel>
-            <FieldDescription>Permanently delete LLM requests, responses, tokens, and error details recorded by this task。</FieldDescription>
+            <FieldDescription>Permanently delete LLM requests, responses, tokens, and error details recorded by this task.</FieldDescription>
           </FieldContent>
         </Field>
       </FieldGroup>
@@ -2174,7 +2174,7 @@ function DeleteTaskDialog({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm task deletion #{task.id}？</AlertDialogTitle>
+          <AlertDialogTitle>Confirm task deletion #{task.id}?</AlertDialogTitle>
           <AlertDialogDescription className="break-words">
             {task.description ? (
               <>
@@ -2187,7 +2187,7 @@ function DeleteTaskDialog({
             ) : (
               "This task"
             )}
-            execution records and exploration paths will also be permanently deleted。
+            execution records and exploration paths will also be permanently deleted.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <DeleteOptionFields idPrefix={task.id} options={options} onOptionsChange={setOptions} disabled={deleting} />
@@ -2246,7 +2246,7 @@ function MoveTasksCategoryDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit selected {count} tasks' category</DialogTitle>
-          <DialogDescription>Target category applies uniformly to selected tasks; choosing “Uncategorized” will move them out of the current category。</DialogDescription>
+          <DialogDescription>Target category applies uniformly to selected tasks; choosing “Uncategorized” will move them out of the current category.</DialogDescription>
         </DialogHeader>
         <Field>
           <FieldLabel htmlFor="bulk-category">Target category</FieldLabel>
@@ -2265,7 +2265,7 @@ function MoveTasksCategoryDialog({
               </SelectGroup>
             </SelectContent>
           </Select>
-          {categories.length === 0 && <FieldDescription>No categories yet, create one via “Category Management” first。</FieldDescription>}
+          {categories.length === 0 && <FieldDescription>No categories yet, create one via “Category Management” first.</FieldDescription>}
         </Field>
         <DialogFooter>
           <DialogClose asChild>
@@ -2329,9 +2329,9 @@ function BulkDeleteTasksDialog({
       </AlertDialogTrigger>
       <AlertDialogContent className="max-h-[85vh] overflow-y-auto">
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm deletion of selected items {ids.length} tasks？</AlertDialogTitle>
+          <AlertDialogTitle>Confirm deletion of selected items {ids.length} tasks?</AlertDialogTitle>
           <AlertDialogDescription>
-            Execution records and exploration paths of these tasks will be permanently deleted; the cleanup options below apply to the selected tasks。
+            Execution records and exploration paths of these tasks will be permanently deleted; the cleanup options below apply to the selected tasks.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="text-muted-foreground flex flex-wrap gap-1 text-xs">
@@ -2489,9 +2489,9 @@ function CategoryPicker({
       onValueChange(created.id);
       setInputValue("");
       onCategoryCreated();
-      toast.success(`Category created「${created.name}」`);
+      toast.success(`Category created “${created.name}”`);
     } catch (e) {
-      toast.error(`Failed to create category：${(e as Error).message}`);
+      toast.error(`Failed to create category: ${(e as Error).message}`);
     } finally {
       setCreating(false);
     }
@@ -2547,7 +2547,7 @@ function CategoryPicker({
               className="flex w-full items-center gap-2 px-2 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
             >
               {creating ? <Spinner className="size-4" /> : <PlusIcon className="size-4" />}
-              Create category「{trimmed}」
+              Create category “{trimmed}”
             </button>
           ) : (
             <div className="px-2 py-2 text-sm text-muted-foreground">Enter name to search or create a category</div>
@@ -2827,7 +2827,7 @@ function CategoryManagementSheet({
       }
       onChanged();
     } catch (error) {
-      toast.error(`${selectedView === "new" ? "Create" : "Update"}Category operation failed：${(error as Error).message}`);
+      toast.error(`${selectedView === "new" ? "Create" : "Update"}Category operation failed: ${(error as Error).message}`);
     } finally {
       setSaving(false);
     }
@@ -2846,7 +2846,7 @@ function CategoryManagementSheet({
       setDeleteOpen(false);
       onChanged();
     } catch (error) {
-      toast.error(`Failed to delete category：${(error as Error).message}`);
+      toast.error(`Failed to delete category: ${(error as Error).message}`);
     } finally {
       setDeleting(false);
     }
@@ -2866,9 +2866,9 @@ function CategoryManagementSheet({
     try {
       await api.updateTaskCategory(task.id, category?.id);
       onTaskMoved(task.id, category);
-      toast.success(`Task #${task.id} Moved to「${category?.name ?? "Uncategorized"}」`);
+      toast.success(`Task #${task.id} moved to “${category?.name ?? "Uncategorized"}”`);
     } catch (error) {
-      toast.error(`Failed to move task：${(error as Error).message}`);
+      toast.error(`Failed to move task: ${(error as Error).message}`);
     } finally {
       setMovingTaskID(null);
     }
@@ -2905,7 +2905,7 @@ function CategoryManagementSheet({
         <SheetContent className="grid h-full w-full! max-w-none! grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-0 sm:w-[48rem]! sm:max-w-[48rem]!">
           <SheetHeader className="border-b px-6 py-5">
             <SheetTitle>Task category management</SheetTitle>
-            <SheetDescription>Categories are used for task filtering and archiving; changes do not affect task execution, and deleted categories move tasks to Uncategorized。</SheetDescription>
+            <SheetDescription>Categories are used for task filtering and archiving; changes do not affect task execution, and deleted categories move tasks to Uncategorized.</SheetDescription>
           </SheetHeader>
           <DndContext
             sensors={sensors}
@@ -2960,8 +2960,8 @@ function CategoryManagementSheet({
                       />
                       <FieldDescription>
                         {selectedCategory
-                          ? `Currently there are ${selectedCategory.task_count} tasks using this category. Renaming will update the task list accordingly。`
-                          : "After creation, can be used to filter new tasks and task lists。"}
+                          ? `Currently there are ${selectedCategory.task_count} tasks using this category. Renaming will update the task list accordingly.`
+                          : "After creation, can be used to filter new tasks and task lists."}
                       </FieldDescription>
                     </Field>
                   )}
@@ -2972,8 +2972,8 @@ function CategoryManagementSheet({
                           <FieldLabel>{selectedCategory ? "Category tasks" : "Uncategorized tasks"}</FieldLabel>
                           <FieldDescription>
                             {selectedCategory
-                              ? `This category contains ${visibleTasks.length} tasks。`
-                              : `Currently there are ${visibleTasks.length} tasks not yet categorized。`}
+                              ? `This category contains ${visibleTasks.length} tasks.`
+                              : `Currently there are ${visibleTasks.length} tasks not yet categorized.`}
                           </FieldDescription>
                         </div>
                       </div>
@@ -2981,7 +2981,7 @@ function CategoryManagementSheet({
                         <Empty className="min-h-36 border">
                           <EmptyHeader>
                             <EmptyTitle>{selectedCategory ? "No tasks in this category" : "No uncategorized tasks"}</EmptyTitle>
-                            <EmptyDescription>Content will be displayed here after tasks are assigned。</EmptyDescription>
+                            <EmptyDescription>Content will be displayed here after tasks are assigned.</EmptyDescription>
                           </EmptyHeader>
                         </Empty>
                       ) : (
@@ -3035,9 +3035,9 @@ function CategoryManagementSheet({
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete category「{selectedCategory?.name || "Unnamed category"}」？</AlertDialogTitle>
+            <AlertDialogTitle>Delete category “{selectedCategory?.name || "Unnamed category"}”?</AlertDialogTitle>
             <AlertDialogDescription>
-              After deleting the category, {selectedCategory?.task_count ?? 0} tasks will be automatically moved to “Uncategorized”; task data will not be deleted。
+              After deleting the category, {selectedCategory?.task_count ?? 0} tasks will be automatically moved to “Uncategorized”; task data will not be deleted.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -3122,7 +3122,7 @@ function CreateTaskSheet({
       setDescription((prev) => appendUploads(prev, r.attachments));
       setUploadCount((n) => n + r.attachments.length);
     } catch (e) {
-      toast.error("Upload failed：" + (e as Error).message);
+      toast.error("Upload failed: " + (e as Error).message);
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = ""; // allow re-picking the same file
@@ -3177,7 +3177,7 @@ function CreateTaskSheet({
       setOpen(false);
       onCreated();
     } catch (e) {
-      toast.error("Creation failed：" + (e as Error).message);
+      toast.error("Creation failed: " + (e as Error).message);
     } finally {
       setCreating(false);
     }
@@ -3190,8 +3190,8 @@ function CreateTaskSheet({
           <PlusIcon /> Create new task
         </Button>
       </SheetTrigger>
-      {/* 45vw Wide right sidebar: full-screen height scrollable, long forms no longer limited by popup height. On narrow screens it collapses to full width.。
-            Content is a flex column: header/footer fixed, middle field area flex-1 with independent scrolling。 */}
+      {/* 45vw Wide right sidebar: full-screen height scrollable, long forms no longer limited by popup height. On narrow screens it collapses to full width.
+            Content is a flex column: header/footer fixed, middle field area flex-1 with independent scrolling. */}
       <SheetContent
         ref={sheetContentRef}
         side="right"
@@ -3199,7 +3199,7 @@ function CreateTaskSheet({
       >
         <SheetHeader className="border-b p-6">
           <SheetTitle>Create new task</SheetTitle>
-          <SheetDescription>Enter test object and target; advanced parameters can be expanded as needed。</SheetDescription>
+          <SheetDescription>Enter test object and target; advanced parameters can be expanded as needed.</SheetDescription>
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto p-6">
@@ -3221,7 +3221,7 @@ function CreateTaskSheet({
               portalContainer={sheetContentRef}
             />
             <div className="grid gap-2">
-              <Label htmlFor="name">Name (optional)）</Label>
+              <Label htmlFor="name">Name (optional)</Label>
               <Input
                 id="name"
                 placeholder="Give the task an identifiable name, e.g., “Acme website penetration”"
@@ -3238,7 +3238,7 @@ function CreateTaskSheet({
                 onCategoryCreated={onCategoriesChanged}
                 portalContainer={sheetContentRef}
               />
-              <FieldDescription>Optional single category; used for task list filtering and archiving, does not affect Agent execution。</FieldDescription>
+              <FieldDescription>Optional single category; used for task list filtering and archiving, does not affect Agent execution.</FieldDescription>
             </Field>
             <div className="grid gap-2">
               <Label htmlFor="description">Description</Label>
@@ -3270,7 +3270,7 @@ function CreateTaskSheet({
                 </Button>
                 <span className="text-muted-foreground text-xs">
                   {uploadCount > 0
-                    ? `Uploaded ${uploadCount} Files; absolute paths appended to the description (editable)）`
+                    ? `Uploaded ${uploadCount} Files; absolute paths appended to the description (editable)`
                     : "Multiple selection allowed; after upload, absolute file paths are appended to the description for workers to open with Read/Bash"}
                 </span>
               </div>
@@ -3295,7 +3295,7 @@ function CreateTaskSheet({
               />
               <FieldDescription>
                 Maximum associations {MAX_SOURCE_TASKS}{" "}
-                tasks. Real‑time read‑only inheritance of selected task's persistent blackboard, asset scope, and related traffic; new tasks write to an independent blackboard。
+                tasks. Real-time read-only inheritance of selected task's persistent blackboard, asset scope, and related traffic; new tasks write to an independent blackboard.
               </FieldDescription>
             </Field>
             <Field>
@@ -3308,14 +3308,14 @@ function CreateTaskSheet({
               />
               <FieldDescription>
                 When creating a task, existing assets of the selected enterprise are added to “test assets”, and domain, IP, CIDR, ICP, and corporate keywords are supplied to Agent
-                as scope context; does not auto‑generate intents or force change execution targets。
+                as scope context; does not auto-generate intents or force change execution targets.
               </FieldDescription>
             </Field>
             <Field>
-              <FieldLabel htmlFor="task-intercept-rules">Task‑level asset block / allow rules (optional)）</FieldLabel>
+              <FieldLabel htmlFor="task-intercept-rules">Task-level asset block / allow rules (optional)</FieldLabel>
               <AssetInterceptRulesEditor value={interceptRules} onChange={setInterceptRules} />
               <FieldDescription>
-                Effective only for this task, not written to global rules. Evaluation order: match block rules (including global) first; if matched, testing is prohibited. If not matched and the task has allow rules, a matching allow rule is required to permit testing; otherwise testing is disallowed. No allow rules means no whitelist.。
+                Effective only for this task, not written to global rules. Evaluation order: match block rules (including global) first; if matched, testing is prohibited. If not matched and the task has allow rules, a matching allow rule is required to permit testing; otherwise testing is disallowed. No allow rules means no whitelist.
               </FieldDescription>
             </Field>
             <Field>
@@ -3327,7 +3327,7 @@ function CreateTaskSheet({
                 inputId="llm-profiles"
                 portalContainer={sheetContentRef}
               />
-              <FieldDescription>Failover in list order; first entry is the current config, switch to next only when quota is clearly insufficient。</FieldDescription>
+              <FieldDescription>Failover in list order; first entry is the current config, switch to next only when quota is clearly insufficient.</FieldDescription>
             </Field>
 
             {/* 高级参数默认折叠:超时/心跳/首个意图,展开才占空间,常用路径保持清爽。 */}
@@ -3339,7 +3339,7 @@ function CreateTaskSheet({
               </CollapsibleTrigger>
               <CollapsibleContent className="grid gap-5 pt-5">
                 <div className="grid gap-2">
-                  <Label htmlFor="timeout-min">Task timeout (minutes, optional)）</Label>
+                  <Label htmlFor="timeout-min">Task timeout (minutes, optional)</Label>
                   <Input
                     id="timeout-min"
                     type="number"
@@ -3350,11 +3350,11 @@ function CreateTaskSheet({
                     onChange={(e) => setTimeoutMin(e.target.value)}
                   />
                   <p className="text-muted-foreground text-xs">
-                    At the scheduled time, trigger graceful termination (agents write back + planner final decision), task enters timeout final state。
+                    At the scheduled time, trigger graceful termination (agents write back + planner final decision), task enters timeout final state.
                   </p>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="heartbeat-min">planner Heartbeat (minutes)）</Label>
+                  <Label htmlFor="heartbeat-min">planner Heartbeat (minutes)</Label>
                   <Input
                     id="heartbeat-min"
                     type="number"
@@ -3366,7 +3366,7 @@ function CreateTaskSheet({
                   />
                   <p className="text-muted-foreground text-xs">
                     If the full interval passes since the previous planning end/task start without any trigger, automatically start a new planning round (fallback deadlock + wake up to supervise running tasks
-                    worker）。Minimum 10 minutes。
+                    worker). Minimum 10 minutes.
                   </p>
                 </div>
                 <div className="grid gap-2">
@@ -3376,11 +3376,11 @@ function CreateTaskSheet({
                       checked={seedFirstIntent}
                       onCheckedChange={(v) => setSeedFirstIntent(!!v)}
                     />
-                    Directly dispatch the first intent (description + goal）
+                    Directly dispatch the first intent (description + goal)
                   </label>
                   <p className="text-muted-foreground text-xs">
                     Create intent immediately after enabling, worker runs without waiting for initial planning planner
-                    Take over judgment/completion. Recommended for scenarios like CTF where a single work solves it directly; disabling follows the standard plan‑then‑execute flow。
+                    Take over judgment/completion. Recommended for scenarios like CTF where a single work solves it directly; disabling follows the standard plan-then-execute flow.
                   </p>
                 </div>
                 <div className="grid gap-2">
@@ -3393,8 +3393,8 @@ function CreateTaskSheet({
                     Asset coverage feature
                   </label>
                   <p className="text-muted-foreground text-xs">
-                    Enabled by default: calculates and displays test coverage, situational map shows progress, automatically accumulates test scope. Disabled: no coverage calculation/display.，
-                    Situational map shows only assets, not progress; agents also lose scope‑related tools. Disabling does not affect “linked corporate asset scope”.」。
+                    Enabled by default: calculates and displays test coverage, situational map shows progress, automatically accumulates test scope. Disabled: no coverage calculation/display.,
+                    Situational map shows only assets, not progress; agents also lose scope-related tools. Disabling does not affect “linked corporate asset scope”.
                   </p>
                 </div>
               </CollapsibleContent>

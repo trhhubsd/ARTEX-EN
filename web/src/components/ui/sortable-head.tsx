@@ -33,7 +33,7 @@ export function SortableHead<Field extends string>({
   if (active) ariaSort = direction === "asc" ? "ascending" : "descending";
 
   let actionLabel = `By${label}Sort Descending`;
-  if (active) actionLabel = `${label}Current${direction === "asc" ? "Ascending" : "Descending"}，Click to toggle sort direction`;
+  if (active) actionLabel = `${label}Current${direction === "asc" ? "Ascending" : "Descending"}, Click to toggle sort direction`;
 
   let icon = <ArrowUpDownIcon className="size-3.5 opacity-40 transition-opacity group-hover/sort:opacity-100" />;
   if (active) icon = direction === "asc" ? <ArrowUpIcon className="size-3.5" /> : <ArrowDownIcon className="size-3.5" />;

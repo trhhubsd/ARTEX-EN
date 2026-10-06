@@ -233,9 +233,9 @@ export function AssetTree({
     [isExpanded],
   );
 
-  let emptyHint = "No asset-linked findings under current filter。";
+  let emptyHint = "No asset-linked findings under current filter.";
   if (loading) emptyHint = "Loading...…";
-  else if (searching) emptyHint = "No matching assets。";
+  else if (searching) emptyHint = "No matching assets.";
 
   const rows: React.ReactNode[] = [];
   const pushRows = (list: TreeNode[]) => {
@@ -308,7 +308,7 @@ export function AssetTree({
       {truncated && (
         <p className="px-1 text-xs text-muted-foreground">
           Too many assets, hidden{(droppedKinds ?? []).map((k) => KIND_LABEL[k as FindingAssetKind] ?? k).join(" / ")}
-          Hierarchy (counts roll up to parent). Use filter to view full hierarchy。
+          Hierarchy (counts roll up to parent). Use filter to view full hierarchy.
         </p>
       )}
     </div>

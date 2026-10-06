@@ -7,7 +7,7 @@ export const APP_CONFIG = {
   version: packageJson.version,
   copyright: `© ${currentYear}, ARTEX.`,
   meta: {
-    title: "ARTEX — Autonomous Penetration Testing Console",
-    description: "LLM Driver‑Based Autonomous Penetration Testing System Console",
+    title: "ARTEX: Autonomous Penetration Testing Console",
+    description: "LLM Driver-Based Autonomous Penetration Testing System Console",
   },
 };

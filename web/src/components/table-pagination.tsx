@@ -67,7 +67,7 @@ export function TablePagination({
         <span>items per page</span>
         {total > 0 ? (
           <span className="tabular-nums">
-            {from}–{to} / Total {total} items
+            {from}-{to} / Total {total} items
           </span>
         ) : (
           <span>Total 0 items</span>

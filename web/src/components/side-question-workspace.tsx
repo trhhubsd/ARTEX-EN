@@ -116,7 +116,7 @@ function SidePanel({
           <Empty>
             <EmptyHeader>
               <EmptyTitle>Ask a question anytime</EmptyTitle>
-              <EmptyDescription>Answer using current Agent context; main task continues。</EmptyDescription>
+              <EmptyDescription>Answer using current Agent context; main task continues.</EmptyDescription>
             </EmptyHeader>
           </Empty>
         )}
@@ -209,9 +209,9 @@ function SidePanel({
       <AlertDialog open={confirm} onOpenChange={setConfirm}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Clear bypass history？</AlertDialogTitle>
+            <AlertDialogTitle>Clear bypass history?</AlertDialogTitle>
             <AlertDialogDescription>
-              Delete this Agent's bypass Q&A and stop generating answer; main session and snapshot are retained。
+              Delete this Agent's bypass Q&A and stop generating answer; main session and snapshot are retained.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

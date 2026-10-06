@@ -485,8 +485,8 @@ export default function LLMRecordsPage() {
               ) : (
                 <Badge variant="destructive" className="text-xs">Error</Badge>
               )}
-              {/* Original view toggle – disabled for old records lacking original text
-                  「Original matches analysis」。 */}
+              {/* Original view toggle: disabled for old records lacking original text
+                  “Original matches analysis”. */}
               <Button
                 variant={showRaw ? "secondary" : "ghost"}
                 size="sm"
@@ -521,14 +521,14 @@ export default function LLMRecordsPage() {
                     </div>
                   ) : (
                     <pre className="p-3 font-mono text-xs break-all whitespace-pre-wrap">
-                      {reqText || "（Empty）"}
+                      {reqText || "(Empty)"}
                     </pre>
                   )}
                 </div>
               </div>
               <div className="flex min-h-0 min-w-0 flex-col">
                 <div className="flex items-center gap-2 border-b py-0.5 pr-1.5 pl-3 text-[11px] font-medium text-muted-foreground">
-                  <span>Response{showRaw && " · Original text（SSE）"}</span>
+                  <span>Response{showRaw && " · Original text (SSE)"}</span>
                   <CopyButton text={respText || ""} />
                 </div>
                 <div className="min-h-0 flex-1 overflow-auto">
@@ -542,7 +542,7 @@ export default function LLMRecordsPage() {
                       "p-3 font-mono text-xs break-all whitespace-pre-wrap",
                       selected.status !== "ok" && "text-red-600 dark:text-red-400",
                     )}>
-                      {respText || "（Empty）"}
+                      {respText || "(Empty)"}
                     </pre>
                   )}
                 </div>
@@ -555,9 +555,9 @@ export default function LLMRecordsPage() {
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete task「{pickedTask}」All LLM conversations？</AlertDialogTitle>
+            <AlertDialogTitle>Delete all LLM conversations for task “{pickedTask}”?</AlertDialogTitle>
             <AlertDialogDescription>
-              Permanently delete all LLM call logs for this task (including request/response raw data); this action cannot be undone。
+              Permanently delete all LLM call logs for this task (including request/response raw data); this action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

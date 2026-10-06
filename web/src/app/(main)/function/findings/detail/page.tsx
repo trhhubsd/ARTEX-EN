@@ -85,10 +85,10 @@ function FindingDetailInner() {
       try {
         const updated = await api.setFindingSeverity(id, next);
         setFinding(updated);
-        toast.success(`Severity level changed to「${statusMeta("severity", next).label}」`);
+        toast.success(`Severity level changed to “${statusMeta("severity", next).label}”`);
       } catch (e) {
         setFinding((cur) => (cur ? { ...cur, severity: prev } : cur));
-        toast.error("Update Failed：" + (e as Error).message);
+        toast.error("Update failed: " + (e as Error).message);
       }
     },
     [finding, id],
@@ -102,10 +102,10 @@ function FindingDetailInner() {
       try {
         const updated = await api.setFindingStatus(id, next);
         setFinding(updated);
-        toast.success(`Status changed to「${statusMeta("finding", next).label}」`);
+        toast.success(`Status changed to “${statusMeta("finding", next).label}”`);
       } catch (e) {
         setFinding((cur) => (cur ? { ...cur, status: prev } : cur));
-        toast.error("Update Failed：" + (e as Error).message);
+        toast.error("Update failed: " + (e as Error).message);
       }
     },
     [finding, id],
@@ -148,7 +148,7 @@ function FindingDetailInner() {
           <StatusBadge domain="severity" value={finding.severity} dot />
           <StatusBadge domain="finding" value={finding.status} dot />
           {finding.inherited && finding.source_task_id && (
-            <Badge variant="outline">Source Task #{finding.source_task_id} · Read‑only</Badge>
+            <Badge variant="outline">Source Task #{finding.source_task_id} · Read-only</Badge>
           )}
         </div>
         <TabsList>
@@ -169,7 +169,7 @@ function FindingDetailInner() {
                   <CardTitle className="text-sm">Summary</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{finding.summary || "（No summary）"}</p>
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{finding.summary || "(No summary)"}</p>
                 </CardContent>
               </Card>
               <FindingRetestPanel key={id} findingId={id} readOnly={finding.inherited} onCompleted={load} />
@@ -183,7 +183,7 @@ function FindingDetailInner() {
                       {finding.evidence}
                     </pre>
                   ) : (
-                    <p className="text-sm text-muted-foreground">（No evidence）</p>
+                    <p className="text-sm text-muted-foreground">(No evidence)</p>
                   )}
                 </CardContent>
               </Card>
@@ -203,13 +203,13 @@ function FindingDetailInner() {
                 <CardContent>
                   {finding.report_stale ? (
                     <Alert>
-                      <AlertDescription>Traffic evidence updated; detailed report pending update。</AlertDescription>
+                      <AlertDescription>Traffic evidence updated; detailed report pending update.</AlertDescription>
                     </Alert>
                   ) : null}
                   {finding.report ? (
                     <Markdown text={finding.report} />
                   ) : (
-                    <p className="text-sm text-muted-foreground">No detailed report。</p>
+                    <p className="text-sm text-muted-foreground">No detailed report.</p>
                   )}
                 </CardContent>
               </Card>
@@ -312,7 +312,7 @@ function FindingDetailInner() {
                       <ArrowUpRightIcon className="size-3 shrink-0" />
                     </Link>
                   ) : (
-                    <span className="text-muted-foreground">—（Task Deleted）</span>
+                    <span className="text-muted-foreground">- (Task Deleted)</span>
                   )}
                 </FieldRow>
 

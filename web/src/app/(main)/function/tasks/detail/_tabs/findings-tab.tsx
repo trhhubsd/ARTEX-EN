@@ -67,7 +67,7 @@ function Row({
               <span className="truncate font-medium">{findingLabel(f)}</span>
               {f.inherited && f.source_task_id && (
                 <Badge variant="outline" className="shrink-0">
-                  Source #{f.source_task_id} · Read‑only
+                  Source #{f.source_task_id} · Read-only
                 </Badge>
               )}
             </div>
@@ -172,10 +172,10 @@ export function FindingsTab({ taskId }: { taskId: string }) {
     setFindings((cur) => cur.map((x) => (x.id === f.id ? { ...x, status: next } : x)));
     try {
       await api.setFindingStatus(f.finding_id, next);
-      toast.success(`Marked as「${statusMeta("finding", next).label}」`);
+      toast.success(`Marked as “${statusMeta("finding", next).label}”`);
     } catch (e) {
       setFindings((cur) => cur.map((x) => (x.id === f.id ? { ...x, status: prev } : x)));
-      toast.error("Update Failed：" + (e as Error).message);
+      toast.error("Update failed: " + (e as Error).message);
     }
   }, []);
 
@@ -195,7 +195,7 @@ export function FindingsTab({ taskId }: { taskId: string }) {
           <button
             type="button"
             className="inline-flex items-center gap-1 outline-none focus-visible:underline"
-            aria-label={`Current discovery time${sortPreference.direction === "asc" ? "Ascending" : "Descending"}，Click to toggle sort direction`}
+            aria-label={`Current discovery time${sortPreference.direction === "asc" ? "Ascending" : "Descending"}, Click to toggle sort direction`}
             onClick={() =>
               setSortPreference((current) => ({
                 field: "time",
@@ -215,7 +215,7 @@ export function FindingsTab({ taskId }: { taskId: string }) {
           <Row key={f.id} f={f} contextTaskId={taskId} onStatus={onStatus} />
         ))}
         {items.length === 0 && (
-          <p className="px-4 py-8 text-center text-sm text-muted-foreground">No confirmed findings in this task or directly related tasks。</p>
+          <p className="px-4 py-8 text-center text-sm text-muted-foreground">No confirmed findings in this task or directly related tasks.</p>
         )}
       </CardContent>
     </Card>

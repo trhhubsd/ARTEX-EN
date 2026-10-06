@@ -254,9 +254,9 @@ export default function TrafficPage() {
   const deleteVerb = deleteMode === "all" ? "Clear" : "Delete";
   const deleteTitle = deleteMode
     ? {
-        all: "Clear all traffic records？",
-        selected: `Delete selected ${selectedHosts.length} All traffic for {count} targets？`,
-        filter: "Delete all traffic for this target？",
+        all: "Clear all traffic records?",
+        selected: `Delete selected ${selectedHosts.length} All traffic for {count} targets?`,
+        filter: "Delete all traffic for this target?",
       }[deleteMode]
     : "";
 
@@ -284,7 +284,7 @@ export default function TrafficPage() {
         if (mode === "all") {
           // Reclaimed space is the whole point of compacting an emptied index, so say so.
           const reclaimed = r.reclaimed ?? 0;
-          const freed = reclaimed > 0 ? `，Release ${fmtBytes(reclaimed)} Storage` : "";
+          const freed = reclaimed > 0 ? `, released ${fmtBytes(reclaimed)} storage` : "";
           toast.success(`Cleared ${r.deleted} Traffic entries${freed}`);
         }
         setPage(0);
@@ -292,7 +292,7 @@ export default function TrafficPage() {
       })
       .catch((e) => {
         // Keep the confirmation open so the user can retry a failed deletion.
-        if (mode === "all") toast.error(`Clear failed：${(e as Error).message}`);
+        if (mode === "all") toast.error(`Clear failed: ${(e as Error).message}`);
       })
       .finally(() => setDeleting(false));
   };
@@ -312,7 +312,7 @@ export default function TrafficPage() {
         if (alive) setDetail(d);
       })
       .catch(() => {
-        if (alive) setDetail({ req: "（Unable to load packet）", resp: "" });
+        if (alive) setDetail({ req: "(Unable to load packet)", resp: "" });
       })
       .finally(() => {
         if (alive) setDetailLoading(false);
@@ -369,7 +369,7 @@ export default function TrafficPage() {
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" className="h-8">
               <ListChecksIcon className="size-3.5" />
-              {selectedHosts.length > 0 ? `Select target（${selectedHosts.length}）` : "Select target…"}
+              {selectedHosts.length > 0 ? `Select target (${selectedHosts.length}) ` : "Select target…"}
             </Button>
           </PopoverTrigger>
           <PopoverContent
@@ -447,7 +447,7 @@ export default function TrafficPage() {
                   setPickerOpen(false);
                 }}
               >
-                Delete selected（{selectedHosts.length}）
+                Delete selected ({selectedHosts.length})
               </Button>
             </div>
           </PopoverContent>
@@ -482,7 +482,7 @@ export default function TrafficPage() {
         <div className="relative max-w-sm flex-1">
           <SearchIcon className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search all (URL / Method / Type / Status Code…）"
+            placeholder="Search all (URL / Method / Type / Status Code…)"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="h-8 pl-8"
@@ -547,7 +547,7 @@ export default function TrafficPage() {
         <span className="pl-1 text-xs font-medium text-muted-foreground">Advanced filter</span>
         <div className="relative w-56">
           <Input
-            placeholder="Response content (body keyword，≥3Characters）"
+            placeholder="Response content (body keyword, ≥3Characters)"
             value={body}
             onChange={(e) => setBody(e.target.value)}
             className="h-8"
@@ -555,7 +555,7 @@ export default function TrafficPage() {
         </div>
         <div className="relative w-52">
           <Input
-            placeholder="Path (e.g. /api/user/…）"
+            placeholder="Path (e.g. /api/user/…)"
             value={path}
             onChange={(e) => setPath(e.target.value)}
             className="h-8"
@@ -709,7 +709,7 @@ export default function TrafficPage() {
                 {exchanges.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={8} className="py-12 text-center text-sm text-muted-foreground">
-                      {traffic === null ? "Loading...…" : "No matching traffic。"}
+                      {traffic === null ? "Loading…" : "No matching traffic."}
                     </TableCell>
                   </TableRow>
                 )}
@@ -785,27 +785,27 @@ export default function TrafficPage() {
               {deleteMode === "all" && (
                 <>
                   Will permanently delete all <span className="font-semibold tabular-nums">{traffic?.count ?? 0}</span>{" "}
-                  Traffic records (including original request/response), ignoring current filters; this action cannot be undone. Evidence linked to vulnerabilities remains stored in a separate evidence database.。
+                  Traffic records (including original request/response), ignoring current filters; this action cannot be undone. Evidence linked to vulnerabilities remains stored in a separate evidence database.
                   <br />
                   <span className="text-muted-foreground">
-                    After clearing, storage will be compacted, returning index disk space to the system; traffic recording will pause briefly during this.。
+                    After clearing, storage will be compacted, returning index disk space to the system; traffic recording will pause briefly during this.
                   </span>
                 </>
               )}
               {deleteMode === "selected" && (
                 <>
-                  Will permanently delete <span className="font-semibold tabular-nums">{selectedHosts.length}</span> targets（
+                  Will permanently delete <span className="font-semibold tabular-nums">{selectedHosts.length}</span> targets (
                   <span className="font-mono">
                     {selectedHosts.slice(0, 3).join("、")}
                     {selectedHosts.length > 3 ? "…" : ""}
                   </span>
-                  ）All traffic records (including original request/response); this action cannot be undone。
+                  ) All traffic records (including original request/response); this action cannot be undone.
                 </>
               )}
               {deleteMode === "filter" && (
                 <>
                   Will permanently delete hosts containing <span className="font-mono font-semibold">{hostQ}</span>{" "}
-                  All traffic records (including original request/response); this action cannot be undone。
+                  All traffic records (including original request/response); this action cannot be undone.
                 </>
               )}
             </AlertDialogDescription>

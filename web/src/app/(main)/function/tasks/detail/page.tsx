@@ -99,8 +99,8 @@ function TaskLLMControl({ task, profiles, onUpdated }: { task: Task; profiles: L
   const currentTitle = [currentLabel, activeProfile?.model, backupCount > 0 ? `${backupCount} Standby` : ""]
     .filter(Boolean)
     .join(" · ");
-  let editorDescription = "After reordering or changing the current configuration, it takes effect from the next LLM call。";
-  if (terminal) editorDescription = "Task completed; changes only affect subsequent main Agent dialogues。";
+  let editorDescription = "After reordering or changing the current configuration, it takes effect from the next LLM call.";
+  if (terminal) editorDescription = "Task completed; changes only affect subsequent main Agent dialogues.";
   let saveLabel = "Save";
   if (exhausted) saveLabel = "Save and reset";
   if (saving) saveLabel = "Saving...";
@@ -141,7 +141,7 @@ function TaskLLMControl({ task, profiles, onUpdated }: { task: Task; profiles: L
       setOpen(false);
       onUpdated();
     } catch (error) {
-      toast.error("Update Failed：" + (error as Error).message);
+      toast.error("Update failed: " + (error as Error).message);
     } finally {
       setSaving(false);
     }
@@ -172,7 +172,7 @@ function TaskLLMControl({ task, profiles, onUpdated }: { task: Task; profiles: L
             <CircleAlertIcon />
             <AlertTitle>Configuration Chain Quota Exhausted</AlertTitle>
             <AlertDescription>
-              {task.llm_failover_reason ?? "All selected configurations lack quota. Saving the configuration chain will reset the error state.。"}
+              {task.llm_failover_reason ?? "All selected configurations lack quota. Saving the configuration chain will reset the error state."}
             </AlertDescription>
           </Alert>
         )}
@@ -283,7 +283,7 @@ function TaskDetailInner() {
       setPaused(next);
       toast.success(next ? "Exploration Paused" : "Exploration Resumed");
     } catch (e) {
-      toast.error("Operation Failed：" + (e as Error).message);
+      toast.error("Operation failed: " + (e as Error).message);
     }
   }
 
@@ -295,7 +295,7 @@ function TaskDetailInner() {
       toast.success("Task Added to Archive Queue");
       router.push("/function/tasks");
     } catch (error) {
-      toast.error(`Archive failed：${(error as Error).message}`);
+      toast.error(`Archive failed: ${(error as Error).message}`);
       setArchiving(false);
     }
   }
@@ -303,7 +303,7 @@ function TaskDetailInner() {
   if (!task) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-3 p-10 text-center">
-        <p className="text-muted-foreground">{loaded ? `Task ${id} Deleted, Archived, or Not Found` : "Loading...…"}</p>
+        <p className="text-muted-foreground">{loaded ? `Task ${id} was deleted, archived, or not found` : "Loading...…"}</p>
         {loaded && (
           <Button asChild variant="outline">
             <Link href="/function/tasks">
@@ -372,10 +372,10 @@ function TaskDetailInner() {
               <AlertDialogTrigger asChild>{archiveTrigger}</AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Archive Task #{task.id}？</AlertDialogTitle>
+                  <AlertDialogTitle>Archive Task #{task.id}?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Task Graph, Linked Records, Exclusive Assets & Traffic, Work Files, and LLM
-                    History will be compressed to cold storage. After archiving, it can be restored from the “Archived“ tab in the task list.。
+                    Task graph, linked records, exclusive assets & traffic, work files, and LLM
+                    history will be compressed to cold storage. After archiving, it can be restored from the “Archived” tab in the task list.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

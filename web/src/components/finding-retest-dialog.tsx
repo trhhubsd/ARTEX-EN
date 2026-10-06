@@ -42,9 +42,9 @@ export function FindingRetestDialog({ findingId, findingName, onClose, onStarted
       const result = await api.startFindingRetest(findingId, notes.trim());
       onStarted?.(result.retest);
       onClose();
-      toast.success(result.created ? "Retest Started – Click ‘Retesting’ to View Session" : "This Vulnerability Is Being Retested – View Existing Sessions");
+      toast.success(result.created ? "Retest Started: Click ‘Retesting’ to View Session" : "This Vulnerability Is Being Retested: View Existing Sessions");
     } catch (e) {
-      toast.error(`Retest Initiation Failed：${(e as Error).message}`);
+      toast.error(`Retest Initiation failed: ${(e as Error).message}`);
     } finally {
       submitLock.current = false;
       setSubmitting(false);
@@ -59,12 +59,12 @@ export function FindingRetestDialog({ findingId, findingName, onClose, onStarted
           <DialogDescription className="break-words">
             {findingName ? <span className="mb-2 block">{findingName}</span> : null}
             Retest Agent
-            Loads Original Evidence and Test Constraints, Runs Targeted Validation in an Isolated Session. Upon Successful Retest and Confirmed Fix, Vulnerability Status Changes to ‘Fixed’; Other Conclusions Remain Unchanged.。
+            reads the original evidence and test constraints, then performs targeted validation in an isolated session. Once the retest completes and the fix is confirmed, the vulnerability status is set to “Fixed”; other conclusions keep their current state.
           </DialogDescription>
         </DialogHeader>
         <FieldGroup>
           <Field data-disabled={submitting}>
-            <FieldLabel htmlFor={notesId}>Additional Notes (Optional)）</FieldLabel>
+            <FieldLabel htmlFor={notesId}>Additional Notes (Optional)</FieldLabel>
             <Textarea
               id={notesId}
               value={notes}
@@ -72,9 +72,9 @@ export function FindingRetestDialog({ findingId, findingName, onClose, onStarted
               rows={4}
               disabled={submitting}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="e.g., Verify Original Interface with Original Test Account; Fixed Version Is v2。"
+              placeholder="e.g., verify the original interface with the original test account; fixed version is v2."
             />
-            <FieldDescription>Can Add Fixed Version, Test Conditions, or Current Limitations。</FieldDescription>
+            <FieldDescription>You can add the fixed version, test conditions, or current limitations.</FieldDescription>
           </Field>
         </FieldGroup>
         <DialogFooter>

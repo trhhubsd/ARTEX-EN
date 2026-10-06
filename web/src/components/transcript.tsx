@@ -280,7 +280,7 @@ function InterceptCard({
         </div>
 
         {step.inherited ? (
-          <Badge variant="outline">History · Read‑only</Badge>
+          <Badge variant="outline">History · Read-only</Badge>
         ) : decided ? (
           <span className={
             "shrink-0 rounded px-2 py-0.5 text-[11px] font-medium " +
@@ -396,14 +396,14 @@ function ToolBlock({
     void Promise.all(
       segs.map((x) =>
         getDetail(x.seq)
-          .then((d) => d || "（Empty）")
-          .catch(() => "（Load Failed）"),
+          .then((d) => d || "(Empty)")
+          .catch(() => "(Load failed)"),
       ),
     ).then((parts) => {
       if (!live) return;
       setDetail(
         segs
-          .map((x, i) => `【${x.label}】\n${x.label === "Command" ? toolInputText(toolName, parts[i]) : parts[i]}`)
+          .map((x, i) => `[${x.label}]\n${x.label === "Command" ? toolInputText(toolName, parts[i]) : parts[i]}`)
           .join("\n\n"),
       );
       loadedKey.current = detailKey;

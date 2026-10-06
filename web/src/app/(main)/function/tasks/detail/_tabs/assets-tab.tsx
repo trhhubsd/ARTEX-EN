@@ -297,7 +297,7 @@ function AddTaskAssetsSheet({
       onAttached();
       onOpenChange(false);
     } catch (reason) {
-      toast.error(`Add failed：${String((reason as Error)?.message ?? reason)}`);
+      toast.error(`Add failed: ${String((reason as Error)?.message ?? reason)}`);
     } finally {
       setSaving(false);
     }
@@ -309,7 +309,7 @@ function AddTaskAssetsSheet({
         <SheetHeader>
           <SheetTitle>Add test asset</SheetTitle>
           <SheetDescription>
-            Enter test scope directly. Domains and IPs will create or reuse global assets; CIDR, ICP, and keywords serve as Agent scope context。
+            Enter test scope directly. Domains and IPs will create or reuse global assets; CIDR, ICP, and keywords serve as Agent scope context.
           </SheetDescription>
         </SheetHeader>
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4">
@@ -319,7 +319,7 @@ function AddTaskAssetsSheet({
             onValueChange={setScopeText}
             parsed={parsedScope}
             label="Test assets and scope"
-            description="One per line, auto-detect domains, IPs, CIDR, ICP registration, and keywords。"
+            description="One per line, auto-detect domains, IPs, CIDR, ICP registration, and keywords."
           />
         </div>
         <SheetFooter>
@@ -404,7 +404,7 @@ export function AssetsTab({ taskId }: { taskId: string }) {
           setRows([]);
           setTotal(0);
         } else {
-          toast.error(`Failed to load task assets：${message}`);
+          toast.error(`Failed to load task assets: ${message}`);
         }
       } finally {
         if (active && assetsRequestRef.current === request) {
@@ -442,7 +442,7 @@ export function AssetsTab({ taskId }: { taskId: string }) {
       setRemoveTarget(null);
       refresh();
     } catch (reason) {
-      toast.error(`Removal failed：${String((reason as Error)?.message ?? reason)}`);
+      toast.error(`Removal failed: ${String((reason as Error)?.message ?? reason)}`);
     } finally {
       setRemoving(false);
     }
@@ -680,10 +680,10 @@ export function AssetsTab({ taskId }: { taskId: string }) {
       <AlertDialog open={Boolean(removeTarget)} onOpenChange={(open) => !open && !removing && setRemoveTarget(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove from current task？</AlertDialogTitle>
+            <AlertDialogTitle>Remove from current task?</AlertDialogTitle>
             <AlertDialogDescription className="[overflow-wrap:anywhere]">
-              {removeTarget ? `Apply“${assetLabel(removeTarget)}”Remove from current task's test assets。` : ""}
-              Global assets, associated traffic, and historical board anchors will remain。
+              {removeTarget ? `Apply “${assetLabel(removeTarget)}” to remove it from the current task's test assets.` : ""}
+              Global assets, associated traffic, and historical board anchors will remain.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

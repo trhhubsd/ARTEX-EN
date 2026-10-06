@@ -284,7 +284,7 @@ function RefList({ title, items }: { title: string; items: CoverageAssetRef[] })
             <span className="min-w-32 flex-1 break-words text-foreground">{r.summary || "—"}</span>
             {r.inherited && r.source_task_id && (
               <Badge variant="outline" className="shrink-0">
-                Source #{r.source_task_id} · Read‑only
+                Source #{r.source_task_id} · Read-only
               </Badge>
             )}
           </div>
@@ -355,7 +355,7 @@ function AssetSheet({
                         <span className="text-neutral-500">Untested</span>
                       )
                     ) : (
-                      <span className="text-neutral-400">Out of scope (connected node）</span>
+                      <span className="text-neutral-400">Out of scope (connected node)</span>
                     )}
                   </DetailRow>
                   <DetailRow label="Domain">{node.domain}</DetailRow>
@@ -414,9 +414,9 @@ function FoldSheet({
           <>
             <SheetHeader className="border-b p-4">
               <SheetTitle className="text-base">
-                Not displayed{meta.label}（{fold.hidden.length}）
+                Not displayed{meta.label} ({fold.hidden.length})
               </SheetTitle>
-              <p className="text-muted-foreground text-xs">Measured items shown first. Click “Show more“ to load the next batch.。</p>
+              <p className="text-muted-foreground text-xs">Measured items shown first. Click “Show more” to load the next batch.</p>
             </SheetHeader>
             <ScrollArea className="min-h-0 flex-1">
               <div className="flex flex-col gap-1 p-3">
@@ -445,7 +445,7 @@ function FoldSheet({
             </ScrollArea>
             <div className="border-t p-3">
               <Button className="w-full" variant="outline" onClick={() => onShowMore(fold.groupId)}>
-                Show more（+{FOLD_STEP}）
+                Show more (+{FOLD_STEP})
               </Button>
             </div>
           </>
@@ -654,7 +654,7 @@ function GraphInner({ taskId, coverageEnabled = true }: { taskId: string; covera
               )}
             </span>
           ) : (
-            <span className="text-muted-foreground">{loading ? "Loading...…" : "No in-scope assets (anchor task range first）"}</span>
+            <span className="text-muted-foreground">{loading ? "Loading…" : "No in-scope assets (anchor task range first)"}</span>
           )}
           <Button variant="ghost" size="icon" className="size-6" onClick={fetchGraph} title="Refresh">
             <RefreshCw className={cn("size-3.5", loading && "animate-spin")} />
@@ -678,7 +678,7 @@ function GraphInner({ taskId, coverageEnabled = true }: { taskId: string; covera
           {coverageEnabled && (
             <>
               <span className="inline-flex items-center gap-1.5">
-                <span className="size-3 rounded-full bg-emerald-500" /> Measured (highlighted）
+                <span className="size-3 rounded-full bg-emerald-500" /> Measured (highlighted)
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="size-3 rounded-full bg-neutral-400" /> Unmeasured
@@ -690,7 +690,7 @@ function GraphInner({ taskId, coverageEnabled = true }: { taskId: string; covera
           </span>
         </div>
         <p className="text-muted-foreground/80 border-border/60 border-t pt-2 leading-relaxed">
-          Force-directed layout, drag nodes, scroll to zoom; gray「⋯」Collapsed node; click to expand。
+          Force-directed layout, drag nodes, scroll to zoom; gray “⋯” collapsed node; click to expand.
         </p>
       </div>
 
