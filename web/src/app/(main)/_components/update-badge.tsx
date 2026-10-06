@@ -9,14 +9,14 @@ import { ArrowUpCircleIcon } from "lucide-react";
 import { api } from "@/lib/api";
 
 /**
- * 顶栏的"有新版本"提示：整页加载时查一次，有更新就在版本号旁边亮出来，
- * 点击直达系统配置页的「版本与更新」卡片。
+ * In the top bar"New version"Tip: Check on page load; updates highlight next to version number，
+ * Click to go to the “Version & Update” card on the system settings page。
  *
- * 后端对 GitHub 的查询结果有 30 分钟缓存，所以这里每次挂载都查一次是安全的
- * ——未认证的 GitHub API 只有 60 次/小时/IP，没有那层缓存的话，多开几个标签页
- * 就会把配额耗光，之后真想更新反而查不动。
+ * GitHub query results cached 30 min; safe to check on each mount
+ * ——Unauthenticated GitHub API: 60 requests/hour/IP; without cache, opening many tabs may exceed limit
+ * Will exhaust quota, preventing future updates。
  *
- * 查询失败一律静默：顶栏不是报错的地方，用户进设置页点「检查更新」会看到原因。
+ * Silent on query failures; errors shown when user clicks “Check for Updates” in settings。
  */
 export function UpdateBadge() {
   const [latest, setLatest] = React.useState("");
@@ -42,7 +42,7 @@ export function UpdateBadge() {
   return (
     <Link
       href="/system/settings"
-      title={`发现新版本 ${latest}，点击前往更新`}
+      title={`New version found ${latest}，Click to go to update`}
       className="inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 font-medium text-primary-foreground text-xs transition-opacity hover:opacity-90"
     >
       {/* 呼吸点：顶栏元素很多，纯文字容易被忽略，动效让它一眼可见。 */}
@@ -51,8 +51,8 @@ export function UpdateBadge() {
         <span className="relative inline-flex size-1.5 rounded-full bg-primary-foreground" />
       </span>
       <ArrowUpCircleIcon className="size-3.5" />
-      <span className="hidden sm:inline">新版本 {latest}</span>
-      <span className="sm:hidden">新版本</span>
+      <span className="hidden sm:inline">New version {latest}</span>
+      <span className="sm:hidden">New version</span>
     </Link>
   );
 }
