@@ -46,14 +46,16 @@ export function LanguageToggle({ className }: LanguageToggleProps) {
           variant="ghost"
           size="icon"
           aria-label="Switch language"
-          className={cn("relative", className)}
+          className={cn(
+            "relative dark:aria-expanded:bg-transparent dark:hover:aria-expanded:bg-transparent",
+            className,
+          )}
           disabled={applying}
         >
           <Languages className="size-4" />
           <span
             className={cn(
-              "pointer-events-none absolute -right-0.5 -bottom-0.5 rounded px-0.5 font-semibold text-[9px] leading-none",
-              "border border-border bg-muted text-foreground shadow-xs",
+              "pointer-events-none absolute -right-0.5 -bottom-0.5 rounded border border-foreground/20 bg-foreground px-0.5 font-semibold text-[9px] text-background leading-none",
             )}
           >
             {isZh ? "中" : "EN"}
