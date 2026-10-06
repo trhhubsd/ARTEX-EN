@@ -4,6 +4,7 @@ import { type ReactNode, useEffect, useState } from "react";
 
 import { usePathname } from "next/navigation";
 
+import { LanguageToggle } from "@/components/language-toggle";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -70,6 +71,7 @@ export function MainContent({ children }: { children: ReactNode }) {
             )}
             <UpdateBadge />
             <LayoutControls />
+            <LanguageToggle />
             <ThemeSwitcher />
             <AccountSwitcher users={[currentUser]} />
           </div>
